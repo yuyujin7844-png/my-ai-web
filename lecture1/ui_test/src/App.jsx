@@ -19,6 +19,7 @@ import Section14 from './components/sections/Section14';
 import Section15 from './components/sections/Section15';
 import Section16 from './components/sections/Section16';
 import Section17 from './components/sections/Section17';
+import Section18 from './components/sections/Section18';
 // 섹션을 추가할 때마다 아래에 import 하세요
 
 export default function App() {
@@ -59,6 +60,8 @@ export default function App() {
         <Section16 />
         <Divider />
         <Section17 />
+        <Divider />
+        <Section18 />
         <Divider />
         {/* 섹션을 추가할 때마다 아래에 추가하세요 */}
       </Box>
