@@ -11,6 +11,7 @@ import PetsIcon from '@mui/icons-material/Pets';
 import LockIcon from '@mui/icons-material/Lock';
 import { useAuth } from '../context/AuthContext';
 import { getUserById, getPostsByAuthor } from '../lib/api';
+import { getAnimalImage } from '../lib/utils';
 import PageHeader from '../components/PageHeader';
 
 const PET_EMOJI = {
@@ -143,7 +144,7 @@ export default function MyPage() {
                     <CardMedia
                       component="img"
                       height="110"
-                      image={post.image_url || `https://picsum.photos/seed/${post.id.slice(0, 8)}/300/200`}
+                      image={post.image_url || getAnimalImage(post.id)}
                       alt={post.title}
                       sx={{ objectFit: 'cover' }}
                     />

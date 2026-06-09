@@ -10,6 +10,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { getPosts } from '../lib/api';
 import PageHeader from '../components/PageHeader';
+import { getAnimalImage } from '../lib/utils';
 
 const CATEGORY_META = {
   '인기스팟':  { icon: '📍', desc: '애견카페 & 유명장소' },
@@ -18,18 +19,12 @@ const CATEGORY_META = {
   'Q&A':      { icon: '💬', desc: '걱정・고민 정보 교환' },
 };
 
-const FALLBACK_IMAGES = [
-  'https://picsum.photos/seed/cat1/600/400',
-  'https://picsum.photos/seed/dog2/600/400',
-  'https://picsum.photos/seed/pet3/600/400',
-];
-
 function isNew(createdAt) {
   return Date.now() - new Date(createdAt).getTime() < 24 * 60 * 60 * 1000;
 }
 
 function PostCard({ post, onClick }) {
-  const imageSrc = post.image_url || FALLBACK_IMAGES[Math.abs(post.id.charCodeAt(0)) % 3];
+  const imageSrc = post.image_url || getAnimalImage(post.id);
   const newPost = isNew(post.created_at);
 
   return (

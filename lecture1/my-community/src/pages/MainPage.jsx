@@ -14,6 +14,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import PetsIcon from '@mui/icons-material/Pets';
 import { useAuth } from '../context/AuthContext';
 import { getPosts, searchPosts } from '../lib/api';
+import { getAnimalImage } from '../lib/utils';
 
 const CATEGORIES = [
   { id: '인기스팟', icon: '📍', desc: '애견카페 & 유명장소' },
@@ -28,7 +29,7 @@ function isNew(createdAt) {
 
 function PostCard({ post, onClick }) {
   const newPost = isNew(post.created_at);
-  const imageSrc = post.image_url || `https://picsum.photos/seed/${post.id.slice(0, 8)}/400/260`;
+  const imageSrc = post.image_url || getAnimalImage(post.id);
 
   return (
     <Card sx={{ width: 280, flexShrink: 0, height: '100%' }}>

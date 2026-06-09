@@ -3,12 +3,13 @@ import { useNavigate } from 'react-router-dom';
 import {
   Box, Container, Paper, Typography, TextField, Button,
   Select, MenuItem, FormControl, InputLabel, Chip, IconButton,
-  Alert, CircularProgress, Stack,
+  Alert, Stack,
 } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ImageIcon from '@mui/icons-material/Image';
 import { useAuth } from '../context/AuthContext';
 import { createPost } from '../lib/api';
+import { getRandomAnimalImage } from '../lib/utils';
 import PageHeader from '../components/PageHeader';
 
 const CATEGORIES = ['인기스팟', '반려스테이', '함께해요', 'Q&A'];
@@ -26,15 +27,11 @@ export default function PostWritePage() {
   const [hashtagInput, setHashtagInput] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  const [imageLoading, setImageLoading] = useState(false);
 
   const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
   const handleRandomImage = () => {
-    setImageLoading(true);
-    const seed = Math.floor(Math.random() * 1000);
-    setForm({ ...form, image_url: `https://picsum.photos/seed/${seed}/600/400` });
-    setImageLoading(false);
+    setForm({ ...form, image_url: getRandomAnimalImage() });
   };
 
   const handleAddHashtag = (e) => {
@@ -129,9 +126,8 @@ export default function PostWritePage() {
             <Box sx={{ mb: 2 }}>
               <Button
                 variant="outlined"
-                startIcon={imageLoading ? <CircularProgress size={16} /> : <ImageIcon />}
+                startIcon={<ImageIcon />}
                 onClick={handleRandomImage}
-                disabled={imageLoading}
                 sx={{ borderColor: 'primary.main', color: 'primary.dark' }}
               >
                 랜덤 이미지 추가
