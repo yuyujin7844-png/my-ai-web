@@ -129,7 +129,7 @@ export default function MyPage() {
         ) : (
           <Grid container spacing={2}>
             {myPosts.map((post) => (
-              <Grid key={post.id} item xs={6} sm={6}>
+              <Grid key={post.id} item xs={4} sm={4}>
                 <Card
                   elevation={0}
                   sx={{
@@ -142,14 +142,14 @@ export default function MyPage() {
                   <CardActionArea onClick={() => navigate(`/post/${post.id}`)}>
                     <CardMedia
                       component="img"
-                      height="140"
+                      height="110"
                       image={post.image_url || `https://picsum.photos/seed/${post.id.slice(0, 8)}/300/200`}
                       alt={post.title}
                       sx={{ objectFit: 'cover' }}
                     />
-                    <CardContent sx={{ py: 1.5, px: 1.5 }}>
+                    <CardContent sx={{ py: 1, px: 1 }}>
                       <Typography
-                        variant="subtitle2"
+                        variant="caption"
                         fontWeight={700}
                         color="text.primary"
                         sx={{

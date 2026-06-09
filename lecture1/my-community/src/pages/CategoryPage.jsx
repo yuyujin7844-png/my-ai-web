@@ -48,7 +48,7 @@ function PostCard({ post, onClick }) {
         <Box sx={{ position: 'relative' }}>
           <CardMedia
             component="img"
-            height="280"
+            height="220"
             image={imageSrc}
             alt={post.title}
             sx={{ objectFit: 'cover' }}
@@ -125,7 +125,7 @@ export default function CategoryPage() {
         }
       />
 
-      <Container maxWidth={false} sx={{ py: 3, px: { xs: 2, sm: 3 } }}>
+      <Container maxWidth="lg" sx={{ py: 3 }}>
         {/* 카테고리 타이틀 */}
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 3 }}>
           <Typography sx={{ fontSize: 32 }}>{meta.icon}</Typography>
