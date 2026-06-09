@@ -17,7 +17,7 @@ const PASSWORD_RULES = [
 
 export default function RegisterPage() {
   const navigate = useNavigate();
-  const [form, setForm] = useState({ username: '', nickname: '', password: '', address: '' });
+  const [form, setForm] = useState({ username: '', nickname: '', password: '' });
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [usernameStatus, setUsernameStatus] = useState('');
@@ -159,17 +159,8 @@ export default function RegisterPage() {
               name="nickname"
               value={form.nickname}
               onChange={handleChange}
-              sx={{ mb: 2 }}
-              required
-            />
-
-            <TextField
-              fullWidth
-              label="주소"
-              name="address"
-              value={form.address}
-              onChange={handleChange}
               sx={{ mb: 3 }}
+              required
             />
 
             <Button
