@@ -225,7 +225,10 @@ export default function MainPage() {
             <Divider sx={{ my: 1 }} />
             {CATEGORIES.map((cat) => (
               <ListItem key={cat.id} disablePadding>
-                <ListItemButton onClick={() => scrollToSection(cat.id)} sx={{ borderRadius: 2, mb: 0.5 }}>
+                <ListItemButton
+                  onClick={() => { setDrawerOpen(false); navigate(`/category/${cat.id}`); }}
+                  sx={{ borderRadius: 2, mb: 0.5 }}
+                >
                   <Typography sx={{ mr: 1.5, fontSize: 20 }}>{cat.icon}</Typography>
                   <Box>
                     <Typography variant="body1" fontWeight={600}>{cat.id}</Typography>
@@ -272,12 +275,18 @@ export default function MainPage() {
               ref={(el) => { sectionRefs.current[cat.id] = el; }}
               sx={{ mb: 6 }}
             >
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
+              <Box
+                sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2, cursor: 'pointer' }}
+                onClick={() => navigate(`/category/${cat.id}`)}
+              >
                 <Typography sx={{ fontSize: 28 }}>{cat.icon}</Typography>
                 <Box>
                   <Typography variant="h5" fontWeight={700} color="primary.dark">{cat.id}</Typography>
                   <Typography variant="body2" color="text.secondary">{cat.desc}</Typography>
                 </Box>
+                <Typography variant="body2" color="primary.main" sx={{ ml: 'auto', fontWeight: 600 }}>
+                  전체보기 →
+                </Typography>
               </Box>
 
               {posts[cat.id]?.length > 0 ? (

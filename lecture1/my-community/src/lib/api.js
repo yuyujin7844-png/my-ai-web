@@ -41,7 +41,7 @@ export async function checkUsername(username) {
 export async function getPosts(category = null) {
   let query = supabase
     .from('posts')
-    .select('*, post_likes(count)')
+    .select('*, post_likes(count), comments(count)')
     .order('created_at', { ascending: false });
   if (category) query = query.eq('category', category);
   const { data, error } = await query;
@@ -49,6 +49,7 @@ export async function getPosts(category = null) {
   return (data || []).map((p) => ({
     ...p,
     like_count: p.post_likes?.[0]?.count ?? 0,
+    comment_count: p.comments?.[0]?.count ?? 0,
   }));
 }
 
@@ -171,12 +172,13 @@ export async function deleteUser(id) {
 export async function getPostsByAuthor(authorId) {
   const { data, error } = await supabase
     .from('posts')
-    .select('*, post_likes(count)')
+    .select('*, post_likes(count), comments(count)')
     .eq('author_id', authorId)
     .order('created_at', { ascending: false });
   if (error) throw error;
   return (data || []).map((p) => ({
     ...p,
     like_count: p.post_likes?.[0]?.count ?? 0,
+    comment_count: p.comments?.[0]?.count ?? 0,
   }));
 }
