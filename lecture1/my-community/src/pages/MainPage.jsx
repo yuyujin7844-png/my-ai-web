@@ -3,7 +3,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import {
   Box, Container, Typography, Button, IconButton, TextField,
   InputAdornment, Card, CardContent, CardMedia, CardActionArea,
-  Grid, Drawer, List, ListItem, ListItemButton, Divider,
+  Drawer, List, ListItem, ListItemButton, Divider,
   AppBar, Toolbar, Tooltip, CircularProgress,
 } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
@@ -22,32 +22,53 @@ const CATEGORIES = [
   { id: 'Q&A', icon: '💬', desc: '걱정・고민 정보 교환' },
 ];
 
+function isNew(createdAt) {
+  return Date.now() - new Date(createdAt).getTime() < 24 * 60 * 60 * 1000;
+}
+
 function PostCard({ post, onClick }) {
+  const newPost = isNew(post.created_at);
+  const imageSrc = post.image_url || `https://picsum.photos/seed/${post.id.slice(0, 8)}/400/260`;
+
   return (
-    <Card sx={{ height: '100%' }}>
-      <CardActionArea onClick={() => onClick(post.id)} sx={{ height: '100%' }}>
-        {post.image_url && (
+    <Card sx={{ width: 280, flexShrink: 0, height: '100%' }}>
+      <CardActionArea onClick={() => onClick(post.id)} sx={{ height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'stretch' }}>
+        <Box sx={{ position: 'relative' }}>
           <CardMedia
             component="img"
-            height="150"
-            image={post.image_url}
+            height="160"
+            image={imageSrc}
             alt={post.title}
             sx={{ objectFit: 'cover' }}
           />
-        )}
-        <CardContent>
-          <Typography variant="subtitle2" fontWeight={700} noWrap color="text.primary">
+          {newPost && (
+            <Box
+              sx={{
+                position: 'absolute', top: 8, left: 8,
+                bgcolor: 'secondary.main', color: 'white',
+                fontSize: 11, fontWeight: 800,
+                px: 1, py: 0.3, borderRadius: 1,
+                letterSpacing: 1,
+                boxShadow: '0 2px 6px rgba(0,0,0,0.2)',
+              }}
+            >
+              NEW
+            </Box>
+          )}
+        </Box>
+        <CardContent sx={{ flexGrow: 1 }}>
+          <Typography variant="subtitle1" fontWeight={800} color="text.primary"
+            sx={{ mb: 0.5, display: '-webkit-box', WebkitLineClamp: 1, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
             {post.title}
           </Typography>
-          <Typography variant="body2" color="text.secondary" noWrap sx={{ mt: 0.5 }}>
+          <Typography variant="body2" color="text.secondary"
+            sx={{ mb: 1, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
             {post.content}
           </Typography>
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, mt: 1 }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
             <FavoriteIcon sx={{ fontSize: 13, color: 'secondary.main' }} />
             <Typography variant="caption" color="text.secondary">{post.like_count}</Typography>
-            <Typography variant="caption" color="text.disabled" sx={{ ml: 'auto' }}>
-              {post.author_nickname}
-            </Typography>
+            <Typography variant="caption" color="text.disabled" sx={{ ml: 'auto' }}>{post.author_nickname}</Typography>
           </Box>
         </CardContent>
       </CardActionArea>
@@ -255,13 +276,14 @@ export default function MainPage() {
                 검색 결과가 없습니다. 🐾
               </Typography>
             ) : (
-              <Grid container spacing={2}>
+              <Box sx={{ display: 'flex', gap: 2, overflowX: 'auto', pb: 1.5,
+                '&::-webkit-scrollbar': { height: 6 },
+                '&::-webkit-scrollbar-thumb': { bgcolor: 'primary.light', borderRadius: 3 },
+              }}>
                 {searchResults.map((post) => (
-                  <Grid key={post.id} item xs={12} sm={6} md={4} lg={3}>
-                    <PostCard post={post} onClick={(id) => navigate(`/post/${id}`)} />
-                  </Grid>
+                  <PostCard key={post.id} post={post} onClick={(id) => navigate(`/post/${id}`)} />
                 ))}
-              </Grid>
+              </Box>
             )}
           </Box>
         ) : loading ? (
@@ -290,13 +312,21 @@ export default function MainPage() {
               </Box>
 
               {posts[cat.id]?.length > 0 ? (
-                <Grid container spacing={2}>
+                <Box
+                  sx={{
+                    display: 'flex',
+                    gap: 2,
+                    overflowX: 'auto',
+                    pb: 1.5,
+                    '&::-webkit-scrollbar': { height: 6 },
+                    '&::-webkit-scrollbar-track': { bgcolor: 'transparent' },
+                    '&::-webkit-scrollbar-thumb': { bgcolor: 'primary.light', borderRadius: 3 },
+                  }}
+                >
                   {posts[cat.id].map((post) => (
-                    <Grid key={post.id} item xs={12} sm={6} md={4} lg={3}>
-                      <PostCard post={post} onClick={(id) => navigate(`/post/${id}`)} />
-                    </Grid>
+                    <PostCard key={post.id} post={post} onClick={(id) => navigate(`/post/${id}`)} />
                   ))}
-                </Grid>
+                </Box>
               ) : (
                 <Box
                   sx={{
