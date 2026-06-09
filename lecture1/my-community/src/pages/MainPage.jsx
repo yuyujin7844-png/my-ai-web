@@ -174,7 +174,14 @@ export default function MainPage() {
           }}
         >
           <Typography variant="body1" fontWeight={600} color="primary.dark" sx={{ mb: 1.5 }}>
-            {user?.nickname}님 환영해요! 🐾
+            <Box
+              component="span"
+              onClick={() => navigate('/mypage')}
+              sx={{ cursor: 'pointer', textDecoration: 'underline', textDecorationColor: 'primary.main' }}
+            >
+              {user?.nickname}님
+            </Box>
+            {' '}환영해요! 🐾
           </Typography>
           <Box component="form" onSubmit={handleSearchSubmit} sx={{ width: '100%', maxWidth: 520 }}>
             <TextField
@@ -195,7 +202,7 @@ export default function MainPage() {
         </Box>
       </AppBar>
 
-      <Drawer anchor="right" open={drawerOpen} onClose={() => setDrawerOpen(false)}>
+      <Drawer anchor="left" open={drawerOpen} onClose={() => setDrawerOpen(false)}>
         <Box sx={{ width: 240, p: 2 }}>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
             <PetsIcon sx={{ color: 'primary.main' }} />
@@ -203,6 +210,19 @@ export default function MainPage() {
           </Box>
           <Divider sx={{ mb: 1 }} />
           <List>
+            <ListItem disablePadding>
+              <ListItemButton
+                onClick={() => { setDrawerOpen(false); navigate('/mypage'); }}
+                sx={{ borderRadius: 2, mb: 0.5 }}
+              >
+                <Typography sx={{ mr: 1.5, fontSize: 20 }}>👤</Typography>
+                <Box>
+                  <Typography variant="body1" fontWeight={600}>마이페이지</Typography>
+                  <Typography variant="caption" color="text.secondary">내 프로필 · 내 게시물</Typography>
+                </Box>
+              </ListItemButton>
+            </ListItem>
+            <Divider sx={{ my: 1 }} />
             {CATEGORIES.map((cat) => (
               <ListItem key={cat.id} disablePadding>
                 <ListItemButton onClick={() => scrollToSection(cat.id)} sx={{ borderRadius: 2, mb: 0.5 }}>

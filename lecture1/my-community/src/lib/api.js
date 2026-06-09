@@ -138,3 +138,45 @@ export async function searchPosts(keyword) {
     like_count: p.post_likes?.[0]?.count ?? 0,
   }));
 }
+
+export async function getUserById(id) {
+  const { data, error } = await supabase
+    .from('users')
+    .select('*')
+    .eq('id', id)
+    .single();
+  if (error) throw error;
+  return data;
+}
+
+export async function updateUser(id, updates) {
+  const { data, error } = await supabase
+    .from('users')
+    .update(updates)
+    .eq('id', id)
+    .select()
+    .single();
+  if (error) throw error;
+  return data;
+}
+
+export async function deleteUser(id) {
+  const { error } = await supabase
+    .from('users')
+    .delete()
+    .eq('id', id);
+  if (error) throw error;
+}
+
+export async function getPostsByAuthor(authorId) {
+  const { data, error } = await supabase
+    .from('posts')
+    .select('*, post_likes(count)')
+    .eq('author_id', authorId)
+    .order('created_at', { ascending: false });
+  if (error) throw error;
+  return (data || []).map((p) => ({
+    ...p,
+    like_count: p.post_likes?.[0]?.count ?? 0,
+  }));
+}

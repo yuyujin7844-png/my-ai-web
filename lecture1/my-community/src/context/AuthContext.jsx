@@ -22,10 +22,16 @@ export function AuthProvider({ children }) {
     localStorage.removeItem('community_user');
   };
 
+  const updateUserData = (updates) => {
+    const updated = { ...user, ...updates };
+    setUser(updated);
+    localStorage.setItem('community_user', JSON.stringify(updated));
+  };
+
   if (loading) return null;
 
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={{ user, login, logout, updateUserData }}>
       {children}
     </AuthContext.Provider>
   );
