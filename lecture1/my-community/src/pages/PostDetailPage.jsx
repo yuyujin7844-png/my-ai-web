@@ -15,6 +15,7 @@ import {
   getPost, getComments, createComment,
   togglePostLike, isPostLiked, getPostLikeCount,
 } from '../lib/api';
+import PageHeader from '../components/PageHeader';
 
 export default function PostDetailPage() {
   const { id } = useParams();
@@ -100,15 +101,12 @@ export default function PostDetailPage() {
   }
 
   return (
-    <Box sx={{ bgcolor: 'background.default', minHeight: '100vh', py: 4 }}>
-      <Container maxWidth="sm">
-        <Box sx={{ display: 'flex', alignItems: 'center', mb: 3, gap: 1 }}>
-          <IconButton onClick={() => navigate('/main')}>
-            <ArrowBackIcon />
-          </IconButton>
-          <Chip label={post.category} color="primary" size="small" variant="outlined" />
-        </Box>
-
+    <Box sx={{ bgcolor: 'background.default', minHeight: '100vh' }}>
+      <PageHeader
+        left={<IconButton onClick={() => navigate('/main')}><ArrowBackIcon /></IconButton>}
+        right={<Chip label={post.category} color="primary" size="small" variant="outlined" />}
+      />
+      <Container maxWidth="sm" sx={{ py: 4 }}>
         {error && <Alert severity="error" sx={{ mb: 2, borderRadius: 2 }}>{error}</Alert>}
 
         <Paper

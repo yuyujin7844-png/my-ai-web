@@ -11,6 +11,7 @@ import LockIcon from '@mui/icons-material/Lock';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { useAuth } from '../context/AuthContext';
 import { getUserById, getPostsByAuthor } from '../lib/api';
+import PageHeader from '../components/PageHeader';
 
 const PET_EMOJI = {
   강아지: '🐶', 고양이: '🐱', 햄스터: '🐹', 물고기: '🐠',
@@ -49,32 +50,16 @@ export default function MyPage() {
 
   return (
     <Box sx={{ bgcolor: 'background.default', minHeight: '100vh' }}>
-      {/* 헤더 */}
-      <Box
-        sx={{
-          position: 'sticky', top: 0, zIndex: 100,
-          bgcolor: 'rgba(255,248,225,0.97)',
-          backdropFilter: 'blur(12px)',
-          borderBottom: '1px solid',
-          borderColor: 'primary.light',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          px: 2, py: 1,
-        }}
-      >
-        <IconButton onClick={() => navigate('/main')}>
-          <ArrowBackIcon />
-        </IconButton>
-        <Typography variant="h6" fontWeight={700} color="primary.dark">
-          마이페이지
-        </Typography>
-        <Tooltip title="프로필 수정">
-          <IconButton onClick={() => navigate('/mypage/edit')} sx={{ color: 'primary.dark' }}>
-            <EditIcon />
-          </IconButton>
-        </Tooltip>
-      </Box>
+      <PageHeader
+        left={<IconButton onClick={() => navigate('/main')}><ArrowBackIcon /></IconButton>}
+        right={
+          <Tooltip title="프로필 수정">
+            <IconButton onClick={() => navigate('/mypage/edit')} sx={{ color: 'primary.dark' }}>
+              <EditIcon />
+            </IconButton>
+          </Tooltip>
+        }
+      />
 
       <Container maxWidth="sm" sx={{ py: 4 }}>
         {/* 프로필 섹션 */}

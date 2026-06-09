@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import {
   Box, Container, Typography, IconButton, Avatar, Button,
   TextField, Select, MenuItem, FormControl, InputLabel,
-  Switch, FormControlLabel, Divider, Alert, CircularProgress,
+  Switch, Divider, Alert, CircularProgress,
   Stack, Chip, Dialog, DialogTitle, DialogContent, DialogActions,
 } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
@@ -12,6 +12,7 @@ import PetsIcon from '@mui/icons-material/Pets';
 import PhotoCameraIcon from '@mui/icons-material/PhotoCamera';
 import { useAuth } from '../context/AuthContext';
 import { getUserById, updateUser, deleteUser } from '../lib/api';
+import PageHeader from '../components/PageHeader';
 
 const PET_OPTIONS = ['강아지', '고양이', '햄스터', '물고기', '토끼', '도마뱀', '앵무새', '기타'];
 
@@ -111,29 +112,9 @@ export default function EditProfilePage() {
 
   return (
     <Box sx={{ bgcolor: 'background.default', minHeight: '100vh' }}>
-      {/* 헤더 */}
-      <Box
-        sx={{
-          position: 'sticky', top: 0, zIndex: 100,
-          bgcolor: 'rgba(255,248,225,0.97)',
-          backdropFilter: 'blur(12px)',
-          borderBottom: '1px solid',
-          borderColor: 'primary.light',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          px: 2, py: 1,
-        }}
-      >
-        <IconButton onClick={() => navigate('/mypage')}>
-          <ArrowBackIcon />
-        </IconButton>
-        <Typography variant="h6" fontWeight={700} color="primary.dark">
-          프로필 수정
-        </Typography>
-        {/* 헤더 오른쪽 여백 균형용 빈 박스 */}
-        <Box sx={{ width: 40 }} />
-      </Box>
+      <PageHeader
+        left={<IconButton onClick={() => navigate('/mypage')}><ArrowBackIcon /></IconButton>}
+      />
 
       <Container maxWidth="sm" sx={{ py: 4 }}>
         {error && <Alert severity="error" sx={{ mb: 2, borderRadius: 2 }}>{error}</Alert>}

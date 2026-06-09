@@ -9,6 +9,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ImageIcon from '@mui/icons-material/Image';
 import { useAuth } from '../context/AuthContext';
 import { createPost } from '../lib/api';
+import PageHeader from '../components/PageHeader';
 
 const CATEGORIES = ['인기스팟', '반려스테이', '함께해요', 'Q&A'];
 
@@ -67,16 +68,14 @@ export default function PostWritePage() {
   };
 
   return (
-    <Box sx={{ bgcolor: 'background.default', minHeight: '100vh', py: 4 }}>
-      <Container maxWidth="sm">
-        <Box sx={{ display: 'flex', alignItems: 'center', mb: 3, gap: 1 }}>
-          <IconButton onClick={() => navigate('/main')}>
-            <ArrowBackIcon />
-          </IconButton>
-          <Typography variant="h5" fontWeight={700} color="primary.dark">
-            게시물 작성
-          </Typography>
-        </Box>
+    <Box sx={{ bgcolor: 'background.default', minHeight: '100vh' }}>
+      <PageHeader
+        left={<IconButton onClick={() => navigate('/main')}><ArrowBackIcon /></IconButton>}
+      />
+      <Container maxWidth="sm" sx={{ py: 4 }}>
+        <Typography variant="h5" fontWeight={700} color="primary.dark" sx={{ mb: 3 }}>
+          게시물 작성
+        </Typography>
 
         <Paper
           elevation={0}
