@@ -1,6 +1,6 @@
 import { supabase } from './supabase';
 
-export async function registerUser({ username, nickname, password, address }) {
+export async function registerUser({ username, nickname, password }) {
   const { data: existing } = await supabase
     .from('users')
     .select('id')
@@ -10,7 +10,7 @@ export async function registerUser({ username, nickname, password, address }) {
 
   const { data, error } = await supabase
     .from('users')
-    .insert([{ username, nickname, password, address }])
+    .insert([{ username, nickname, password }])
     .select()
     .single();
   if (error) throw error;
