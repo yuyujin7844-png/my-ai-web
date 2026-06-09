@@ -2,13 +2,13 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   Box, Container, Typography, IconButton, Avatar, Divider,
-  Grid, CircularProgress, Chip, Stack, Tooltip,
+  Grid, Card, CardActionArea, CardMedia, CardContent,
+  CircularProgress, Chip, Stack, Tooltip,
 } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import EditIcon from '@mui/icons-material/Edit';
 import PetsIcon from '@mui/icons-material/Pets';
 import LockIcon from '@mui/icons-material/Lock';
-import FavoriteIcon from '@mui/icons-material/Favorite';
 import { useAuth } from '../context/AuthContext';
 import { getUserById, getPostsByAuthor } from '../lib/api';
 import PageHeader from '../components/PageHeader';
@@ -116,7 +116,7 @@ export default function MyPage() {
           </Typography>
         </Divider>
 
-        {/* 인스타 피드 */}
+        {/* 게시물 목록 */}
         {isPrivate ? (
           <Box sx={{ textAlign: 'center', py: 6 }}>
             <LockIcon sx={{ fontSize: 48, color: 'text.disabled', mb: 1 }} />
@@ -127,47 +127,44 @@ export default function MyPage() {
             <Typography color="text.disabled">아직 작성한 게시물이 없어요. 🐾</Typography>
           </Box>
         ) : (
-          <Grid container spacing={0.5}>
+          <Grid container spacing={2}>
             {myPosts.map((post) => (
-              <Grid key={post.id} item xs={4}>
-                <Box
-                  onClick={() => navigate(`/post/${post.id}`)}
+              <Grid key={post.id} item xs={6} sm={6}>
+                <Card
+                  elevation={0}
                   sx={{
-                    position: 'relative',
-                    paddingTop: '100%',
-                    cursor: 'pointer',
+                    borderRadius: 3,
+                    border: '1px solid',
+                    borderColor: 'rgba(249,199,79,0.3)',
                     overflow: 'hidden',
-                    borderRadius: 1,
-                    bgcolor: 'primary.light',
-                    '&:hover .overlay': { opacity: 1 },
                   }}
                 >
-                  <Box
-                    component="img"
-                    src={post.image_url || `https://picsum.photos/seed/${post.id.slice(0,8)}/300/300`}
-                    alt={post.title}
-                    sx={{
-                      position: 'absolute', top: 0, left: 0,
-                      width: '100%', height: '100%', objectFit: 'cover',
-                    }}
-                  />
-                  {/* hover 오버레이 */}
-                  <Box
-                    className="overlay"
-                    sx={{
-                      position: 'absolute', top: 0, left: 0,
-                      width: '100%', height: '100%',
-                      bgcolor: 'rgba(0,0,0,0.35)',
-                      display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 1,
-                      opacity: 0, transition: 'opacity 0.2s',
-                    }}
-                  >
-                    <FavoriteIcon sx={{ color: 'white', fontSize: 18 }} />
-                    <Typography variant="body2" color="white" fontWeight={700}>
-                      {post.like_count}
-                    </Typography>
-                  </Box>
-                </Box>
+                  <CardActionArea onClick={() => navigate(`/post/${post.id}`)}>
+                    <CardMedia
+                      component="img"
+                      height="140"
+                      image={post.image_url || `https://picsum.photos/seed/${post.id.slice(0, 8)}/300/200`}
+                      alt={post.title}
+                      sx={{ objectFit: 'cover' }}
+                    />
+                    <CardContent sx={{ py: 1.5, px: 1.5 }}>
+                      <Typography
+                        variant="subtitle2"
+                        fontWeight={700}
+                        color="text.primary"
+                        sx={{
+                          display: '-webkit-box',
+                          WebkitLineClamp: 2,
+                          WebkitBoxOrient: 'vertical',
+                          overflow: 'hidden',
+                          lineHeight: 1.4,
+                        }}
+                      >
+                        {post.title}
+                      </Typography>
+                    </CardContent>
+                  </CardActionArea>
+                </Card>
               </Grid>
             ))}
           </Grid>

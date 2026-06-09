@@ -31,7 +31,7 @@ function PostCard({ post, onClick }) {
   const imageSrc = post.image_url || `https://picsum.photos/seed/${post.id.slice(0, 8)}/400/260`;
 
   return (
-    <Card sx={{ width: 280, flexShrink: 0, height: '100%' }}>
+    <Card sx={{ width: 340, flexShrink: 0, height: '100%' }}>
       <CardActionArea onClick={() => onClick(post.id)} sx={{ height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'stretch' }}>
         <Box sx={{ position: 'relative' }}>
           <CardMedia
@@ -295,7 +295,7 @@ export default function MainPage() {
             <Box
               key={cat.id}
               ref={(el) => { sectionRefs.current[cat.id] = el; }}
-              sx={{ mb: 10 }}
+              sx={{ mb: 20 }}
             >
               <Box
                 sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2, cursor: 'pointer' }}
