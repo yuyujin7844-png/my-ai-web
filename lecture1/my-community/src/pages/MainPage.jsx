@@ -114,6 +114,7 @@ export default function MainPage() {
 
   return (
     <Box sx={{ bgcolor: 'background.default', minHeight: '100vh' }}>
+      {/* ── 1번 박스: 전체메뉴 / 로고(가운데) / 게시물추가+로그아웃 ── */}
       <AppBar
         position="sticky"
         elevation={0}
@@ -124,52 +125,74 @@ export default function MainPage() {
           borderColor: 'primary.light',
         }}
       >
-        <Toolbar sx={{ gap: 1, flexWrap: 'wrap' }}>
-          <PetsIcon sx={{ color: 'primary.dark' }} />
-          <Typography variant="subtitle1" fontWeight={800} color="primary.dark" sx={{ mr: 1 }}>
-            멍냥스타그램
-          </Typography>
-          <Typography variant="body2" color="text.secondary" sx={{ flexGrow: 1 }}>
+        <Toolbar sx={{ position: 'relative', justifyContent: 'center', minHeight: 64 }}>
+          {/* 왼쪽: 전체 메뉴 */}
+          <Box sx={{ position: 'absolute', left: 8 }}>
+            <Tooltip title="전체 메뉴">
+              <IconButton onClick={() => setDrawerOpen(true)} sx={{ color: 'primary.dark' }}>
+                <MenuIcon />
+              </IconButton>
+            </Tooltip>
+          </Box>
+
+          {/* 가운데: 로고 (클릭 시 메인 이동) */}
+          <Box
+            onClick={() => navigate('/main')}
+            sx={{ display: 'flex', alignItems: 'center', gap: 1, cursor: 'pointer' }}
+          >
+            <PetsIcon sx={{ fontSize: 36, color: 'primary.main' }} />
+            <Typography variant="h6" fontWeight={800} color="primary.dark">
+              멍냥스타그램
+            </Typography>
+          </Box>
+
+          {/* 오른쪽: 게시물 추가 + 로그아웃 */}
+          <Box sx={{ position: 'absolute', right: 8, display: 'flex', gap: 0.5 }}>
+            <Tooltip title="게시물 추가">
+              <IconButton onClick={() => navigate('/write')} sx={{ color: 'primary.dark' }}>
+                <AddIcon />
+              </IconButton>
+            </Tooltip>
+            <Tooltip title="로그아웃">
+              <IconButton onClick={() => { logout(); navigate('/'); }} sx={{ color: 'text.secondary' }}>
+                <LogoutIcon />
+              </IconButton>
+            </Tooltip>
+          </Box>
+        </Toolbar>
+
+        {/* ── 2번 박스: 환영 멘트 + 검색창 ── */}
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            py: 2,
+            px: 2,
+            borderTop: '1px solid',
+            borderColor: 'rgba(249,199,79,0.3)',
+          }}
+        >
+          <Typography variant="body1" fontWeight={600} color="primary.dark" sx={{ mb: 1.5 }}>
             {user?.nickname}님 환영해요! 🐾
           </Typography>
-
-          <Box component="form" onSubmit={handleSearchSubmit} sx={{ display: 'flex' }}>
+          <Box component="form" onSubmit={handleSearchSubmit} sx={{ width: '100%', maxWidth: 520 }}>
             <TextField
-              size="small"
-              placeholder="검색..."
+              fullWidth
+              placeholder="장소, 게시물을 검색해보세요"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton type="submit" size="small">
-                      <SearchIcon fontSize="small" />
-                    </IconButton>
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <SearchIcon sx={{ color: 'primary.dark' }} />
                   </InputAdornment>
                 ),
               }}
-              sx={{ width: 150, '& .MuiOutlinedInput-root': { borderRadius: 6 } }}
+              sx={{ '& .MuiOutlinedInput-root': { borderRadius: 6, bgcolor: 'white' } }}
             />
           </Box>
-
-          <Tooltip title="게시물 추가">
-            <IconButton onClick={() => navigate('/write')} sx={{ color: 'primary.dark' }}>
-              <AddIcon />
-            </IconButton>
-          </Tooltip>
-
-          <Tooltip title="전체 메뉴">
-            <IconButton onClick={() => setDrawerOpen(true)} sx={{ color: 'primary.dark' }}>
-              <MenuIcon />
-            </IconButton>
-          </Tooltip>
-
-          <Tooltip title="로그아웃">
-            <IconButton onClick={() => { logout(); navigate('/'); }} sx={{ color: 'text.secondary' }}>
-              <LogoutIcon />
-            </IconButton>
-          </Tooltip>
-        </Toolbar>
+        </Box>
       </AppBar>
 
       <Drawer anchor="right" open={drawerOpen} onClose={() => setDrawerOpen(false)}>
