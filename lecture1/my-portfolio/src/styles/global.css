@@ -1,0 +1,73 @@
+/* WEEKLYWINE 컬러 팔레트 기반 CSS 변수 */
+:root {
+  --color-primary:        #1C0A14;
+  --color-primary-light:  #6B1D35;
+  --color-primary-dark:   #0D0409;
+
+  --color-secondary:      #8B1A2F;
+  --color-accent:         #B5253E;
+
+  --color-bg-primary:     #F2EDE8;
+  --color-bg-secondary:   #EDE7E1;
+  --color-bg-card:        #F7F3EF;
+  --color-bg-overlay:     rgba(28, 10, 20, 0.7);
+
+  --color-text-primary:   #1A1A1A;
+  --color-text-secondary: #555555;
+  --color-text-muted:     #888888;
+  --color-text-inverse:   #F2EDE8;
+
+  --color-border:         #D9D0C8;
+  --color-border-light:   #EAE4DE;
+
+  --color-button-primary: #8B1A2F;
+  --color-button-hover:   #6B1D35;
+  --color-button-text:    #F7F3EF;
+  --color-link:           #8B1A2F;
+  --color-link-hover:     #6B1D35;
+  --color-focus-ring:     rgba(139, 26, 47, 0.4);
+
+  --shadow-card:   0 2px 8px rgba(28, 10, 20, 0.08);
+  --shadow-modal:  0 8px 32px rgba(28, 10, 20, 0.18);
+  --shadow-button: 0 2px 4px rgba(139, 26, 47, 0.25);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-bg-primary);
+  color: var(--color-text-primary);
+  font-family: 'Pretendard', 'Noto Sans KR', sans-serif;
+}
+
+a {
+  color: var(--color-link);
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--color-link-hover);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-bg-primary:     #1A1015;
+    --color-bg-secondary:   #21141B;
+    --color-bg-card:        #2A1A22;
+    --color-text-primary:   #F0EAE5;
+    --color-text-secondary: #C4B8B0;
+    --color-text-muted:     #8A7E78;
+    --color-border:         #3D2B35;
+    --color-border-light:   #2E1E28;
+    --shadow-card:   0 2px 8px rgba(0, 0, 0, 0.3);
+    --shadow-modal:  0 8px 32px rgba(0, 0, 0, 0.5);
+  }
+}
