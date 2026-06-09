@@ -295,7 +295,7 @@ export default function MainPage() {
             <Box
               key={cat.id}
               ref={(el) => { sectionRefs.current[cat.id] = el; }}
-              sx={{ mb: 6 }}
+              sx={{ mb: 10 }}
             >
               <Box
                 sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2, cursor: 'pointer' }}

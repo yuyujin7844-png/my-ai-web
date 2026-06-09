@@ -40,64 +40,60 @@ function PostCard({ post, onClick }) {
         border: '1px solid',
         borderColor: 'rgba(249,199,79,0.25)',
         overflow: 'hidden',
+        height: '100%',
       }}
     >
-      <CardActionArea onClick={() => onClick(post.id)}>
-        {/* 가로 레이아웃: 이미지 왼쪽, 텍스트 오른쪽 */}
-        <Box sx={{ display: 'flex', alignItems: 'stretch' }}>
-          {/* 이미지 + NEW 뱃지 */}
-          <Box sx={{ position: 'relative', flexShrink: 0, width: { xs: 130, sm: 200 } }}>
+      <CardActionArea onClick={() => onClick(post.id)} sx={{ height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'stretch' }}>
+        {/* 이미지 + NEW 뱃지 */}
+        <Box sx={{ position: 'relative' }}>
+          <CardMedia
+            component="img"
+            height="220"
+            image={imageSrc}
+            alt={post.title}
+            sx={{ objectFit: 'cover' }}
+          />
+          {newPost && (
             <Box
-              component="img"
-              src={imageSrc}
-              alt={post.title}
-              sx={{ width: '100%', height: '100%', minHeight: 130, objectFit: 'cover', display: 'block' }}
-            />
-            {newPost && (
-              <Box
-                sx={{
-                  position: 'absolute', top: 8, left: 8,
-                  bgcolor: 'secondary.main', color: 'white',
-                  fontSize: 11, fontWeight: 800,
-                  px: 1, py: 0.3, borderRadius: 1,
-                  letterSpacing: 1,
-                  boxShadow: '0 2px 6px rgba(0,0,0,0.2)',
-                }}
-              >
-                NEW
-              </Box>
-            )}
-          </Box>
-
-          {/* 텍스트 영역 */}
-          <CardContent sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-            <Box>
-              <Typography
-                variant="h6" fontWeight={800} color="text.primary"
-                sx={{ mb: 0.8, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden', lineHeight: 1.4 }}
-              >
-                {post.title}
-              </Typography>
-              <Typography
-                variant="body2" color="text.secondary"
-                sx={{ display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}
-              >
-                {post.content}
-              </Typography>
+              sx={{
+                position: 'absolute', top: 10, left: 10,
+                bgcolor: 'secondary.main', color: 'white',
+                fontSize: 11, fontWeight: 800,
+                px: 1, py: 0.3, borderRadius: 1,
+                letterSpacing: 1,
+                boxShadow: '0 2px 6px rgba(0,0,0,0.2)',
+              }}
+            >
+              NEW
             </Box>
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mt: 1.5 }}>
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.4 }}>
-                <FavoriteIcon sx={{ fontSize: 14, color: 'secondary.main' }} />
-                <Typography variant="caption" color="text.secondary">{post.like_count}</Typography>
-              </Box>
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.4 }}>
-                <ChatBubbleOutlineIcon sx={{ fontSize: 14, color: 'primary.dark' }} />
-                <Typography variant="caption" color="text.secondary">{post.comment_count}</Typography>
-              </Box>
-              <Typography variant="caption" color="text.disabled" sx={{ ml: 'auto' }}>{post.author_nickname}</Typography>
-            </Box>
-          </CardContent>
+          )}
         </Box>
+
+        <CardContent sx={{ flexGrow: 1, pb: 1.5 }}>
+          <Typography
+            variant="h6" fontWeight={800} color="text.primary"
+            sx={{ mb: 0.8, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden', lineHeight: 1.4 }}
+          >
+            {post.title}
+          </Typography>
+          <Typography
+            variant="body2" color="text.secondary"
+            sx={{ mb: 1.5, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}
+          >
+            {post.content}
+          </Typography>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.4 }}>
+              <FavoriteIcon sx={{ fontSize: 14, color: 'secondary.main' }} />
+              <Typography variant="caption" color="text.secondary">{post.like_count}</Typography>
+            </Box>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.4 }}>
+              <ChatBubbleOutlineIcon sx={{ fontSize: 14, color: 'primary.dark' }} />
+              <Typography variant="caption" color="text.secondary">{post.comment_count}</Typography>
+            </Box>
+            <Typography variant="caption" color="text.disabled" sx={{ ml: 'auto' }}>{post.author_nickname}</Typography>
+          </Box>
+        </CardContent>
       </CardActionArea>
     </Card>
   );
