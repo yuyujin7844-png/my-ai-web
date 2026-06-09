@@ -131,15 +131,8 @@ export default function EditProfilePage() {
         <Typography variant="h6" fontWeight={700} color="primary.dark">
           프로필 수정
         </Typography>
-        <Button
-          variant="contained"
-          size="small"
-          onClick={handleSave}
-          disabled={saving}
-          sx={{ borderRadius: 6, px: 2 }}
-        >
-          {saving ? '저장 중...' : '수정완료'}
-        </Button>
+        {/* 헤더 오른쪽 여백 균형용 빈 박스 */}
+        <Box sx={{ width: 40 }} />
       </Box>
 
       <Container maxWidth="sm" sx={{ py: 4 }}>
@@ -257,15 +250,16 @@ export default function EditProfilePage() {
 
         <Divider sx={{ my: 3 }} />
 
-        {/* 탈퇴 */}
+        {/* 수정완료 */}
         <Button
           fullWidth
-          variant="outlined"
-          color="error"
-          onClick={() => setDeleteDialog(true)}
-          sx={{ borderRadius: 3 }}
+          variant="contained"
+          size="large"
+          onClick={handleSave}
+          disabled={saving}
+          sx={{ borderRadius: 3, py: 1.5 }}
         >
-          탈퇴하기
+          {saving ? '저장 중...' : '수정완료'}
         </Button>
 
         {/* 탈퇴 확인 다이얼로그 */}
