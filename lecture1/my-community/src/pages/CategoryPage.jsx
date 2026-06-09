@@ -24,8 +24,13 @@ const FALLBACK_IMAGES = [
   'https://picsum.photos/seed/pet3/600/400',
 ];
 
+function isNew(createdAt) {
+  return Date.now() - new Date(createdAt).getTime() < 24 * 60 * 60 * 1000;
+}
+
 function PostCard({ post, onClick }) {
   const imageSrc = post.image_url || FALLBACK_IMAGES[Math.abs(post.id.charCodeAt(0)) % 3];
+  const newPost = isNew(post.created_at);
 
   return (
     <Card
@@ -39,30 +44,69 @@ function PostCard({ post, onClick }) {
       }}
     >
       <CardActionArea onClick={() => onClick(post.id)} sx={{ height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'stretch' }}>
-        <CardMedia
-          component="img"
-          height="180"
-          image={imageSrc}
-          alt={post.title}
-          sx={{ objectFit: 'cover' }}
-        />
+        {/* 이미지 + NEW 뱃지 */}
+        <Box sx={{ position: 'relative' }}>
+          <CardMedia
+            component="img"
+            height="200"
+            image={imageSrc}
+            alt={post.title}
+            sx={{ objectFit: 'cover' }}
+          />
+          {newPost && (
+            <Box
+              sx={{
+                position: 'absolute', top: 10, left: 10,
+                bgcolor: 'secondary.main',
+                color: 'white',
+                fontSize: 11,
+                fontWeight: 800,
+                px: 1, py: 0.3,
+                borderRadius: 1,
+                letterSpacing: 1,
+                boxShadow: '0 2px 6px rgba(0,0,0,0.2)',
+              }}
+            >
+              NEW
+            </Box>
+          )}
+        </Box>
+
         <CardContent sx={{ flexGrow: 1, pb: 1.5 }}>
+          {/* 제목 — 크고 굵게 */}
           <Typography
-            variant="subtitle2"
-            fontWeight={700}
+            variant="h6"
+            fontWeight={800}
             color="text.primary"
             sx={{
-              mb: 1,
+              mb: 0.8,
+              display: '-webkit-box',
+              WebkitLineClamp: 2,
+              WebkitBoxOrient: 'vertical',
+              overflow: 'hidden',
+              lineHeight: 1.4,
+            }}
+          >
+            {post.title}
+          </Typography>
+
+          {/* 내용 미리보기 — 작고 얇게 */}
+          <Typography
+            variant="body2"
+            color="text.secondary"
+            sx={{
+              mb: 1.5,
               display: '-webkit-box',
               WebkitLineClamp: 2,
               WebkitBoxOrient: 'vertical',
               overflow: 'hidden',
             }}
           >
-            {post.title}
+            {post.content}
           </Typography>
 
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mt: 'auto' }}>
+          {/* 좋아요·댓글·작성자 */}
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.4 }}>
               <FavoriteIcon sx={{ fontSize: 14, color: 'secondary.main' }} />
               <Typography variant="caption" color="text.secondary">{post.like_count}</Typography>
@@ -147,7 +191,7 @@ export default function CategoryPage() {
         ) : (
           <Grid container spacing={2}>
             {posts.map((post) => (
-              <Grid key={post.id} item xs={12} sm={6} md={4} lg={3}>
+              <Grid key={post.id} item xs={12} sm={6} md={6} lg={6}>
                 <PostCard post={post} onClick={(id) => navigate(`/post/${id}`)} />
               </Grid>
             ))}
