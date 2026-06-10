@@ -7,32 +7,43 @@ import Button from '@mui/material/Button'
 import IconButton from '@mui/material/IconButton'
 import CircularProgress from '@mui/material/CircularProgress'
 import Alert from '@mui/material/Alert'
+import Rating from '@mui/material/Rating'
+import FormControlLabel from '@mui/material/FormControlLabel'
+import Switch from '@mui/material/Switch'
+import Divider from '@mui/material/Divider'
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined'
-import { SiGithub, SiInstagram } from 'react-icons/si'
+import StarIcon from '@mui/icons-material/Star'
+import StarBorderIcon from '@mui/icons-material/StarBorder'
+import { SiGithub, SiInstagram, SiFacebook } from 'react-icons/si'
 import supabase from '../lib/supabase'
 
+// 포트폴리오 전체 팔레트와 통일
 const C = {
-  bg: '#F5EFE6',
-  cardBg: '#FDFAF7',
-  brown: '#8B5E3C',
-  brownDark: '#6B4A2F',
-  brownLight: '#C4A882',
-  textDark: '#4A3728',
-  textMid: '#9C8272',
-  border: '#D4C4B0',
+  bg: '#EDE7E1',
+  cardBg: '#F7F3EF',
+  accent: '#8B1A2F',
+  accentLight: '#B5253E',
+  accentDark: '#6B1D35',
+  textDark: '#1A1A1A',
+  textMid: '#555555',
+  textLight: '#888888',
+  border: '#D9D0C8',
+  inputBg: '#F7F3EF',
 }
 
 const inputSx = {
   '& .MuiOutlinedInput-root': {
-    bgcolor: C.bg,
+    bgcolor: C.inputBg,
     '& fieldset': { borderColor: C.border },
-    '&:hover fieldset': { borderColor: C.brownLight },
-    '&.Mui-focused fieldset': { borderColor: C.brown },
+    '&:hover fieldset': { borderColor: '#C4B8B0' },
+    '&.Mui-focused fieldset': { borderColor: C.accent },
   },
-  '& .MuiInputLabel-root': { color: C.textMid },
-  '& .MuiInputLabel-root.Mui-focused': { color: C.brown },
+  '& .MuiInputLabel-root': { color: C.textLight },
+  '& .MuiInputLabel-root.Mui-focused': { color: C.accent },
   '& .MuiInputBase-input': { color: C.textDark },
 }
+
+const EMOJIS = ['😊', '😄', '🎉', '👏', '💪', '🌟', '✨', '🚀', '💯', '❤️', '🙌', '😍']
 
 const CONTACT_ITEMS = [
   {
@@ -48,21 +59,27 @@ const CONTACT_ITEMS = [
 ]
 
 const SNS_LINKS = [
-  { icon: <SiGithub size={22} />, href: 'https://github.com/yuyujin7844-png', label: 'GitHub' },
-  { icon: <SiInstagram size={22} />, href: '#', label: 'Instagram' },
+  { icon: <SiGithub size={20} />, href: 'https://github.com/yuyujin7844-png', label: 'GitHub' },
+  { icon: <SiInstagram size={20} />, href: '#', label: 'Instagram' },
+  { icon: <SiFacebook size={20} />, href: '#', label: 'Facebook' },
 ]
 
+const INIT_FORM = {
+  name: '', message: '', affiliation: '',
+  email: '', emailPublic: false,
+  snsInstagram: '', snsFacebook: '', snsTwitter: '',
+  emoji: '', rating: 0,
+}
+
 export default function ContactSection() {
-  const [form, setForm] = useState({ name: '', message: '' })
+  const [form, setForm] = useState(INIT_FORM)
   const [messages, setMessages] = useState([])
   const [loading, setLoading] = useState(false)
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState(null)
   const [success, setSuccess] = useState(false)
 
-  useEffect(() => {
-    fetchMessages()
-  }, [])
+  useEffect(() => { fetchMessages() }, [])
 
   async function fetchMessages() {
     setLoading(true)
@@ -74,19 +91,35 @@ export default function ContactSection() {
     setLoading(false)
   }
 
+  function set(key, val) {
+    setForm(prev => ({ ...prev, [key]: val }))
+  }
+
   async function handleSubmit(e) {
     e.preventDefault()
     if (!form.name.trim() || !form.message.trim()) return
     setSubmitting(true)
     setError(null)
-    const { error: err } = await supabase
-      .from('guestbook')
-      .insert({ name: form.name.trim(), message: form.message.trim() })
+
+    const payload = {
+      name: form.name.trim(),
+      message: form.message.trim(),
+      affiliation: form.affiliation.trim() || null,
+      email: form.email.trim() || null,
+      email_public: form.email.trim() ? form.emailPublic : false,
+      sns_instagram: form.snsInstagram.trim() || null,
+      sns_facebook: form.snsFacebook.trim() || null,
+      sns_twitter: form.snsTwitter.trim() || null,
+      emoji: form.emoji || null,
+      rating: form.rating || null,
+    }
+
+    const { error: err } = await supabase.from('guestbook').insert(payload)
     if (err) {
-      setError('메시지 전송에 실패했습니다. 다시 시도해주세요.')
+      setError('전송에 실패했습니다. 다시 시도해주세요.')
     } else {
       setSuccess(true)
-      setForm({ name: '', message: '' })
+      setForm(INIT_FORM)
       fetchMessages()
       setTimeout(() => setSuccess(false), 3000)
     }
@@ -100,22 +133,22 @@ export default function ContactSection() {
         {/* 헤더 */}
         <Typography
           variant="overline"
-          sx={{ color: C.brown, letterSpacing: 4, fontSize: '0.75rem', mb: 1, display: 'block' }}
+          sx={{ color: C.accentLight, letterSpacing: 4, fontSize: '0.8rem', mb: 1, display: 'block' }}
         >
           CONTACT
         </Typography>
         <Typography
           variant="h2"
-          sx={{ fontSize: { xs: '1.8rem', md: '2.2rem' }, fontWeight: 700, color: C.textDark, mb: 2 }}
+          sx={{ fontSize: { xs: '1.8rem', md: '2.5rem' }, fontWeight: 700, color: C.textDark, mb: 2 }}
         >
           함께 이야기해요
         </Typography>
-        <Box sx={{ width: 40, height: 2, bgcolor: C.brown, mx: 'auto', my: 3, borderRadius: 1 }} />
+        <Divider sx={{ width: 60, height: 3, bgcolor: C.accent, mx: 'auto', my: 3, border: 'none' }} />
         <Typography variant="body1" sx={{ color: C.textMid, mb: 5, lineHeight: 1.9 }}>
           언제든지 편하게 연락주세요 ☕
         </Typography>
 
-        {/* 연락처 정보 (세로 나열) */}
+        {/* 연락처 정보 */}
         <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2, mb: 4 }}>
           {CONTACT_ITEMS.map((item, i) => (
             <Box
@@ -125,16 +158,13 @@ export default function ContactSection() {
               target="_blank"
               rel="noopener noreferrer"
               sx={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: 1.5,
-                color: C.textDark,
-                textDecoration: 'none',
+                display: 'flex', alignItems: 'center', gap: 1.5,
+                color: C.textDark, textDecoration: 'none',
                 transition: 'color 0.2s',
-                '&:hover': { color: C.brown },
+                '&:hover': { color: C.accent },
               }}
             >
-              <Box sx={{ color: C.brown, display: 'flex', alignItems: 'center' }}>{item.icon}</Box>
+              <Box sx={{ color: C.accent, display: 'flex', alignItems: 'center' }}>{item.icon}</Box>
               <Typography variant="body1" sx={{ fontWeight: 500, color: 'inherit', fontSize: '0.95rem' }}>
                 {item.label}
               </Typography>
@@ -142,7 +172,7 @@ export default function ContactSection() {
           ))}
         </Box>
 
-        {/* SNS 동그란 아이콘 버튼 */}
+        {/* SNS 동그란 버튼 */}
         <Box sx={{ display: 'flex', justifyContent: 'center', gap: 2, mb: 7 }}>
           {SNS_LINKS.map((sns, i) => (
             <IconButton
@@ -153,13 +183,12 @@ export default function ContactSection() {
               rel="noopener noreferrer"
               aria-label={sns.label}
               sx={{
-                width: 48,
-                height: 48,
+                width: 48, height: 48,
                 bgcolor: C.cardBg,
                 border: `1.5px solid ${C.border}`,
                 color: C.textDark,
                 transition: 'all 0.2s',
-                '&:hover': { bgcolor: C.brown, color: '#fff', borderColor: C.brown },
+                '&:hover': { bgcolor: C.accent, color: '#fff', borderColor: C.accent },
               }}
             >
               {sns.icon}
@@ -167,117 +196,200 @@ export default function ContactSection() {
           ))}
         </Box>
 
-        {/* 구분선 */}
-        <Box sx={{ borderTop: `1px solid ${C.border}`, mb: 7 }} />
+        <Divider sx={{ borderColor: C.border, mb: 7 }} />
 
-        {/* 방명록 헤더 */}
-        <Typography variant="h5" sx={{ fontWeight: 700, color: C.textDark, mb: 1, fontSize: '1.2rem' }}>
+        {/* 방명록 */}
+        <Typography variant="h5" sx={{ fontWeight: 700, color: C.textDark, mb: 1, fontSize: '1.25rem' }}>
           방명록
         </Typography>
         <Typography variant="body2" sx={{ color: C.textMid, mb: 4 }}>
           방문해 주셔서 감사해요. 한 마디 남겨주세요 🌿
         </Typography>
 
-        {/* 방명록 입력 폼 */}
+        {/* 입력 폼 */}
         <Box
           component="form"
           onSubmit={handleSubmit}
-          sx={{
-            bgcolor: C.cardBg,
-            border: `1px solid ${C.border}`,
-            borderRadius: 3,
-            p: 3,
-            mb: 4,
-            textAlign: 'left',
-          }}
+          sx={{ bgcolor: C.cardBg, border: `1px solid ${C.border}`, borderRadius: 3, p: 3, mb: 5, textAlign: 'left' }}
         >
-          <TextField
-            fullWidth
-            label="이름"
-            value={form.name}
-            onChange={e => setForm(prev => ({ ...prev, name: e.target.value }))}
-            size="small"
-            sx={{ mb: 2, ...inputSx }}
-          />
-          <TextField
-            fullWidth
-            multiline
-            rows={3}
-            label="메시지"
-            value={form.message}
-            onChange={e => setForm(prev => ({ ...prev, message: e.target.value }))}
-            sx={{ mb: 2, ...inputSx }}
-          />
-          {error && (
-            <Alert severity="error" sx={{ mb: 2, fontSize: '0.85rem' }}>{error}</Alert>
-          )}
-          {success && (
-            <Alert severity="success" sx={{ mb: 2, fontSize: '0.85rem' }}>
-              메시지가 전송되었습니다 💌
-            </Alert>
-          )}
+          {/* 기본 정보 */}
+          <TextField fullWidth required label="이름 *" value={form.name}
+            onChange={e => set('name', e.target.value)} size="small" sx={{ mb: 2, ...inputSx }} />
+          <TextField fullWidth required multiline rows={3} label="메시지 *" value={form.message}
+            onChange={e => set('message', e.target.value)} sx={{ mb: 2, ...inputSx }} />
+
+          {/* 소속/직업 */}
+          <TextField fullWidth label="소속 / 직업 (선택)" value={form.affiliation}
+            onChange={e => set('affiliation', e.target.value)} size="small" sx={{ mb: 2, ...inputSx }} />
+
+          {/* 이메일 + 공개여부 */}
+          <Box sx={{ display: 'flex', gap: 1.5, alignItems: 'flex-start', mb: 2 }}>
+            <TextField
+              fullWidth label="이메일 (선택)" value={form.email}
+              onChange={e => set('email', e.target.value)}
+              size="small" sx={inputSx}
+            />
+            <FormControlLabel
+              control={
+                <Switch
+                  checked={form.emailPublic}
+                  onChange={e => set('emailPublic', e.target.checked)}
+                  size="small"
+                  sx={{
+                    '& .MuiSwitch-switchBase.Mui-checked': { color: C.accent },
+                    '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': { bgcolor: C.accent },
+                  }}
+                  disabled={!form.email.trim()}
+                />
+              }
+              label={
+                <Typography variant="caption" sx={{ color: C.textLight, whiteSpace: 'nowrap' }}>
+                  {form.emailPublic ? '공개' : '비공개'}
+                </Typography>
+              }
+              sx={{ mr: 0, mt: 0.3, flexShrink: 0 }}
+            />
+          </Box>
+
+          {/* SNS 계정 */}
+          <Typography variant="caption" sx={{ color: C.textLight, display: 'block', mb: 1 }}>
+            SNS 계정 (선택)
+          </Typography>
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5, mb: 2 }}>
+            <TextField fullWidth label="Instagram @username" value={form.snsInstagram}
+              onChange={e => set('snsInstagram', e.target.value)} size="small" sx={inputSx} />
+            <TextField fullWidth label="Facebook @username" value={form.snsFacebook}
+              onChange={e => set('snsFacebook', e.target.value)} size="small" sx={inputSx} />
+            <TextField fullWidth label="Twitter / X @username" value={form.snsTwitter}
+              onChange={e => set('snsTwitter', e.target.value)} size="small" sx={inputSx} />
+          </Box>
+
+          {/* 이모지 선택 */}
+          <Typography variant="caption" sx={{ color: C.textLight, display: 'block', mb: 1 }}>
+            오늘 기분은? (선택)
+          </Typography>
+          <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, mb: 2.5 }}>
+            {EMOJIS.map(em => (
+              <Box
+                key={em}
+                onClick={() => set('emoji', form.emoji === em ? '' : em)}
+                sx={{
+                  width: 38, height: 38,
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  fontSize: '1.3rem', borderRadius: 2, cursor: 'pointer',
+                  border: `1.5px solid ${form.emoji === em ? C.accent : C.border}`,
+                  bgcolor: form.emoji === em ? '#F2E8EB' : C.bg,
+                  transition: 'all 0.15s',
+                  '&:hover': { borderColor: C.accentLight, bgcolor: '#F2E8EB' },
+                }}
+              >
+                {em}
+              </Box>
+            ))}
+          </Box>
+
+          {/* 별점 */}
+          <Typography variant="caption" sx={{ color: C.textLight, display: 'block', mb: 0.8 }}>
+            별점 (선택)
+          </Typography>
+          <Box sx={{ mb: 2.5 }}>
+            <Rating
+              value={form.rating}
+              onChange={(_, val) => set('rating', val)}
+              icon={<StarIcon sx={{ color: C.accent }} />}
+              emptyIcon={<StarBorderIcon sx={{ color: C.border }} />}
+              size="large"
+            />
+          </Box>
+
+          {error && <Alert severity="error" sx={{ mb: 2, fontSize: '0.85rem' }}>{error}</Alert>}
+          {success && <Alert severity="success" sx={{ mb: 2, fontSize: '0.85rem' }}>메시지가 전송되었습니다 💌</Alert>}
+
           <Button
-            type="submit"
-            variant="contained"
-            disabled={submitting}
-            fullWidth
+            type="submit" variant="contained" disabled={submitting} fullWidth
             sx={{
-              bgcolor: C.brown,
-              color: '#fff',
-              py: 1.2,
-              fontWeight: 600,
-              fontSize: '0.95rem',
-              '&:hover': { bgcolor: C.brownDark },
-              '&.Mui-disabled': { bgcolor: C.brownLight, color: '#fff' },
+              bgcolor: C.accent, color: '#fff', py: 1.2, fontWeight: 600, fontSize: '0.95rem',
+              '&:hover': { bgcolor: C.accentDark },
+              '&.Mui-disabled': { bgcolor: '#C4B8B0', color: '#fff' },
             }}
           >
             {submitting ? <CircularProgress size={20} sx={{ color: '#fff' }} /> : '남기기'}
           </Button>
         </Box>
 
-        {/* 방명록 메시지 목록 */}
+        {/* 메시지 목록 */}
         {loading ? (
           <Box sx={{ py: 4 }}>
-            <CircularProgress sx={{ color: C.brown }} size={32} />
+            <CircularProgress sx={{ color: C.accent }} size={32} />
           </Box>
+        ) : messages.length === 0 ? (
+          <Typography variant="body2" color={C.textMid} sx={{ py: 3 }}>
+            아직 방명록이 없습니다. 첫 번째 방문자가 되어주세요! 🎉
+          </Typography>
         ) : (
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-            {messages.length === 0 ? (
-              <Typography variant="body2" color={C.textMid} sx={{ py: 3 }}>
-                아직 방명록이 없습니다. 첫 번째 방문자가 되어주세요! 🎉
-              </Typography>
-            ) : (
-              messages.map(msg => (
-                <Box
-                  key={msg.id}
-                  sx={{
-                    bgcolor: C.cardBg,
-                    border: `1px solid ${C.border}`,
-                    borderRadius: 2,
-                    p: 2.5,
-                    textAlign: 'left',
-                  }}
-                >
-                  <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 0.8 }}>
+            {messages.map(msg => (
+              <Box
+                key={msg.id}
+                sx={{ bgcolor: C.cardBg, border: `1px solid ${C.border}`, borderRadius: 2, p: 2.5, textAlign: 'left' }}
+              >
+                {/* 이름 + 이모지 + 날짜 */}
+                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 0.8 }}>
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.8 }}>
                     <Typography variant="body2" fontWeight={700} color={C.textDark}>
                       {msg.name}
                     </Typography>
-                    <Typography variant="caption" color={C.textMid}>
-                      {new Date(msg.created_at).toLocaleDateString('ko-KR')}
-                    </Typography>
+                    {msg.emoji && (
+                      <Typography component="span" sx={{ fontSize: '1.1rem', lineHeight: 1 }}>
+                        {msg.emoji}
+                      </Typography>
+                    )}
                   </Box>
-                  <Typography variant="body2" color={C.textMid} sx={{ lineHeight: 1.7 }}>
-                    {msg.message}
+                  <Typography variant="caption" color={C.textLight}>
+                    {new Date(msg.created_at).toLocaleDateString('ko-KR')}
                   </Typography>
                 </Box>
-              ))
-            )}
+
+                {/* 소속 + 소속 이모지 */}
+                {msg.affiliation && (
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, mb: 0.8 }}>
+                    <Typography variant="caption" sx={{ color: C.accent, fontWeight: 600 }}>
+                      {msg.emoji && `${msg.emoji} `}{msg.affiliation}
+                    </Typography>
+                  </Box>
+                )}
+
+                {/* 별점 */}
+                {msg.rating && (
+                  <Box sx={{ mb: 0.8 }}>
+                    <Rating
+                      value={msg.rating} readOnly size="small"
+                      icon={<StarIcon sx={{ color: C.accent, fontSize: '1rem' }} />}
+                      emptyIcon={<StarBorderIcon sx={{ color: C.border, fontSize: '1rem' }} />}
+                    />
+                  </Box>
+                )}
+
+                {/* 메시지 */}
+                <Typography variant="body2" color={C.textMid} sx={{ lineHeight: 1.7, mb: msg.email_public && msg.email ? 1 : 0 }}>
+                  {msg.message}
+                </Typography>
+
+                {/* 이메일 공개 시 */}
+                {msg.email_public && msg.email && (
+                  <Typography variant="caption" sx={{ color: C.textLight, display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                    <EmailOutlinedIcon sx={{ fontSize: '0.85rem' }} />
+                    {msg.email}
+                  </Typography>
+                )}
+              </Box>
+            ))}
           </Box>
         )}
 
         {/* 푸터 */}
         <Box sx={{ borderTop: `1px solid ${C.border}`, mt: 8, pt: 4 }}>
-          <Typography variant="body2" sx={{ color: C.textMid, fontSize: '0.85rem' }}>
+          <Typography variant="body2" sx={{ color: C.textLight, fontSize: '0.85rem' }}>
             © 2026 Portfolio. All rights reserved.
           </Typography>
         </Box>
