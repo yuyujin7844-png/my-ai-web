@@ -1,10 +1,11 @@
-name: Deploy my-portfolio to GitHub Pages
+name: Deploy to GitHub Pages
 
 on:
   push:
     branches: [main]
     paths:
       - 'lecture1/my-portfolio/**'
+      - 'lecture1/mini_sns/**'
   workflow_dispatch:
 
 permissions:
@@ -23,10 +24,6 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
 
-    defaults:
-      run:
-        working-directory: lecture1/my-portfolio
-
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -35,17 +32,37 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-          cache: npm
-          cache-dependency-path: lecture1/my-portfolio/package-lock.json
 
-      - name: Install dependencies
+      # ── my-portfolio 빌드 ──
+      - name: Install my-portfolio
+        working-directory: lecture1/my-portfolio
         run: npm ci
 
-      - name: Build
+      - name: Build my-portfolio
+        working-directory: lecture1/my-portfolio
         run: npm run build
         env:
           VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
           VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
+
+      # ── mini_sns 빌드 ──
+      - name: Install mini_sns
+        working-directory: lecture1/mini_sns
+        run: npm ci
+
+      - name: Build mini_sns
+        working-directory: lecture1/mini_sns
+        run: npm run build
+        env:
+          VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
+          VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
+
+      # ── 두 빌드 결과를 합치기 ──
+      - name: Combine build artifacts
+        run: |
+          mkdir -p combined_dist/mini_sns
+          cp -r lecture1/my-portfolio/dist/. combined_dist/
+          cp -r lecture1/mini_sns/dist/. combined_dist/mini_sns/
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
@@ -53,7 +70,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: lecture1/my-portfolio/dist
+          path: combined_dist
 
       - name: Deploy to GitHub Pages
         id: deployment
