@@ -11,13 +11,19 @@ import Rating from '@mui/material/Rating'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import Switch from '@mui/material/Switch'
 import Divider from '@mui/material/Divider'
+import Select from '@mui/material/Select'
+import MenuItem from '@mui/material/MenuItem'
+import FormControl from '@mui/material/FormControl'
+import InputLabel from '@mui/material/InputLabel'
+import Chip from '@mui/material/Chip'
+import Popover from '@mui/material/Popover'
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined'
 import StarIcon from '@mui/icons-material/Star'
 import StarBorderIcon from '@mui/icons-material/StarBorder'
-import { SiGithub, SiInstagram, SiFacebook } from 'react-icons/si'
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
+import { SiGithub, SiInstagram, SiFacebook, SiX } from 'react-icons/si'
 import supabase from '../lib/supabase'
 
-// 포트폴리오 전체 팔레트와 통일
 const C = {
   bg: '#EDE7E1',
   cardBg: '#F7F3EF',
@@ -45,23 +51,18 @@ const inputSx = {
 
 const EMOJIS = ['😊', '😄', '🎉', '👏', '💪', '🌟', '✨', '🚀', '💯', '❤️', '🙌', '😍']
 
-const CONTACT_ITEMS = [
-  {
-    icon: <EmailOutlinedIcon fontSize="small" />,
-    label: 'yuyujin7844@gmail.com',
-    href: 'mailto:yuyujin7844@gmail.com',
-  },
-  {
-    icon: <SiGithub size={18} />,
-    label: 'github.com/yuyujin7844-png',
-    href: 'https://github.com/yuyujin7844-png',
-  },
+// SNS 플랫폼 매핑
+const SNS_PLATFORMS = [
+  { value: 'instagram', label: 'Instagram', formKey: 'snsInstagram', icon: <SiInstagram size={13} /> },
+  { value: 'facebook',  label: 'Facebook',  formKey: 'snsFacebook',  icon: <SiFacebook size={13} /> },
+  { value: 'twitter',   label: 'X (Twitter)', formKey: 'snsTwitter', icon: <SiX size={13} /> },
 ]
 
+// SNS 링크 버튼 (포트폴리오 본인 계정)
 const SNS_LINKS = [
-  { icon: <SiGithub size={20} />, href: 'https://github.com/yuyujin7844-png', label: 'GitHub' },
+  { icon: <SiGithub size={20} />,    href: 'https://github.com/yuyujin7844-png', label: 'GitHub' },
   { icon: <SiInstagram size={20} />, href: '#', label: 'Instagram' },
-  { icon: <SiFacebook size={20} />, href: '#', label: 'Facebook' },
+  { icon: <SiFacebook size={20} />,  href: '#', label: 'Facebook' },
 ]
 
 const INIT_FORM = {
@@ -72,12 +73,14 @@ const INIT_FORM = {
 }
 
 export default function ContactSection() {
-  const [form, setForm] = useState(INIT_FORM)
-  const [messages, setMessages] = useState([])
-  const [loading, setLoading] = useState(false)
+  const [form, setForm]           = useState(INIT_FORM)
+  const [snsInput, setSnsInput]   = useState({ platform: 'instagram', username: '' })
+  const [emojiAnchor, setEmojiAnchor] = useState(null)
+  const [messages, setMessages]   = useState([])
+  const [loading, setLoading]     = useState(false)
   const [submitting, setSubmitting] = useState(false)
-  const [error, setError] = useState(null)
-  const [success, setSuccess] = useState(false)
+  const [error, setError]         = useState(null)
+  const [success, setSuccess]     = useState(false)
 
   useEffect(() => { fetchMessages() }, [])
 
@@ -95,6 +98,17 @@ export default function ContactSection() {
     setForm(prev => ({ ...prev, [key]: val }))
   }
 
+  // SNS 입력: 엔터 누르면 @ 붙여서 저장
+  function handleSnsEnter(e) {
+    if (e.key !== 'Enter') return
+    e.preventDefault()
+    const raw = snsInput.username.trim().replace(/^@/, '')
+    if (!raw) return
+    const platform = SNS_PLATFORMS.find(p => p.value === snsInput.platform)
+    set(platform.formKey, `@${raw}`)
+    setSnsInput(prev => ({ ...prev, username: '' }))
+  }
+
   async function handleSubmit(e) {
     e.preventDefault()
     if (!form.name.trim() || !form.message.trim()) return
@@ -102,16 +116,16 @@ export default function ContactSection() {
     setError(null)
 
     const payload = {
-      name: form.name.trim(),
-      message: form.message.trim(),
-      affiliation: form.affiliation.trim() || null,
-      email: form.email.trim() || null,
-      email_public: form.email.trim() ? form.emailPublic : false,
-      sns_instagram: form.snsInstagram.trim() || null,
-      sns_facebook: form.snsFacebook.trim() || null,
-      sns_twitter: form.snsTwitter.trim() || null,
-      emoji: form.emoji || null,
-      rating: form.rating || null,
+      name:          form.name.trim(),
+      message:       form.message.trim(),
+      affiliation:   form.affiliation.trim() || null,
+      email:         form.email.trim() || null,
+      email_public:  form.email.trim() ? form.emailPublic : false,
+      sns_instagram: form.snsInstagram || null,
+      sns_facebook:  form.snsFacebook  || null,
+      sns_twitter:   form.snsTwitter   || null,
+      emoji:         form.emoji || null,
+      rating:        form.rating || null,
     }
 
     const { error: err } = await supabase.from('guestbook').insert(payload)
@@ -125,6 +139,8 @@ export default function ContactSection() {
     }
     setSubmitting(false)
   }
+
+  const emojiOpen = Boolean(emojiAnchor)
 
   return (
     <Box component="section" sx={{ py: { xs: 8, md: 12 }, bgcolor: C.bg, textAlign: 'center' }}>
@@ -148,28 +164,25 @@ export default function ContactSection() {
           언제든지 편하게 연락주세요 ☕
         </Typography>
 
-        {/* 연락처 정보 */}
-        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2, mb: 4 }}>
-          {CONTACT_ITEMS.map((item, i) => (
-            <Box
-              key={i}
-              component="a"
-              href={item.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              sx={{
-                display: 'flex', alignItems: 'center', gap: 1.5,
-                color: C.textDark, textDecoration: 'none',
-                transition: 'color 0.2s',
-                '&:hover': { color: C.accent },
-              }}
-            >
-              <Box sx={{ color: C.accent, display: 'flex', alignItems: 'center' }}>{item.icon}</Box>
-              <Typography variant="body1" sx={{ fontWeight: 500, color: 'inherit', fontSize: '0.95rem' }}>
-                {item.label}
-              </Typography>
+        {/* 이메일만 표시 */}
+        <Box sx={{ display: 'flex', justifyContent: 'center', mb: 4 }}>
+          <Box
+            component="a"
+            href="mailto:yuyujin7844@gmail.com"
+            sx={{
+              display: 'flex', alignItems: 'center', gap: 1.5,
+              color: C.textDark, textDecoration: 'none',
+              transition: 'color 0.2s',
+              '&:hover': { color: C.accent },
+            }}
+          >
+            <Box sx={{ color: C.accent, display: 'flex', alignItems: 'center' }}>
+              <EmailOutlinedIcon fontSize="small" />
             </Box>
-          ))}
+            <Typography variant="body1" sx={{ fontWeight: 500, color: 'inherit', fontSize: '0.95rem' }}>
+              yuyujin7844@gmail.com
+            </Typography>
+          </Box>
         </Box>
 
         {/* SNS 동그란 버튼 */}
@@ -212,9 +225,11 @@ export default function ContactSection() {
           onSubmit={handleSubmit}
           sx={{ bgcolor: C.cardBg, border: `1px solid ${C.border}`, borderRadius: 3, p: 3, mb: 5, textAlign: 'left' }}
         >
-          {/* 기본 정보 */}
+          {/* 이름 */}
           <TextField fullWidth required label="이름 *" value={form.name}
             onChange={e => set('name', e.target.value)} size="small" sx={{ mb: 2, ...inputSx }} />
+
+          {/* 메시지 */}
           <TextField fullWidth required multiline rows={3} label="메시지 *" value={form.message}
             onChange={e => set('message', e.target.value)} sx={{ mb: 2, ...inputSx }} />
 
@@ -235,11 +250,11 @@ export default function ContactSection() {
                   checked={form.emailPublic}
                   onChange={e => set('emailPublic', e.target.checked)}
                   size="small"
+                  disabled={!form.email.trim()}
                   sx={{
                     '& .MuiSwitch-switchBase.Mui-checked': { color: C.accent },
                     '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': { bgcolor: C.accent },
                   }}
-                  disabled={!form.email.trim()}
                 />
               }
               label={
@@ -251,41 +266,119 @@ export default function ContactSection() {
             />
           </Box>
 
-          {/* SNS 계정 */}
+          {/* SNS 계정 — 드롭다운 + 입력 */}
           <Typography variant="caption" sx={{ color: C.textLight, display: 'block', mb: 1 }}>
-            SNS 계정 (선택)
+            SNS 계정 (선택) — 아이디 입력 후 Enter
           </Typography>
-          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5, mb: 2 }}>
-            <TextField fullWidth label="Instagram @username" value={form.snsInstagram}
-              onChange={e => set('snsInstagram', e.target.value)} size="small" sx={inputSx} />
-            <TextField fullWidth label="Facebook @username" value={form.snsFacebook}
-              onChange={e => set('snsFacebook', e.target.value)} size="small" sx={inputSx} />
-            <TextField fullWidth label="Twitter / X @username" value={form.snsTwitter}
-              onChange={e => set('snsTwitter', e.target.value)} size="small" sx={inputSx} />
+          <Box sx={{ display: 'flex', gap: 1, mb: 1 }}>
+            <FormControl size="small" sx={{ minWidth: 140, flexShrink: 0 }}>
+              <InputLabel sx={{ color: C.textLight, '&.Mui-focused': { color: C.accent } }}>
+                플랫폼
+              </InputLabel>
+              <Select
+                value={snsInput.platform}
+                label="플랫폼"
+                onChange={e => setSnsInput(prev => ({ ...prev, platform: e.target.value }))}
+                sx={{
+                  bgcolor: C.inputBg, color: C.textDark,
+                  '& .MuiOutlinedInput-notchedOutline': { borderColor: C.border },
+                  '&:hover .MuiOutlinedInput-notchedOutline': { borderColor: '#C4B8B0' },
+                  '&.Mui-focused .MuiOutlinedInput-notchedOutline': { borderColor: C.accent },
+                }}
+              >
+                {SNS_PLATFORMS.map(p => (
+                  <MenuItem key={p.value} value={p.value}>
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.8 }}>
+                      {p.icon} {p.label}
+                    </Box>
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+            <TextField
+              fullWidth
+              placeholder="아이디 (@ 없이 입력 후 Enter)"
+              value={snsInput.username}
+              onChange={e => setSnsInput(prev => ({ ...prev, username: e.target.value }))}
+              onKeyDown={handleSnsEnter}
+              size="small"
+              sx={inputSx}
+            />
           </Box>
 
-          {/* 이모지 선택 */}
+          {/* 추가된 SNS 계정 칩 */}
+          {SNS_PLATFORMS.some(p => form[p.formKey]) && (
+            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.8, mb: 2 }}>
+              {SNS_PLATFORMS.map(p =>
+                form[p.formKey] ? (
+                  <Chip
+                    key={p.value}
+                    icon={<Box sx={{ display: 'flex', alignItems: 'center', ml: 0.5 }}>{p.icon}</Box>}
+                    label={`${p.label}: ${form[p.formKey]}`}
+                    onDelete={() => set(p.formKey, '')}
+                    size="small"
+                    sx={{
+                      bgcolor: '#F2E8EB', border: `1px solid ${C.accent}`,
+                      color: C.textDark, fontSize: '0.78rem',
+                      '& .MuiChip-deleteIcon': { color: C.accent, '&:hover': { color: C.accentDark } },
+                    }}
+                  />
+                ) : null
+              )}
+            </Box>
+          )}
+
+          {/* 이모지 선택 — 드롭다운 버튼 */}
           <Typography variant="caption" sx={{ color: C.textLight, display: 'block', mb: 1 }}>
             오늘 기분은? (선택)
           </Typography>
-          <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, mb: 2.5 }}>
-            {EMOJIS.map(em => (
-              <Box
-                key={em}
-                onClick={() => set('emoji', form.emoji === em ? '' : em)}
-                sx={{
-                  width: 38, height: 38,
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  fontSize: '1.3rem', borderRadius: 2, cursor: 'pointer',
-                  border: `1.5px solid ${form.emoji === em ? C.accent : C.border}`,
-                  bgcolor: form.emoji === em ? '#F2E8EB' : C.bg,
-                  transition: 'all 0.15s',
-                  '&:hover': { borderColor: C.accentLight, bgcolor: '#F2E8EB' },
-                }}
-              >
-                {em}
+          <Box sx={{ mb: 2.5 }}>
+            <Button
+              variant="outlined"
+              endIcon={<KeyboardArrowDownIcon />}
+              onClick={e => setEmojiAnchor(e.currentTarget)}
+              sx={{
+                borderColor: C.border, color: C.textMid,
+                bgcolor: C.inputBg, fontSize: '1rem',
+                '&:hover': { borderColor: C.accent, bgcolor: '#F2E8EB' },
+                minWidth: 140,
+              }}
+            >
+              {form.emoji || '이모지 선택'}
+            </Button>
+            <Popover
+              open={emojiOpen}
+              anchorEl={emojiAnchor}
+              onClose={() => setEmojiAnchor(null)}
+              anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+              transformOrigin={{ vertical: 'top', horizontal: 'left' }}
+              PaperProps={{
+                sx: {
+                  p: 1.5, bgcolor: C.cardBg, border: `1px solid ${C.border}`,
+                  borderRadius: 2, boxShadow: '0 4px 16px rgba(28,10,20,0.12)',
+                },
+              }}
+            >
+              <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, maxWidth: 240 }}>
+                {EMOJIS.map(em => (
+                  <Box
+                    key={em}
+                    onClick={() => { set('emoji', form.emoji === em ? '' : em); setEmojiAnchor(null) }}
+                    sx={{
+                      width: 38, height: 38,
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      fontSize: '1.4rem', borderRadius: 2, cursor: 'pointer',
+                      border: `1.5px solid ${form.emoji === em ? C.accent : 'transparent'}`,
+                      bgcolor: form.emoji === em ? '#F2E8EB' : 'transparent',
+                      transition: 'all 0.15s',
+                      '&:hover': { bgcolor: '#F2E8EB', border: `1.5px solid ${C.accentLight}` },
+                    }}
+                  >
+                    {em}
+                  </Box>
+                ))}
               </Box>
-            ))}
+            </Popover>
           </Box>
 
           {/* 별점 */}
@@ -302,7 +395,7 @@ export default function ContactSection() {
             />
           </Box>
 
-          {error && <Alert severity="error" sx={{ mb: 2, fontSize: '0.85rem' }}>{error}</Alert>}
+          {error   && <Alert severity="error"   sx={{ mb: 2, fontSize: '0.85rem' }}>{error}</Alert>}
           {success && <Alert severity="success" sx={{ mb: 2, fontSize: '0.85rem' }}>메시지가 전송되었습니다 💌</Alert>}
 
           <Button
@@ -375,7 +468,7 @@ export default function ContactSection() {
                   {msg.message}
                 </Typography>
 
-                {/* 이메일 공개 시 */}
+                {/* 이메일 (공개 시) */}
                 {msg.email_public && msg.email && (
                   <Typography variant="caption" sx={{ color: C.textLight, display: 'flex', alignItems: 'center', gap: 0.5 }}>
                     <EmailOutlinedIcon sx={{ fontSize: '0.85rem' }} />
