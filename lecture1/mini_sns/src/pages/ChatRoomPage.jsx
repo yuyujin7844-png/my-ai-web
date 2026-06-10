@@ -2,10 +2,11 @@ import { useState, useRef, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import {
   Box, AppBar, Toolbar, IconButton, Typography,
-  TextField, Avatar,
+  TextField, Avatar, Drawer, Tab, Tabs,
 } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import SendIcon from '@mui/icons-material/Send';
+import EmojiEmotionsOutlinedIcon from '@mui/icons-material/EmojiEmotionsOutlined';
 
 const INIT_MESSAGES = [
   { id: 1, sender: '시네필', isMine: false, text: '안녕하세요! 모임 참가 신청합니다 😊', time: '오후 2:30' },
@@ -22,12 +23,30 @@ const CHAT_NAMES = {
   d2: '영화왕',
 };
 
+const EMOJI_GROUPS = [
+  {
+    label: '감정',
+    emojis: ['😊','😂','🥰','😍','😭','😤','😮','😴','🤔','😎','🤩','🥲','😇','😏','🫠','😬'],
+  },
+  {
+    label: '🎬 영화·공연',
+    emojis: ['🎬','🎭','🎥','🎞️','🍿','🏆','⭐','🌟','🎤','🎵','🎸','🎺','🎻','🎹','🎼','🎊'],
+  },
+  {
+    label: '반응',
+    emojis: ['👍','👎','❤️','💕','🙌','👏','🤝','🫶','🔥','💯','✨','🎉','💫','💖','🌈','😆'],
+  },
+];
+
 export default function ChatRoomPage() {
   const navigate = useNavigate();
   const { id } = useParams();
   const [messages, setMessages] = useState(INIT_MESSAGES);
   const [input, setInput] = useState('');
+  const [emojiOpen, setEmojiOpen] = useState(false);
+  const [emojiTab, setEmojiTab] = useState(0);
   const bottomRef = useRef(null);
+  const inputRef = useRef(null);
 
   useEffect(() => { bottomRef.current?.scrollIntoView({ behavior: 'smooth' }); }, [messages]);
 
@@ -39,6 +58,12 @@ export default function ChatRoomPage() {
       { id: Date.now(), sender: 'me', isMine: true, text: input.trim(), time: `${now.getHours()}:${String(now.getMinutes()).padStart(2, '0')}` },
     ]);
     setInput('');
+  };
+
+  const insertEmoji = (emoji) => {
+    setInput((prev) => prev + emoji);
+    setEmojiOpen(false);
+    inputRef.current?.focus();
   };
 
   const chatName = CHAT_NAMES[id] || '채팅방';
@@ -63,11 +88,7 @@ export default function ChatRoomPage() {
         {messages.map((msg) => (
           <Box
             key={msg.id}
-            sx={{
-              display: 'flex',
-              flexDirection: msg.isMine ? 'row-reverse' : 'row',
-              alignItems: 'flex-end', mb: 1.5, gap: 1,
-            }}
+            sx={{ display: 'flex', flexDirection: msg.isMine ? 'row-reverse' : 'row', alignItems: 'flex-end', mb: 1.5, gap: 1 }}
           >
             {!msg.isMine && (
               <Avatar sx={{ width: 34, height: 34, bgcolor: '#C4956A', fontSize: 14, flexShrink: 0 }}>
@@ -80,16 +101,14 @@ export default function ChatRoomPage() {
                   {msg.sender}
                 </Typography>
               )}
-              <Box
-                sx={{
-                  bgcolor: msg.isMine ? '#8B6347' : '#FFF9F0',
-                  color: msg.isMine ? 'white' : 'text.primary',
-                  px: 2, py: 1,
-                  borderRadius: msg.isMine ? '16px 16px 4px 16px' : '16px 16px 16px 4px',
-                  maxWidth: 240,
-                  boxShadow: '0 1px 4px rgba(0,0,0,0.08)',
-                }}
-              >
+              <Box sx={{
+                bgcolor: msg.isMine ? '#8B6347' : '#FFF9F0',
+                color: msg.isMine ? 'white' : 'text.primary',
+                px: 2, py: 1,
+                borderRadius: msg.isMine ? '16px 16px 4px 16px' : '16px 16px 16px 4px',
+                maxWidth: 240,
+                boxShadow: '0 1px 4px rgba(0,0,0,0.08)',
+              }}>
                 <Typography variant="body2">{msg.text}</Typography>
               </Box>
               <Typography variant="caption" color="text.disabled"
@@ -103,8 +122,12 @@ export default function ChatRoomPage() {
       </Box>
 
       {/* Input area */}
-      <Box sx={{ p: 2, borderTop: '1px solid #E8D5B7', bgcolor: '#FFF9F0', display: 'flex', gap: 1, alignItems: 'center' }}>
+      <Box sx={{ p: 1.5, borderTop: '1px solid #E8D5B7', bgcolor: '#FFF9F0', display: 'flex', gap: 0.5, alignItems: 'center' }}>
+        <IconButton size="small" onClick={() => setEmojiOpen(true)} sx={{ color: '#C4956A', flexShrink: 0 }}>
+          <EmojiEmotionsOutlinedIcon />
+        </IconButton>
         <TextField
+          inputRef={inputRef}
           fullWidth size="small"
           placeholder="메시지를 입력하세요..."
           value={input}
@@ -119,6 +142,56 @@ export default function ChatRoomPage() {
           <SendIcon />
         </IconButton>
       </Box>
+
+      {/* Emoji picker */}
+      <Drawer
+        anchor="bottom"
+        open={emojiOpen}
+        onClose={() => setEmojiOpen(false)}
+        PaperProps={{
+          sx: {
+            maxWidth: 480, mx: 'auto',
+            borderRadius: '20px 20px 0 0',
+            bgcolor: '#FFF9F0',
+          },
+        }}
+      >
+        <Box sx={{ p: 1.5, pb: 0 }}>
+          <Box sx={{ width: 40, height: 4, bgcolor: '#E8D5B7', borderRadius: 2, mx: 'auto', mb: 1 }} />
+          <Tabs
+            value={emojiTab}
+            onChange={(_, v) => setEmojiTab(v)}
+            variant="fullWidth"
+            sx={{
+              '& .MuiTab-root': { fontSize: 12, minHeight: 36, color: '#795548' },
+              '& .Mui-selected': { color: '#8B6347 !important' },
+              '& .MuiTabs-indicator': { bgcolor: '#8B6347' },
+            }}
+          >
+            {EMOJI_GROUPS.map((g, i) => (
+              <Tab key={i} label={g.label} />
+            ))}
+          </Tabs>
+        </Box>
+        <Box sx={{ p: 2, pt: 1.5 }}>
+          <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+            {EMOJI_GROUPS[emojiTab].emojis.map((emoji) => (
+              <Box
+                key={emoji}
+                onClick={() => insertEmoji(emoji)}
+                sx={{
+                  fontSize: 28, cursor: 'pointer', p: 0.8, borderRadius: 2,
+                  lineHeight: 1,
+                  '&:hover': { bgcolor: '#F5ECD7', transform: 'scale(1.2)' },
+                  transition: 'transform 0.1s',
+                }}
+              >
+                {emoji}
+              </Box>
+            ))}
+          </Box>
+        </Box>
+      </Drawer>
     </Box>
   );
 }

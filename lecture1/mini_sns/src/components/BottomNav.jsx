@@ -13,9 +13,10 @@ import PersonOutlinedIcon from '@mui/icons-material/PersonOutlined';
 const NAV_ITEMS = [
   { label: '홈', value: '/', active: <HomeIcon />, inactive: <HomeOutlinedIcon /> },
   { label: '모임', value: '/gathering', active: <GroupsIcon />, inactive: <GroupsOutlinedIcon /> },
-  { label: '', value: '/create',
-    active: <AddCircleIcon sx={{ fontSize: 38, color: '#8B6347' }} />,
-    inactive: <AddCircleIcon sx={{ fontSize: 38, color: '#C4956A' }} />,
+  {
+    label: '작성', value: '/create',
+    active: <AddCircleIcon sx={{ fontSize: 34, color: '#8B6347' }} />,
+    inactive: <AddCircleIcon sx={{ fontSize: 34, color: '#C4956A' }} />,
   },
   { label: '채팅', value: '/chat', active: <ChatIcon />, inactive: <ChatOutlinedIcon /> },
   { label: '마이', value: '/mypage', active: <PersonIcon />, inactive: <PersonOutlinedIcon /> },
@@ -36,7 +37,11 @@ export default function BottomNav() {
         zIndex: 1100,
       }}
     >
-      <BottomNavigation value={current} sx={{ bgcolor: '#FFF9F0', height: 64, borderTop: '1px solid #E8D5B7' }}>
+      <BottomNavigation
+        showLabels
+        value={current}
+        sx={{ bgcolor: '#FFF9F0', height: 68, borderTop: '1px solid #E8D5B7' }}
+      >
         {NAV_ITEMS.map(({ label, value, active, inactive }) => (
           <BottomNavigationAction
             key={value}
@@ -44,7 +49,14 @@ export default function BottomNav() {
             value={value}
             icon={current === value ? active : inactive}
             onClick={() => navigate(value)}
-            sx={{ minWidth: 0, px: 0 }}
+            sx={{
+              minWidth: 0, px: 0,
+              '& .MuiBottomNavigationAction-label': {
+                fontSize: '10px !important',
+                fontWeight: current === value ? 700 : 400,
+                opacity: '1 !important',
+              },
+            }}
           />
         ))}
       </BottomNavigation>

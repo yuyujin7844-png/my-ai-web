@@ -7,6 +7,7 @@ import SignupPage from './pages/SignupPage';
 import HomePage from './pages/HomePage';
 import CreatePostPage from './pages/CreatePostPage';
 import GatheringPage from './pages/GatheringPage';
+import CreateGatheringPage from './pages/CreateGatheringPage';
 import ChatPage from './pages/ChatPage';
 import ChatRoomPage from './pages/ChatRoomPage';
 import MyPage from './pages/MyPage';
@@ -23,6 +24,7 @@ function App() {
               <Route index element={<HomePage />} />
               <Route path="/create" element={<CreatePostPage />} />
               <Route path="/gathering" element={<GatheringPage />} />
+              <Route path="/gathering/create" element={<CreateGatheringPage />} />
               <Route path="/chat" element={<ChatPage />} />
               <Route path="/chat/:id" element={<ChatRoomPage />} />
               <Route path="/mypage" element={<MyPage />} />

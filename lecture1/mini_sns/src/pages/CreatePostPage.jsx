@@ -3,11 +3,14 @@ import { useNavigate } from 'react-router-dom';
 import {
   Box, AppBar, Toolbar, IconButton, Typography,
   TextField, Button, CircularProgress, Alert,
+  Select, MenuItem, FormControl, InputLabel, Chip,
 } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import { supabase } from '../supabase';
 import { useAuth } from '../context/AuthContext';
+
+const CATEGORIES = ['영화', '공연', '뮤지컬', '연극', '오페라', '콘서트', '전시'];
 
 function randomSeed() {
   return `ms_${Date.now()}_${Math.floor(Math.random() * 9999)}`;
@@ -17,25 +20,41 @@ export default function CreatePostPage() {
   const navigate = useNavigate();
   const { user } = useAuth();
   const [seed, setSeed] = useState(randomSeed);
+  const [category, setCategory] = useState('영화');
+  const [contentTitle, setContentTitle] = useState('');
   const [caption, setCaption] = useState('');
-  const [hashtags, setHashtags] = useState('');
+  const [tags, setTags] = useState([]);
+  const [tagInput, setTagInput] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
   const imageUrl = `https://picsum.photos/seed/${seed}/400/400`;
 
+  const handleTagKeyDown = (e) => {
+    if (e.key === 'Enter' && tagInput.trim()) {
+      e.preventDefault();
+      const raw = tagInput.trim().replace(/^#+/, '');
+      if (raw && !tags.includes(`#${raw}`)) {
+        setTags((prev) => [...prev, `#${raw}`]);
+      }
+      setTagInput('');
+    }
+  };
+
+  const removeTag = (tag) => setTags((prev) => prev.filter((t) => t !== tag));
+
   const handleSubmit = async () => {
     if (!caption.trim()) { setError('게시물 내용을 입력해주세요.'); return; }
     setLoading(true);
     setError('');
-    const tagsArray = hashtags.trim()
-      ? hashtags.trim().split(/\s+/).map((t) => (t.startsWith('#') ? t : `#${t}`))
-      : [];
+    const fullCaption = contentTitle.trim()
+      ? `[${category}] ${contentTitle.trim()}\n${caption.trim()}`
+      : caption.trim();
     const { error: err } = await supabase.from('ms_posts').insert({
       user_id: user.id,
-      caption: caption.trim(),
+      caption: fullCaption,
       image_url: imageUrl,
-      hashtags: tagsArray,
+      hashtags: tags,
     });
     setLoading(false);
     if (err) { setError('게시물 등록 중 오류가 발생했습니다.'); return; }
@@ -54,6 +73,29 @@ export default function CreatePostPage() {
       </AppBar>
 
       <Box sx={{ p: 2 }}>
+        {/* 카테고리 + 제목 */}
+        <Box sx={{ display: 'flex', gap: 1, mb: 2 }}>
+          <FormControl size="small" sx={{ minWidth: 110 }}>
+            <InputLabel>분류</InputLabel>
+            <Select
+              value={category}
+              label="분류"
+              onChange={(e) => setCategory(e.target.value)}
+              sx={{ bgcolor: '#FFF9F0', borderRadius: 2 }}
+            >
+              {CATEGORIES.map((c) => (
+                <MenuItem key={c} value={c}>{c}</MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+          <TextField
+            size="small" fullWidth
+            placeholder="제목 직접 입력 (예: 인사이드 아웃 3)"
+            value={contentTitle}
+            onChange={(e) => setContentTitle(e.target.value)}
+          />
+        </Box>
+
         {/* Image preview + change button */}
         <Box sx={{ position: 'relative', mb: 2, borderRadius: 3, overflow: 'hidden' }}>
           <Box
@@ -84,12 +126,29 @@ export default function CreatePostPage() {
           value={caption} onChange={(e) => setCaption(e.target.value)}
           sx={{ mb: 2 }}
         />
+
+        {/* 해시태그 입력 */}
         <TextField
-          fullWidth
-          placeholder="#해시태그1 #해시태그2 (띄어쓰기로 구분)"
-          value={hashtags} onChange={(e) => setHashtags(e.target.value)}
-          sx={{ mb: 2 }}
+          fullWidth size="small"
+          placeholder="해시태그 입력 후 Enter (예: 감동, 추천)"
+          value={tagInput}
+          onChange={(e) => setTagInput(e.target.value)}
+          onKeyDown={handleTagKeyDown}
+          sx={{ mb: tags.length > 0 ? 1 : 2 }}
+          helperText="Enter를 누르면 #이 자동으로 붙습니다"
         />
+        {tags.length > 0 && (
+          <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.8, mb: 2 }}>
+            {tags.map((tag) => (
+              <Chip
+                key={tag} label={tag} size="small"
+                onDelete={() => removeTag(tag)}
+                sx={{ bgcolor: '#F5ECD7', color: '#8B6347', fontWeight: 600, border: '1px solid #E8D5B7' }}
+              />
+            ))}
+          </Box>
+        )}
+
         {error && <Alert severity="error" sx={{ mb: 2, borderRadius: 2 }}>{error}</Alert>}
         <Button
           variant="contained" fullWidth size="large"
