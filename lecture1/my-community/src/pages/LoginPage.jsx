@@ -23,7 +23,7 @@ export default function LoginPage() {
     try {
       const user = await loginUser(form);
       login(user);
-      navigate('/main');
+      navigate('/');
     } catch (err) {
       setError(err.message);
     } finally {

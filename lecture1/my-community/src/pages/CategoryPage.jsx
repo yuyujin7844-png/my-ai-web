@@ -112,7 +112,7 @@ export default function CategoryPage() {
   return (
     <Box sx={{ bgcolor: 'background.default', minHeight: '100vh' }}>
       <PageHeader
-        left={<IconButton onClick={() => navigate('/main')}><ArrowBackIcon /></IconButton>}
+        left={<IconButton onClick={() => navigate('/')}><ArrowBackIcon /></IconButton>}
         right={
           <IconButton onClick={() => navigate('/write')} sx={{ color: 'primary.dark' }}>
             <EditIcon />

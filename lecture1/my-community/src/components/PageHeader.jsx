@@ -27,7 +27,7 @@ export default function PageHeader({ left, right }) {
 
       {/* 가운데: 로고 */}
       <Box
-        onClick={() => navigate('/main')}
+        onClick={() => navigate('/')}
         sx={{ display: 'flex', alignItems: 'center', gap: 0.5, cursor: 'pointer' }}
       >
         <PetsIcon sx={{ color: 'primary.main', fontSize: 26 }} />

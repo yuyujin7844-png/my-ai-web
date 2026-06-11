@@ -56,7 +56,7 @@ export default function PostWritePage() {
         author_id: user.id,
         author_nickname: user.nickname,
       });
-      navigate('/main');
+      navigate('/');
     } catch (err) {
       setError(err.message);
     } finally {
@@ -67,7 +67,7 @@ export default function PostWritePage() {
   return (
     <Box sx={{ bgcolor: 'background.default', minHeight: '100vh' }}>
       <PageHeader
-        left={<IconButton onClick={() => navigate('/main')}><ArrowBackIcon /></IconButton>}
+        left={<IconButton onClick={() => navigate('/')}><ArrowBackIcon /></IconButton>}
       />
       <Container maxWidth="sm" sx={{ py: 4 }}>
         <Typography variant="h5" fontWeight={700} color="primary.dark" sx={{ mb: 3 }}>

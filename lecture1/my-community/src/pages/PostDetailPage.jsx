@@ -95,7 +95,7 @@ export default function PostDetailPage() {
     return (
       <Box sx={{ textAlign: 'center', py: 8 }}>
         <Typography color="text.secondary">게시물을 찾을 수 없습니다.</Typography>
-        <Button onClick={() => navigate('/main')} sx={{ mt: 2 }}>돌아가기</Button>
+        <Button onClick={() => navigate('/')} sx={{ mt: 2 }}>돌아가기</Button>
       </Box>
     );
   }
@@ -103,7 +103,7 @@ export default function PostDetailPage() {
   return (
     <Box sx={{ bgcolor: 'background.default', minHeight: '100vh' }}>
       <PageHeader
-        left={<IconButton onClick={() => navigate('/main')}><ArrowBackIcon /></IconButton>}
+        left={<IconButton onClick={() => navigate('/')}><ArrowBackIcon /></IconButton>}
         right={<Chip label={post.category} color="primary" size="small" variant="outlined" />}
       />
       <Container maxWidth="sm" sx={{ py: 4 }}>

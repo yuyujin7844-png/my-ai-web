@@ -52,7 +52,7 @@ export default function MyPage() {
   return (
     <Box sx={{ bgcolor: 'background.default', minHeight: '100vh' }}>
       <PageHeader
-        left={<IconButton onClick={() => navigate('/main')}><ArrowBackIcon /></IconButton>}
+        left={<IconButton onClick={() => navigate('/')}><ArrowBackIcon /></IconButton>}
         right={
           <Tooltip title="프로필 수정">
             <IconButton onClick={() => navigate('/mypage/edit')} sx={{ color: 'primary.dark' }}>

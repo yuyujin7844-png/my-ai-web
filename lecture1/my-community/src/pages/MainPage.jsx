@@ -10,6 +10,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import AddIcon from '@mui/icons-material/Add';
 import MenuIcon from '@mui/icons-material/Menu';
 import LogoutIcon from '@mui/icons-material/Logout';
+import LoginIcon from '@mui/icons-material/Login';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import PetsIcon from '@mui/icons-material/Pets';
 import { useAuth } from '../context/AuthContext';
@@ -159,7 +160,7 @@ export default function MainPage() {
 
           {/* 가운데: 로고 (클릭 시 메인 이동) */}
           <Box
-            onClick={() => navigate('/main')}
+            onClick={() => navigate('/')}
             sx={{ display: 'flex', alignItems: 'center', gap: 1, cursor: 'pointer' }}
           >
             <PetsIcon sx={{ fontSize: 36, color: 'primary.main' }} />
@@ -168,18 +169,28 @@ export default function MainPage() {
             </Typography>
           </Box>
 
-          {/* 오른쪽: 게시물 추가 + 로그아웃 */}
+          {/* 오른쪽: 로그인 상태에 따라 아이콘 변경 */}
           <Box sx={{ position: 'absolute', right: 8, display: 'flex', gap: 0.5 }}>
-            <Tooltip title="게시물 추가">
-              <IconButton onClick={() => navigate('/write')} sx={{ color: 'primary.dark' }}>
-                <AddIcon />
-              </IconButton>
-            </Tooltip>
-            <Tooltip title="로그아웃">
-              <IconButton onClick={() => { logout(); navigate('/'); }} sx={{ color: 'text.secondary' }}>
-                <LogoutIcon />
-              </IconButton>
-            </Tooltip>
+            {user ? (
+              <>
+                <Tooltip title="게시물 추가">
+                  <IconButton onClick={() => navigate('/write')} sx={{ color: 'primary.dark' }}>
+                    <AddIcon />
+                  </IconButton>
+                </Tooltip>
+                <Tooltip title="로그아웃">
+                  <IconButton onClick={() => { logout(); navigate('/'); }} sx={{ color: 'text.secondary' }}>
+                    <LogoutIcon />
+                  </IconButton>
+                </Tooltip>
+              </>
+            ) : (
+              <Tooltip title="로그인">
+                <IconButton onClick={() => navigate('/login')} sx={{ color: 'primary.dark' }}>
+                  <LoginIcon />
+                </IconButton>
+              </Tooltip>
+            )}
           </Box>
         </Toolbar>
 
@@ -196,14 +207,20 @@ export default function MainPage() {
           }}
         >
           <Typography variant="body1" fontWeight={600} color="primary.dark" sx={{ mb: 1.5 }}>
-            <Box
-              component="span"
-              onClick={() => navigate('/mypage')}
-              sx={{ cursor: 'pointer', textDecoration: 'underline', textDecorationColor: 'primary.main' }}
-            >
-              {user?.nickname}님
-            </Box>
-            {' '}환영해요! 🐾
+            {user ? (
+              <>
+                <Box
+                  component="span"
+                  onClick={() => navigate('/mypage')}
+                  sx={{ cursor: 'pointer', textDecoration: 'underline', textDecorationColor: 'primary.main' }}
+                >
+                  {user.nickname}님
+                </Box>
+                {' '}환영해요! 🐾
+              </>
+            ) : (
+              '로그인해서 멍냥스타그램의 다양한 서비스를 경험해보세요! 🐾'
+            )}
           </Typography>
           <Box component="form" onSubmit={handleSearchSubmit} sx={{ width: '100%', maxWidth: 520 }}>
             <TextField

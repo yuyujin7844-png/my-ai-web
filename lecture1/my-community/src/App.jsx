@@ -13,9 +13,9 @@ function App() {
   return (
     <HashRouter>
       <Routes>
-        <Route path="/" element={<LoginPage />} />
+        <Route path="/" element={<MainPage />} />
+        <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
-        <Route path="/main" element={<ProtectedRoute><MainPage /></ProtectedRoute>} />
         <Route path="/write" element={<ProtectedRoute><PostWritePage /></ProtectedRoute>} />
         <Route path="/post/:id" element={<ProtectedRoute><PostDetailPage /></ProtectedRoute>} />
         <Route path="/mypage" element={<ProtectedRoute><MyPage /></ProtectedRoute>} />
