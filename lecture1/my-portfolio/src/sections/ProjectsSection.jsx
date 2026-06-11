@@ -43,7 +43,7 @@ function PreviewCard({ project }) {
             image={project.thumbnail_url}
             alt={project.title}
             onError={() => setImgError(true)}
-            sx={{ height: '100%', objectFit: 'cover', transition: 'transform 0.3s', '&:hover': { transform: 'scale(1.05)' } }}
+            sx={{ height: '100%', objectFit: 'cover', objectPosition: 'top', transition: 'transform 0.3s', '&:hover': { transform: 'scale(1.05)' } }}
           />
         )}
       </Box>

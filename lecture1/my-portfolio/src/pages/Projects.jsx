@@ -56,6 +56,7 @@ function ProjectCard({ project }) {
             sx={{
               height: '100%',
               objectFit: 'cover',
+              objectPosition: 'top',
               transition: 'transform 0.3s',
               '&:hover': { transform: 'scale(1.05)' },
             }}
