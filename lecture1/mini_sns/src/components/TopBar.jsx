@@ -1,9 +1,12 @@
 import { useNavigate } from 'react-router-dom';
 import { AppBar, Toolbar, Typography, IconButton, Box, Badge } from '@mui/material';
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
+import LoginIcon from '@mui/icons-material/Login';
+import { useAuth } from '../context/AuthContext';
 
 export default function TopBar() {
   const navigate = useNavigate();
+  const { user } = useAuth();
 
   return (
     <AppBar position="sticky" elevation={0}>
@@ -20,11 +23,17 @@ export default function TopBar() {
             Moviestagram
           </Typography>
         </Box>
-        <IconButton>
-          <Badge badgeContent={3} color="error">
-            <NotificationsNoneIcon sx={{ color: '#5D4037' }} />
-          </Badge>
-        </IconButton>
+        {user ? (
+          <IconButton>
+            <Badge badgeContent={3} color="error">
+              <NotificationsNoneIcon sx={{ color: '#5D4037' }} />
+            </Badge>
+          </IconButton>
+        ) : (
+          <IconButton onClick={() => navigate('/login')}>
+            <LoginIcon sx={{ color: '#5D4037' }} />
+          </IconButton>
+        )}
       </Toolbar>
     </AppBar>
   );

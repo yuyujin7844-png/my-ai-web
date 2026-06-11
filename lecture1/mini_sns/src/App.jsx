@@ -19,9 +19,9 @@ function App() {
         <Routes>
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignupPage />} />
-          <Route element={<ProtectedRoute />}>
-            <Route element={<Layout />}>
-              <Route index element={<HomePage />} />
+          <Route element={<Layout />}>
+            <Route index element={<HomePage />} />
+            <Route element={<ProtectedRoute />}>
               <Route path="/create" element={<CreatePostPage />} />
               <Route path="/gathering" element={<GatheringPage />} />
               <Route path="/gathering/create" element={<CreateGatheringPage />} />
