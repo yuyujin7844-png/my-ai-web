@@ -16,6 +16,7 @@ import MenuItem from '@mui/material/MenuItem'
 import FormControl from '@mui/material/FormControl'
 import InputLabel from '@mui/material/InputLabel'
 import Chip from '@mui/material/Chip'
+import Grid from '@mui/material/Grid'
 import Popover from '@mui/material/Popover'
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined'
 import StarIcon from '@mui/icons-material/Star'
@@ -144,74 +145,76 @@ export default function ContactSection() {
 
   return (
     <Box component="section" sx={{ py: { xs: 8, md: 12 }, bgcolor: C.bg, textAlign: 'center' }}>
-      <Container maxWidth="sm">
+      <Container maxWidth="lg">
 
         {/* 헤더 */}
-        <Typography
-          variant="overline"
-          sx={{ color: C.accentLight, letterSpacing: 4, fontSize: '0.8rem', mb: 1, display: 'block' }}
-        >
-          CONTACT
-        </Typography>
-        <Typography
-          variant="h2"
-          sx={{ fontSize: { xs: '1.8rem', md: '2.5rem' }, fontWeight: 700, color: C.textDark, mb: 2 }}
-        >
-          함께 이야기해요
-        </Typography>
-        <Divider sx={{ width: 60, height: 3, bgcolor: C.accent, mx: 'auto', my: 3, border: 'none' }} />
-        <Typography variant="body1" sx={{ color: C.textMid, mb: 5, lineHeight: 1.9 }}>
-          언제든지 편하게 연락주세요 ☕
-        </Typography>
-
-        {/* 이메일만 표시 */}
-        <Box sx={{ display: 'flex', justifyContent: 'center', mb: 4 }}>
-          <Box
-            component="a"
-            href="mailto:yuyujin7844@gmail.com"
-            sx={{
-              display: 'flex', alignItems: 'center', gap: 1.5,
-              color: C.textDark, textDecoration: 'none',
-              transition: 'color 0.2s',
-              '&:hover': { color: C.accent },
-            }}
+        <Box sx={{ maxWidth: 600, mx: 'auto' }}>
+          <Typography
+            variant="overline"
+            sx={{ color: C.accentLight, letterSpacing: 4, fontSize: '0.8rem', mb: 1, display: 'block' }}
           >
-            <Box sx={{ color: C.accent, display: 'flex', alignItems: 'center' }}>
-              <EmailOutlinedIcon fontSize="small" />
-            </Box>
-            <Typography variant="body1" sx={{ fontWeight: 500, color: 'inherit', fontSize: '0.95rem' }}>
-              yuyujin7844@gmail.com
-            </Typography>
-          </Box>
-        </Box>
+            CONTACT
+          </Typography>
+          <Typography
+            variant="h2"
+            sx={{ fontSize: { xs: '1.8rem', md: '2.5rem' }, fontWeight: 700, color: C.textDark, mb: 2 }}
+          >
+            함께 이야기해요
+          </Typography>
+          <Divider sx={{ width: 60, height: 3, bgcolor: C.accent, mx: 'auto', my: 3, border: 'none' }} />
+          <Typography variant="body1" sx={{ color: C.textMid, mb: 5, lineHeight: 1.9 }}>
+            언제든지 편하게 연락주세요 ☕
+          </Typography>
 
-        {/* SNS 동그란 버튼 */}
-        <Box sx={{ display: 'flex', justifyContent: 'center', gap: 2, mb: 7 }}>
-          {SNS_LINKS.map((sns, i) => (
-            <IconButton
-              key={i}
+          {/* 이메일 */}
+          <Box sx={{ display: 'flex', justifyContent: 'center', mb: 4 }}>
+            <Box
               component="a"
-              href={sns.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={sns.label}
+              href="mailto:yuyujin7844@gmail.com"
               sx={{
-                width: 48, height: 48,
-                bgcolor: C.cardBg,
-                border: `1.5px solid ${C.border}`,
-                color: C.textDark,
-                transition: 'all 0.2s',
-                '&:hover': { bgcolor: C.accent, color: '#fff', borderColor: C.accent },
+                display: 'flex', alignItems: 'center', gap: 1.5,
+                color: C.textDark, textDecoration: 'none',
+                transition: 'color 0.2s',
+                '&:hover': { color: C.accent },
               }}
             >
-              {sns.icon}
-            </IconButton>
-          ))}
+              <Box sx={{ color: C.accent, display: 'flex', alignItems: 'center' }}>
+                <EmailOutlinedIcon fontSize="small" />
+              </Box>
+              <Typography variant="body1" sx={{ fontWeight: 500, color: 'inherit', fontSize: '0.95rem' }}>
+                yuyujin7844@gmail.com
+              </Typography>
+            </Box>
+          </Box>
+
+          {/* SNS 버튼 */}
+          <Box sx={{ display: 'flex', justifyContent: 'center', gap: 2, mb: 7 }}>
+            {SNS_LINKS.map((sns, i) => (
+              <IconButton
+                key={i}
+                component="a"
+                href={sns.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={sns.label}
+                sx={{
+                  width: 48, height: 48,
+                  bgcolor: C.cardBg,
+                  border: `1.5px solid ${C.border}`,
+                  color: C.textDark,
+                  transition: 'all 0.2s',
+                  '&:hover': { bgcolor: C.accent, color: '#fff', borderColor: C.accent },
+                }}
+              >
+                {sns.icon}
+              </IconButton>
+            ))}
+          </Box>
         </Box>
 
         <Divider sx={{ borderColor: C.border, mb: 7 }} />
 
-        {/* 방명록 */}
+        {/* 방명록 헤더 */}
         <Typography variant="h5" sx={{ fontWeight: 700, color: C.textDark, mb: 1, fontSize: '1.25rem' }}>
           방명록
         </Typography>
@@ -219,11 +222,14 @@ export default function ContactSection() {
           방문해 주셔서 감사해요. 한 마디 남겨주세요 🌿
         </Typography>
 
-        {/* 입력 폼 */}
+        {/* 2열 레이아웃: 입력 폼 + 방명록 목록 */}
+        <Grid container spacing={4} alignItems="flex-start" sx={{ textAlign: 'left' }}>
+          {/* 왼쪽: 입력 폼 */}
+          <Grid item xs={12} md={6}>
         <Box
           component="form"
           onSubmit={handleSubmit}
-          sx={{ bgcolor: C.cardBg, border: `1px solid ${C.border}`, borderRadius: 3, p: 3, mb: 5, textAlign: 'left' }}
+          sx={{ bgcolor: C.cardBg, border: `1px solid ${C.border}`, borderRadius: 3, p: 3, textAlign: 'left' }}
         >
           {/* 이름 */}
           <TextField fullWidth required label="이름 *" value={form.name}
@@ -409,14 +415,16 @@ export default function ContactSection() {
             {submitting ? <CircularProgress size={20} sx={{ color: '#fff' }} /> : '남기기'}
           </Button>
         </Box>
+          </Grid>
 
-        {/* 메시지 목록 */}
+          {/* 오른쪽: 방명록 목록 */}
+          <Grid item xs={12} md={6}>
         {loading ? (
-          <Box sx={{ py: 4 }}>
+          <Box sx={{ py: 4, textAlign: 'center' }}>
             <CircularProgress sx={{ color: C.accent }} size={32} />
           </Box>
         ) : messages.length === 0 ? (
-          <Typography variant="body2" color={C.textMid} sx={{ py: 3 }}>
+          <Typography variant="body2" color={C.textMid} sx={{ py: 3, textAlign: 'center' }}>
             아직 방명록이 없습니다. 첫 번째 방문자가 되어주세요! 🎉
           </Typography>
         ) : (
@@ -479,6 +487,8 @@ export default function ContactSection() {
             ))}
           </Box>
         )}
+          </Grid>
+        </Grid>
 
         {/* 푸터 */}
         <Box sx={{ borderTop: `1px solid ${C.border}`, mt: 8, pt: 4 }}>
