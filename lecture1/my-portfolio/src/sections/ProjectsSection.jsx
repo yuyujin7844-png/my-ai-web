@@ -1,25 +1,121 @@
+import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import Button from '@mui/material/Button'
 import Container from '@mui/material/Container'
 import Grid from '@mui/material/Grid'
 import Card from '@mui/material/Card'
+import CardMedia from '@mui/material/CardMedia'
 import CardContent from '@mui/material/CardContent'
 import Chip from '@mui/material/Chip'
 import Divider from '@mui/material/Divider'
+import Skeleton from '@mui/material/Skeleton'
+import LaunchIcon from '@mui/icons-material/Launch'
+import supabase from '../lib/supabase'
 
-const PLACEHOLDER_PROJECTS = [
-  { title: '프로젝트 1', desc: '프로젝트 설명이 들어갈 예정입니다.', tags: ['React', 'MUI'] },
-  { title: '프로젝트 2', desc: '프로젝트 설명이 들어갈 예정입니다.', tags: ['Next.js', 'TypeScript'] },
-  { title: '프로젝트 3', desc: '프로젝트 설명이 들어갈 예정입니다.', tags: ['Node.js', 'MongoDB'] },
-]
+function PreviewCard({ project }) {
+  const [imgError, setImgError] = useState(false)
+
+  return (
+    <Card
+      sx={{
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        transition: 'transform 0.25s, box-shadow 0.25s',
+        '&:hover': {
+          transform: 'translateY(-6px) scale(1.02)',
+          boxShadow: '0 12px 32px rgba(28,10,20,0.18)',
+        },
+      }}
+    >
+      <Box sx={{ height: 160, bgcolor: '#1C0A14', overflow: 'hidden' }}>
+        {imgError ? (
+          <Box sx={{ height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <Typography variant="h3" sx={{ color: '#F2EDE8', opacity: 0.15, fontWeight: 700 }}>
+              {project.title.charAt(0)}
+            </Typography>
+          </Box>
+        ) : (
+          <CardMedia
+            component="img"
+            image={project.thumbnail_url}
+            alt={project.title}
+            onError={() => setImgError(true)}
+            sx={{ height: '100%', objectFit: 'cover', transition: 'transform 0.3s', '&:hover': { transform: 'scale(1.05)' } }}
+          />
+        )}
+      </Box>
+      <CardContent sx={{ flexGrow: 1, textAlign: 'left', p: 2 }}>
+        <Typography variant="h6" fontWeight={700} mb={0.5} color="#1A1A1A" noWrap>
+          {project.title}
+        </Typography>
+        <Typography
+          variant="body2"
+          color="#555555"
+          mb={1.5}
+          sx={{ display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}
+        >
+          {project.description}
+        </Typography>
+        <Box sx={{ display: 'flex', gap: 0.75, flexWrap: 'wrap', mb: 1.5 }}>
+          {project.tech_stack?.slice(0, 3).map(tag => (
+            <Chip
+              key={tag}
+              label={tag}
+              size="small"
+              sx={{ bgcolor: '#EDE7E1', color: '#8B1A2F', fontWeight: 600, fontSize: '0.7rem', height: 22 }}
+            />
+          ))}
+        </Box>
+        {project.detail_url && (
+          <Button
+            size="small"
+            variant="outlined"
+            startIcon={<LaunchIcon sx={{ fontSize: 13 }} />}
+            href={project.detail_url}
+            target="_blank"
+            rel="noopener noreferrer"
+            sx={{
+              borderColor: '#8B1A2F',
+              color: '#8B1A2F',
+              fontSize: '0.72rem',
+              px: 1.5,
+              py: 0.5,
+              '&:hover': { bgcolor: '#8B1A2F', color: '#F7F3EF' },
+            }}
+          >
+            Live Demo
+          </Button>
+        )}
+      </CardContent>
+    </Card>
+  )
+}
 
 export default function ProjectsSection() {
+  const navigate = useNavigate()
+  const [projects, setProjects] = useState([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    async function fetchProjects() {
+      const { data } = await supabase
+        .from('projects')
+        .select('*')
+        .eq('is_published', true)
+        .order('sort_order', { ascending: true })
+        .limit(3)
+
+      setProjects(data ?? [])
+      setLoading(false)
+    }
+    fetchProjects()
+  }, [])
+
   return (
-    <Box
-      component="section"
-      sx={{ py: { xs: 8, md: 12 }, bgcolor: '#EDE7E1', textAlign: 'center' }}
-    >
+    <Box component="section" sx={{ py: { xs: 8, md: 12 }, bgcolor: '#EDE7E1', textAlign: 'center' }}>
       <Container maxWidth="lg">
         <Typography
           variant="overline"
@@ -27,74 +123,42 @@ export default function ProjectsSection() {
         >
           PROJECTS
         </Typography>
-
         <Typography
           variant="h2"
           sx={{ fontSize: { xs: '1.8rem', md: '2.5rem' }, fontWeight: 700, mb: 2 }}
         >
-          여기는 Projects 섹션입니다.
+          My Works
         </Typography>
-
         <Divider sx={{ width: 60, height: 3, bgcolor: '#8B1A2F', mx: 'auto', my: 3, border: 'none' }} />
-
         <Typography variant="body1" sx={{ color: '#555555', mb: 6 }}>
-          대표작 썸네일 3–4개와 '더 보기' 버튼이 들어갈 예정입니다.
+          직접 기획하고 개발한 대표 프로젝트들입니다.
         </Typography>
 
         <Grid container spacing={3} sx={{ mb: 6 }}>
-          {PLACEHOLDER_PROJECTS.map((project, idx) => (
-            <Grid item xs={12} sm={6} md={4} key={idx}>
-              <Card
-                sx={{
-                  height: '100%',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  transition: 'transform 0.2s, box-shadow 0.2s',
-                  '&:hover': {
-                    transform: 'translateY(-4px)',
-                    boxShadow: '0 8px 24px rgba(28,10,20,0.15)',
-                  },
-                }}
-              >
-                <Box
-                  sx={{
-                    height: 160,
-                    bgcolor: '#1C0A14',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                  }}
-                >
-                  <Typography variant="h4" sx={{ color: '#F2EDE8', opacity: 0.3, fontWeight: 700 }}>
-                    {String(idx + 1).padStart(2, '0')}
-                  </Typography>
-                </Box>
-                <CardContent sx={{ flexGrow: 1, textAlign: 'left' }}>
-                  <Typography variant="h6" fontWeight={700} mb={1} color="#1A1A1A">
-                    {project.title}
-                  </Typography>
-                  <Typography variant="body2" color="#555555" mb={2}>
-                    {project.desc}
-                  </Typography>
-                  <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
-                    {project.tags.map(tag => (
-                      <Chip
-                        key={tag}
-                        label={tag}
-                        size="small"
-                        sx={{ bgcolor: '#EDE7E1', color: '#8B1A2F', fontWeight: 600, fontSize: '0.75rem' }}
-                      />
-                    ))}
-                  </Box>
-                </CardContent>
-              </Card>
-            </Grid>
-          ))}
+          {loading
+            ? Array.from({ length: 3 }).map((_, i) => (
+                <Grid item xs={12} sm={6} md={4} key={i}>
+                  <Card>
+                    <Skeleton variant="rectangular" height={160} />
+                    <CardContent>
+                      <Skeleton variant="text" sx={{ fontSize: '1.25rem', mb: 1 }} />
+                      <Skeleton variant="text" />
+                      <Skeleton variant="text" width="60%" />
+                    </CardContent>
+                  </Card>
+                </Grid>
+              ))
+            : projects.map(project => (
+                <Grid item xs={12} sm={6} md={4} key={project.id}>
+                  <PreviewCard project={project} />
+                </Grid>
+              ))}
         </Grid>
 
         <Button
           variant="outlined"
           size="large"
+          onClick={() => navigate('/projects')}
           sx={{
             borderColor: '#8B1A2F',
             color: '#8B1A2F',
