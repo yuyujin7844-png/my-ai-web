@@ -66,7 +66,7 @@ export default function GatheringPage() {
               variant={g.current >= g.max ? 'outlined' : 'contained'}
               fullWidth size="small"
               disabled={g.current >= g.max}
-              onClick={() => alert(`${g.title} 채팅방에 참가합니다!`)}
+              onClick={() => navigate(`/chat/g${g.id}`)}
               sx={{ py: 1 }}
             >
               {g.current >= g.max ? '모집 완료' : '참가하기'}

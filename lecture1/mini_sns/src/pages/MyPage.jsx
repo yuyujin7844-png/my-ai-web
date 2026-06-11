@@ -104,7 +104,8 @@ export default function MyPage() {
             <Grid item xs={4} key={post.id}>
               <Box
                 onClick={() => setSelectedPost(post)}
-                sx={{ aspectRatio: '1/1', overflow: 'hidden', cursor: 'pointer', bgcolor: '#E8D5B7' }}
+                sx={{ aspectRatio: '1/1', overflow: 'hidden', cursor: 'pointer', bgcolor: '#E8D5B7',
+                  position: 'relative', '&:hover .thumb-overlay': { opacity: 1 } }}
               >
                 <Box
                   component="img"
@@ -112,6 +113,32 @@ export default function MyPage() {
                   alt="post thumbnail"
                   sx={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.2s', '&:hover': { transform: 'scale(1.05)' } }}
                 />
+                <Box className="thumb-overlay" sx={{
+                  position: 'absolute', inset: 0,
+                  background: 'linear-gradient(to top, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.1) 60%, transparent 100%)',
+                  opacity: 0, transition: 'opacity 0.22s',
+                  display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', p: 0.7,
+                }}>
+                  {post.category && (
+                    <Typography sx={{ color: '#FFD580', fontWeight: 700, fontSize: 9, lineHeight: 1.2 }}>
+                      {post.category}
+                    </Typography>
+                  )}
+                  {post.caption && (
+                    <Typography sx={{ color: 'white', fontSize: 9, lineHeight: 1.3,
+                      display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
+                      {post.caption}
+                    </Typography>
+                  )}
+                  <Box sx={{ display: 'flex', gap: 0.8, mt: 0.3 }}>
+                    <Typography sx={{ color: 'rgba(255,255,255,0.9)', fontSize: 9 }}>
+                      ❤️ {post.likes_count ?? 0}
+                    </Typography>
+                    <Typography sx={{ color: 'rgba(255,255,255,0.9)', fontSize: 9 }}>
+                      💬 {post.ms_comments?.length ?? 0}
+                    </Typography>
+                  </Box>
+                </Box>
               </Box>
             </Grid>
           ))}

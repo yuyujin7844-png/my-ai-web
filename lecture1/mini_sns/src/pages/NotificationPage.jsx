@@ -1,0 +1,106 @@
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import {
+  Box, Typography, IconButton, Avatar, Card, CardContent, AppBar, Toolbar,
+} from '@mui/material';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutlined';
+import PersonAddIcon from '@mui/icons-material/PersonAdd';
+import GroupsIcon from '@mui/icons-material/Groups';
+import NotificationsIcon from '@mui/icons-material/Notifications';
+
+const MOCK_NOTIFICATIONS = [
+  { id: 1, type: 'like', title: '좋아요', desc: '김시네님이 회원님의 게시물을 좋아합니다.', date: '방금 전', read: false },
+  { id: 2, type: 'comment', title: '새 댓글', desc: '팝콘러버님이 댓글을 남겼습니다: "완전 공감해요!"', date: '5분 전', read: false },
+  { id: 3, type: 'follow', title: '새 팔로워', desc: '무비덕후님이 회원님을 팔로우하기 시작했습니다.', date: '1시간 전', read: false },
+  { id: 4, type: 'gathering', title: '모임 알림', desc: '인사이드 아웃 3 강남 모임이 내일 오후 7:30에 시작됩니다.', date: '2시간 전', read: true },
+  { id: 5, type: 'like', title: '좋아요', desc: '영화왕님이 회원님의 게시물을 좋아합니다.', date: '어제', read: true },
+  { id: 6, type: 'comment', title: '새 댓글', desc: '시네필님이 댓글을 남겼습니다: "저도 그 영화 봤어요!"', date: '어제', read: true },
+];
+
+const ICON_MAP = {
+  like: { icon: <FavoriteIcon sx={{ fontSize: 20 }} />, bg: '#FF6B6B', color: 'white' },
+  comment: { icon: <ChatBubbleOutlineIcon sx={{ fontSize: 20 }} />, bg: '#4A90D9', color: 'white' },
+  follow: { icon: <PersonAddIcon sx={{ fontSize: 20 }} />, bg: '#5CB85C', color: 'white' },
+  gathering: { icon: <GroupsIcon sx={{ fontSize: 20 }} />, bg: '#C4956A', color: 'white' },
+};
+
+export default function NotificationPage() {
+  const navigate = useNavigate();
+  const [notifications, setNotifications] = useState(MOCK_NOTIFICATIONS);
+
+  const handleRead = (id) => {
+    setNotifications((prev) =>
+      prev.map((n) => (n.id === id ? { ...n, read: true } : n))
+    );
+  };
+
+  return (
+    <Box sx={{ bgcolor: '#F5ECD7', minHeight: '100vh', maxWidth: 480, mx: 'auto' }}>
+      <AppBar position="static" elevation={0}>
+        <Toolbar>
+          <IconButton edge="start" onClick={() => navigate(-1)} sx={{ mr: 1 }}>
+            <ArrowBackIcon />
+          </IconButton>
+          <Typography variant="subtitle1" fontWeight={700}>알림</Typography>
+        </Toolbar>
+      </AppBar>
+
+      <Box sx={{ p: 1.5 }}>
+        {notifications.length === 0 ? (
+          <Box sx={{ p: 5, textAlign: 'center' }}>
+            <NotificationsIcon sx={{ fontSize: 48, color: '#C4956A', mb: 1 }} />
+            <Typography color="text.secondary">알림이 없습니다</Typography>
+          </Box>
+        ) : (
+          notifications.map((noti) => {
+            const iconConfig = ICON_MAP[noti.type] || ICON_MAP.like;
+            return (
+              <Card
+                key={noti.id}
+                onClick={() => handleRead(noti.id)}
+                sx={{
+                  mb: 1.5, cursor: 'pointer', position: 'relative',
+                  bgcolor: noti.read ? '#FFF9F0' : '#FFFAF3',
+                  boxShadow: noti.read ? '0 1px 3px rgba(0,0,0,0.06)' : '0 2px 8px rgba(139,99,71,0.15)',
+                  '&:hover': { boxShadow: '0 3px 10px rgba(139,99,71,0.2)' },
+                  transition: 'box-shadow 0.2s',
+                }}
+              >
+                {/* 읽지 않은 알림 표시 */}
+                {!noti.read && (
+                  <Box sx={{
+                    position: 'absolute', top: 10, right: 10,
+                    width: 10, height: 10, borderRadius: '50%', bgcolor: '#F44336',
+                  }} />
+                )}
+                <CardContent sx={{ pb: '12px !important', pt: 1.5 }}>
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
+                    {/* 왼쪽 동그란 아이콘 */}
+                    <Avatar sx={{ width: 44, height: 44, bgcolor: iconConfig.bg, flexShrink: 0 }}>
+                      {iconConfig.icon}
+                    </Avatar>
+                    {/* 텍스트 3행 */}
+                    <Box sx={{ flex: 1, minWidth: 0, pr: 1.5 }}>
+                      <Typography variant="subtitle2" fontWeight={700} sx={{ color: '#3E2723', lineHeight: 1.3 }}>
+                        {noti.title}
+                      </Typography>
+                      <Typography variant="body2" color="text.secondary"
+                        sx={{ mt: 0.2, lineHeight: 1.4, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
+                        {noti.desc}
+                      </Typography>
+                      <Typography variant="caption" sx={{ color: '#B09878', mt: 0.3, display: 'block' }}>
+                        {noti.date}
+                      </Typography>
+                    </Box>
+                  </Box>
+                </CardContent>
+              </Card>
+            );
+          })
+        )}
+      </Box>
+    </Box>
+  );
+}

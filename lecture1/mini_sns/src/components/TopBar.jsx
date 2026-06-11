@@ -24,7 +24,7 @@ export default function TopBar() {
           </Typography>
         </Box>
         {user ? (
-          <IconButton>
+          <IconButton onClick={() => navigate('/notifications')}>
             <Badge badgeContent={3} color="error">
               <NotificationsNoneIcon sx={{ color: '#5D4037' }} />
             </Badge>

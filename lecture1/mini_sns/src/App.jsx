@@ -11,6 +11,7 @@ import CreateGatheringPage from './pages/CreateGatheringPage';
 import ChatPage from './pages/ChatPage';
 import ChatRoomPage from './pages/ChatRoomPage';
 import MyPage from './pages/MyPage';
+import NotificationPage from './pages/NotificationPage';
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
               <Route path="/chat" element={<ChatPage />} />
               <Route path="/chat/:id" element={<ChatRoomPage />} />
               <Route path="/mypage" element={<MyPage />} />
+              <Route path="/notifications" element={<NotificationPage />} />
             </Route>
           </Route>
           <Route path="*" element={<Navigate to="/" />} />
