@@ -30,7 +30,7 @@ function PreviewCard({ project }) {
         },
       }}
     >
-      <Box sx={{ height: 160, bgcolor: '#1C0A14', overflow: 'hidden' }}>
+      <Box sx={{ height: 320, bgcolor: '#1C0A14', overflow: 'hidden' }}>
         {imgError ? (
           <Box sx={{ height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <Typography variant="h3" sx={{ color: '#F2EDE8', opacity: 0.15, fontWeight: 700 }}>

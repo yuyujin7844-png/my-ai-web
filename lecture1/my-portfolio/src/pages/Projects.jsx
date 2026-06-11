@@ -33,7 +33,7 @@ function ProjectCard({ project }) {
       }}
     >
       {/* 썸네일 */}
-      <Box sx={{ position: 'relative', overflow: 'hidden', height: 200, bgcolor: '#1C0A14' }}>
+      <Box sx={{ position: 'relative', overflow: 'hidden', height: 400, bgcolor: '#1C0A14' }}>
         {imgError ? (
           <Box
             sx={{
