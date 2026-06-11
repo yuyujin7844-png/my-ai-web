@@ -6,6 +6,7 @@ on:
     paths:
       - 'lecture1/my-portfolio/**'
       - 'lecture1/mini_sns/**'
+      - 'lecture1/my-community/**'
   workflow_dispatch:
 
 permissions:
@@ -57,12 +58,23 @@ jobs:
           VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
           VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
 
-      # ── 두 빌드 결과를 합치기 ──
+      # ── my-community 빌드 ──
+      - name: Install my-community
+        working-directory: lecture1/my-community
+        run: npm ci
+
+      - name: Build my-community
+        working-directory: lecture1/my-community
+        run: npm run build
+
+      # ── 세 빌드 결과를 합치기 ──
       - name: Combine build artifacts
         run: |
           mkdir -p combined_dist/mini_sns
+          mkdir -p combined_dist/my-community
           cp -r lecture1/my-portfolio/dist/. combined_dist/
           cp -r lecture1/mini_sns/dist/. combined_dist/mini_sns/
+          cp -r lecture1/my-community/dist/. combined_dist/my-community/
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
