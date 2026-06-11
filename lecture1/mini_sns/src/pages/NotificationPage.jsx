@@ -1,5 +1,5 @@
-import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useNotification } from '../context/NotificationContext';
 import {
   Box, Typography, IconButton, Avatar, Card, CardContent, AppBar, Toolbar,
 } from '@mui/material';
@@ -10,15 +10,6 @@ import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import GroupsIcon from '@mui/icons-material/Groups';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 
-const MOCK_NOTIFICATIONS = [
-  { id: 1, type: 'like', title: '좋아요', desc: '김시네님이 회원님의 게시물을 좋아합니다.', date: '방금 전', read: false },
-  { id: 2, type: 'comment', title: '새 댓글', desc: '팝콘러버님이 댓글을 남겼습니다: "완전 공감해요!"', date: '5분 전', read: false },
-  { id: 3, type: 'follow', title: '새 팔로워', desc: '무비덕후님이 회원님을 팔로우하기 시작했습니다.', date: '1시간 전', read: false },
-  { id: 4, type: 'gathering', title: '모임 알림', desc: '인사이드 아웃 3 강남 모임이 내일 오후 7:30에 시작됩니다.', date: '2시간 전', read: true },
-  { id: 5, type: 'like', title: '좋아요', desc: '영화왕님이 회원님의 게시물을 좋아합니다.', date: '어제', read: true },
-  { id: 6, type: 'comment', title: '새 댓글', desc: '시네필님이 댓글을 남겼습니다: "저도 그 영화 봤어요!"', date: '어제', read: true },
-];
-
 const ICON_MAP = {
   like: { icon: <FavoriteIcon sx={{ fontSize: 20 }} />, bg: '#FF6B6B', color: 'white' },
   comment: { icon: <ChatBubbleOutlineIcon sx={{ fontSize: 20 }} />, bg: '#4A90D9', color: 'white' },
@@ -28,13 +19,7 @@ const ICON_MAP = {
 
 export default function NotificationPage() {
   const navigate = useNavigate();
-  const [notifications, setNotifications] = useState(MOCK_NOTIFICATIONS);
-
-  const handleRead = (id) => {
-    setNotifications((prev) =>
-      prev.map((n) => (n.id === id ? { ...n, read: true } : n))
-    );
-  };
+  const { notifications, markRead } = useNotification();
 
   return (
     <Box sx={{ bgcolor: '#F5ECD7', minHeight: '100vh', maxWidth: 480, mx: 'auto' }}>
@@ -59,7 +44,7 @@ export default function NotificationPage() {
             return (
               <Card
                 key={noti.id}
-                onClick={() => handleRead(noti.id)}
+                onClick={() => markRead(noti.id)}
                 sx={{
                   mb: 1.5, cursor: 'pointer', position: 'relative',
                   bgcolor: noti.read ? '#FFF9F0' : '#FFFAF3',

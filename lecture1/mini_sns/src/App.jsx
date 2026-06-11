@@ -12,11 +12,13 @@ import ChatPage from './pages/ChatPage';
 import ChatRoomPage from './pages/ChatRoomPage';
 import MyPage from './pages/MyPage';
 import NotificationPage from './pages/NotificationPage';
+import { NotificationProvider } from './context/NotificationContext';
 
 function App() {
   return (
     <HashRouter>
       <AuthProvider>
+        <NotificationProvider>
         <Routes>
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignupPage />} />
@@ -34,6 +36,7 @@ function App() {
           </Route>
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
+        </NotificationProvider>
       </AuthProvider>
     </HashRouter>
   );

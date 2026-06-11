@@ -3,10 +3,12 @@ import { AppBar, Toolbar, Typography, IconButton, Box, Badge } from '@mui/materi
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 import LoginIcon from '@mui/icons-material/Login';
 import { useAuth } from '../context/AuthContext';
+import { useNotification } from '../context/NotificationContext';
 
 export default function TopBar() {
   const navigate = useNavigate();
   const { user } = useAuth();
+  const { unreadCount } = useNotification();
 
   return (
     <AppBar position="sticky" elevation={0}>
@@ -25,7 +27,7 @@ export default function TopBar() {
         </Box>
         {user ? (
           <IconButton onClick={() => navigate('/notifications')}>
-            <Badge badgeContent={3} color="error">
+            <Badge badgeContent={unreadCount} color="error">
               <NotificationsNoneIcon sx={{ color: '#5D4037' }} />
             </Badge>
           </IconButton>
