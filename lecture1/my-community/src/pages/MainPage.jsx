@@ -219,7 +219,16 @@ export default function MainPage() {
                 {' '}환영해요! 🐾
               </>
             ) : (
-              '로그인해서 멍냥스타그램의 다양한 서비스를 경험해보세요! 🐾'
+              <>
+                <Box
+                  component="span"
+                  onClick={() => navigate('/login')}
+                  sx={{ cursor: 'pointer', textDecoration: 'underline', textDecorationColor: 'primary.main' }}
+                >
+                  로그인
+                </Box>
+                해서 멍냥스타그램의 다양한 서비스를 경험해보세요! 🐾
+              </>
             )}
           </Typography>
           <Box component="form" onSubmit={handleSearchSubmit} sx={{ width: '100%', maxWidth: 520 }}>
