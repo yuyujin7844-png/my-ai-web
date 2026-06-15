@@ -304,7 +304,7 @@ export default function HeroSection() {
                 animation: `${fadeInUp} 0.6s ease 1.1s both`,
               }}
             >
-              {/* Primary CTA */}
+              {/* Primary CTA — shimmer + 3D lift */}
               <Button
                 variant="contained"
                 size="large"
@@ -313,23 +313,42 @@ export default function HeroSection() {
                 aria-label="프로젝트 섹션으로 스크롤"
                 sx={{
                   bgcolor: '#8B1A2F', color: '#F7F3EF',
-                  // 모바일: 전체 너비 / 태블릿+: 자동
                   width: { xs: '100%', sm: 'auto' },
-                  // 터치 44px 최소 확보: py 1.4 (11.2px) + MUI large 내장 높이 → ~50px
                   px: { xs: 3, md: 4 }, py: { xs: 1.4, md: 1.6 },
                   fontWeight: 700,
                   fontSize: { xs: '0.9rem', md: '1rem' },
                   borderRadius: 2, letterSpacing: 0.5,
                   boxShadow: '0 4px 20px rgba(139,26,47,0.4)',
-                  transition: 'all 0.25s',
-                  '&:hover': { bgcolor: '#B5253E', transform: 'translateY(-3px)', boxShadow: '0 12px 36px rgba(139,26,47,0.6)' },
-                  '&:active': { transform: 'translateY(-1px)' },
+                  // shimmer용 overflow hidden
+                  overflow: 'hidden', position: 'relative',
+                  willChange: 'transform',
+                  transition: 'all 0.28s ease',
+                  // shimmer sweep (::before)
+                  '&::before': {
+                    content: '""', position: 'absolute',
+                    top: 0, left: '-80%', width: '50%', height: '100%',
+                    background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.22), transparent)',
+                    transform: 'skewX(-18deg)',
+                    transition: 'left 0s',
+                  },
+                  '@media (hover: hover)': {
+                    '&:hover': {
+                      bgcolor: '#B5253E',
+                      transform: 'translateY(-4px) scale(1.02)',
+                      boxShadow: '0 16px 40px rgba(139,26,47,0.65)',
+                    },
+                    '&:hover::before': {
+                      left: '140%',
+                      transition: 'left 0.52s ease',
+                    },
+                  },
+                  '&:active': { transform: 'translateY(-1px) scale(0.99)' },
                 }}
               >
                 포트폴리오 둘러보기
               </Button>
 
-              {/* Secondary CTA */}
+              {/* Secondary CTA — 글로우 보더 + 채움 */}
               <Button
                 variant="outlined"
                 size="large"
@@ -346,8 +365,24 @@ export default function HeroSection() {
                   borderRadius: 2, letterSpacing: 0.5,
                   bgcolor: 'rgba(242,237,232,0.06)',
                   backdropFilter: 'blur(6px)',
-                  transition: 'all 0.25s',
-                  '&:hover': { borderColor: '#F2EDE8', bgcolor: 'rgba(242,237,232,0.13)', transform: 'translateY(-3px)', boxShadow: '0 8px 24px rgba(0,0,0,0.25)' },
+                  overflow: 'hidden', position: 'relative',
+                  willChange: 'transform',
+                  transition: 'all 0.28s ease',
+                  '&::before': {
+                    content: '""', position: 'absolute', inset: 0,
+                    bgcolor: 'rgba(242,237,232,0.1)',
+                    transform: 'scaleY(0)', transformOrigin: 'bottom',
+                    transition: 'transform 0.3s ease', zIndex: 0,
+                  },
+                  '& > *': { position: 'relative', zIndex: 1 },
+                  '@media (hover: hover)': {
+                    '&:hover': {
+                      borderColor: 'rgba(242,237,232,0.65)',
+                      transform: 'translateY(-4px)',
+                      boxShadow: '0 12px 32px rgba(0,0,0,0.28), 0 0 0 1px rgba(242,237,232,0.2)',
+                    },
+                    '&:hover::before': { transform: 'scaleY(1)' },
+                  },
                   '&:active': { transform: 'translateY(-1px)' },
                 }}
               >

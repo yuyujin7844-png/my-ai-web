@@ -88,8 +88,16 @@ const ProfileCard = memo(function ProfileCard({ basicInfo, skills }) {
                 borderRadius: 2, bgcolor: C.bg, border: `1px solid ${C.border}`,
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
                 boxShadow: `0 2px 6px ${skill.color}25`,
-                transition: 'transform 0.2s',
-                '&:hover': { transform: 'scale(1.1)' },
+                willChange: 'transform',
+                transition: 'transform 0.38s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease, border-color 0.28s ease',
+                '@media (hover: hover)': {
+                  '&:hover': {
+                    transform: 'scale(1.2) rotate(8deg)',
+                    boxShadow: `0 0 22px ${skill.color}55, 0 6px 14px ${skill.color}30`,
+                    borderColor: `${skill.color}60`,
+                  },
+                },
+                '&:active': { transform: 'scale(1.06)' },
               }}
             >
               <SkillIcon name={skill.name} color={skill.color} size={20} />
