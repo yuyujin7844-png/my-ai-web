@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from 'react'
+import { createContext, useContext, useState, useMemo, useCallback } from 'react'
 
 const PortfolioContext = createContext(null)
 
@@ -27,33 +27,37 @@ const INITIAL_DATA = {
 
 export function PortfolioProvider({ children }) {
   const [aboutMeData, setAboutMeData] = useState(INITIAL_DATA)
+  const [lastModified, setLastModified] = useState(null)
 
-  // 섹션 내용 수정
-  function updateSection(id, content) {
+  // ─── useCallback: 참조 안정화 ────────────────────────
+  const updateSection = useCallback((id, content) => {
     setAboutMeData(prev => ({
       ...prev,
       sections: prev.sections.map(s => s.id === id ? { ...s, content } : s),
     }))
-  }
+    setLastModified(Date.now())
+  }, [])
 
-  // 스킬 레벨 수정
-  function updateSkillLevel(id, level) {
+  const updateSkillLevel = useCallback((id, level) => {
     setAboutMeData(prev => ({
       ...prev,
       skills: prev.skills.map(s => s.id === id ? { ...s, level } : s),
     }))
-  }
+    setLastModified(Date.now())
+  }, [])
 
-  // 기본 정보 수정 (이름, 사진 등)
-  function updateBasicInfo(field, value) {
+  const updateBasicInfo = useCallback((field, value) => {
     setAboutMeData(prev => ({
       ...prev,
       basicInfo: { ...prev.basicInfo, [field]: value },
     }))
-  }
+    setLastModified(Date.now())
+  }, [])
 
-  // 홈 탭용 데이터 자동 생성
-  function getHomeData() {
+  // ─── useMemo: aboutMeData 변경 시만 재계산 ──────────
+  // getHomeData() 함수 대신 homeData 값으로 제공
+  // → 렌더마다 새 객체 생성하지 않아 React.memo 정상 작동
+  const homeData = useMemo(() => {
     const homeContent = aboutMeData.sections
       .filter(s => s.showInHome)
       .map(s => ({
@@ -73,12 +77,19 @@ export function PortfolioProvider({ children }) {
       skills:    topSkills,
       basicInfo: aboutMeData.basicInfo,
     }
-  }
+  }, [aboutMeData])
+
+  const value = useMemo(() => ({
+    aboutMeData,
+    homeData,
+    lastModified,
+    updateSection,
+    updateSkillLevel,
+    updateBasicInfo,
+  }), [aboutMeData, homeData, lastModified, updateSection, updateSkillLevel, updateBasicInfo])
 
   return (
-    <PortfolioContext.Provider
-      value={{ aboutMeData, setAboutMeData, getHomeData, updateSection, updateSkillLevel, updateBasicInfo }}
-    >
+    <PortfolioContext.Provider value={value}>
       {children}
     </PortfolioContext.Provider>
   )
