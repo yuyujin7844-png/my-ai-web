@@ -9,9 +9,9 @@ import Grid from '@mui/material/Grid'
 import Tooltip from '@mui/material/Tooltip'
 import IconButton from '@mui/material/IconButton'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
-import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
-import { SiGithub } from 'react-icons/si'
+import MailOutlineIcon from '@mui/icons-material/MailOutline'
+import { SiGithub, SiInstagram } from 'react-icons/si'
 import SkillIcon from '../components/SkillIcon'
 
 // ─── 애니메이션 키프레임 ──────────────────────────────
@@ -30,6 +30,16 @@ const SKILLS = [
   { name: 'Photoshop',   color: '#31A8FF' },
   { name: 'Illustrator', color: '#FF9A00' },
 ]
+
+const SOCIAL_LINKS = [
+  { icon: SiGithub,    href: 'https://github.com/yuyujin7844-png', label: 'GitHub', active: true  },
+  { icon: SiInstagram, href: '#',                                   label: 'Instagram (준비 중)', active: false },
+]
+
+// id에 해당하는 섹션으로 부드럽게 스크롤
+function scrollToSection(id) {
+  document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+}
 
 // ─── 도형 패턴 SVG (원·사각형·삼각형, 크기 제각각) ──
 const _geo = `<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'>
@@ -331,87 +341,141 @@ export default function HeroSection() {
               브랜드의 매력을 웹 공간에 온전히 담아내겠습니다.
             </Typography>
 
-            {/* CTA 버튼 */}
+            {/* ── CTA 버튼 그룹 ── */}
             <Box
               sx={{
-                display: 'flex', gap: 2, flexWrap: 'wrap',
+                display: 'flex',
+                flexDirection: { xs: 'column', sm: 'row' },
+                gap: 2, mb: 3.5,
                 animation: `${fadeInUp} 0.6s ease 1.1s both`,
               }}
             >
-              {/* 이력서 (비활성화 + Tooltip) */}
-              <Tooltip title="이력서를 준비 중입니다 🙏" arrow placement="top">
-                <span>
-                  <Button
-                    variant="outlined"
-                    size="large"
-                    disabled
-                    startIcon={<FileDownloadOutlinedIcon />}
-                    sx={{
-                      px: 3.5, py: 1.5, fontWeight: 600, borderRadius: 2,
-                      '&.Mui-disabled': {
-                        borderColor: 'rgba(242,237,232,0.15)',
-                        color: 'rgba(242,237,232,0.22)',
-                      },
-                    }}
-                  >
-                    이력서 다운로드
-                  </Button>
-                </span>
-              </Tooltip>
-
-              {/* 작업물 보기 */}
+              {/* Primary CTA: 포트폴리오 둘러보기 */}
               <Button
                 variant="contained"
                 size="large"
                 endIcon={<ArrowForwardIcon />}
-                onClick={() => navigate('/projects')}
-                aria-label="프로젝트 목록으로 이동"
+                onClick={() => scrollToSection('projects')}
+                aria-label="프로젝트 섹션으로 스크롤"
                 sx={{
                   bgcolor: '#8B1A2F', color: '#F7F3EF',
-                  px: 3.5, py: 1.5, fontWeight: 600, borderRadius: 2,
+                  px: { xs: 3, md: 4 }, py: 1.6,
+                  fontWeight: 700, fontSize: { xs: '0.92rem', md: '1rem' },
+                  borderRadius: 2, letterSpacing: 0.5,
+                  boxShadow: '0 4px 20px rgba(139,26,47,0.4)',
                   transition: 'all 0.25s',
                   '&:hover': {
                     bgcolor: '#B5253E',
-                    transform: 'translateY(-2px)',
-                    boxShadow: '0 8px 28px rgba(139,26,47,0.55)',
+                    transform: 'translateY(-3px)',
+                    boxShadow: '0 12px 36px rgba(139,26,47,0.6)',
                   },
+                  '&:active': { transform: 'translateY(-1px)' },
+                  width: { xs: '100%', sm: 'auto' },
                 }}
               >
-                작업물 보기
+                포트폴리오 둘러보기
+              </Button>
+
+              {/* Secondary CTA: 연락하기 */}
+              <Button
+                variant="outlined"
+                size="large"
+                startIcon={<MailOutlineIcon />}
+                onClick={() => scrollToSection('contact')}
+                aria-label="연락처 섹션으로 스크롤"
+                sx={{
+                  borderColor: 'rgba(242,237,232,0.32)',
+                  color: '#F2EDE8',
+                  px: { xs: 3, md: 4 }, py: 1.6,
+                  fontWeight: 600, fontSize: { xs: '0.92rem', md: '1rem' },
+                  borderRadius: 2, letterSpacing: 0.5,
+                  bgcolor: 'rgba(242,237,232,0.06)',
+                  backdropFilter: 'blur(6px)',
+                  transition: 'all 0.25s',
+                  '&:hover': {
+                    borderColor: '#F2EDE8',
+                    bgcolor: 'rgba(242,237,232,0.13)',
+                    transform: 'translateY(-3px)',
+                    boxShadow: '0 8px 24px rgba(0,0,0,0.25)',
+                  },
+                  '&:active': { transform: 'translateY(-1px)' },
+                  width: { xs: '100%', sm: 'auto' },
+                }}
+              >
+                연락하기
               </Button>
             </Box>
 
-            {/* 소셜 링크 */}
+            {/* ── 구분선 ── */}
             <Box
               sx={{
-                display: 'flex', alignItems: 'center', gap: 2, mt: 3.5,
+                width: '100%', maxWidth: 460, height: '1px',
+                bgcolor: 'rgba(242,237,232,0.1)', mb: 3,
+                animation: `${fadeInUp} 0.6s ease 1.2s both`,
+              }}
+            />
+
+            {/* ── 소셜 링크 ── */}
+            <Box
+              sx={{
+                display: 'flex', alignItems: 'center', gap: 2,
                 animation: `${fadeInUp} 0.6s ease 1.3s both`,
               }}
             >
               <Typography
-                sx={{
-                  color: 'rgba(242,237,232,0.28)',
-                  fontSize: '0.65rem', letterSpacing: 3, fontWeight: 600,
-                }}
+                sx={{ color: 'rgba(242,237,232,0.3)', fontSize: '0.65rem', letterSpacing: 3, fontWeight: 600 }}
               >
                 FIND ME
               </Typography>
-              <Box sx={{ width: 24, height: 1, bgcolor: 'rgba(242,237,232,0.18)' }} />
-              <IconButton
-                component="a"
-                href="https://github.com/yuyujin7844-png"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="GitHub 프로필 열기"
-                sx={{
-                  color: 'rgba(242,237,232,0.45)', p: 1,
-                  transition: 'all 0.22s',
-                  '&:hover': { color: '#F2EDE8', transform: 'translateY(-2px)' },
-                  '&:focus-visible': { outline: '2px solid #8B1A2F', outlineOffset: 2 },
-                }}
-              >
-                <SiGithub size={19} />
-              </IconButton>
+              <Box sx={{ width: 20, height: '1px', bgcolor: 'rgba(242,237,232,0.15)' }} />
+
+              {SOCIAL_LINKS.map(({ icon: Icon, href, label, active }) => (
+                <Tooltip key={label} title={label} arrow>
+                  {/* active=false인 경우 클릭 불가 span 래핑 */}
+                  {active ? (
+                    <IconButton
+                      component="a"
+                      href={href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={label}
+                      sx={{
+                        width: 42, height: 42,
+                        bgcolor: 'rgba(242,237,232,0.07)',
+                        border: '1px solid rgba(242,237,232,0.16)',
+                        color: 'rgba(242,237,232,0.55)',
+                        transition: 'all 0.22s',
+                        '&:hover': {
+                          bgcolor: 'rgba(242,237,232,0.15)',
+                          color: '#F2EDE8',
+                          borderColor: 'rgba(242,237,232,0.42)',
+                          transform: 'translateY(-3px)',
+                          boxShadow: '0 8px 22px rgba(0,0,0,0.3)',
+                        },
+                        '&:focus-visible': { outline: '2px solid #8B1A2F', outlineOffset: 2 },
+                      }}
+                    >
+                      <Icon size={18} />
+                    </IconButton>
+                  ) : (
+                    <span>
+                      <IconButton
+                        disabled
+                        aria-label={label}
+                        sx={{
+                          width: 42, height: 42,
+                          '&.Mui-disabled': {
+                            border: '1px solid rgba(242,237,232,0.08)',
+                            color: 'rgba(242,237,232,0.2)',
+                          },
+                        }}
+                      >
+                        <Icon size={18} />
+                      </IconButton>
+                    </span>
+                  )}
+                </Tooltip>
+              ))}
             </Box>
           </Grid>
 
@@ -453,20 +517,37 @@ export default function HeroSection() {
         </Grid>
       </Container>
 
-      {/* ── 스크롤 유도 인디케이터 ── */}
+      {/* ── 스크롤 유도 인디케이터 (클릭 가능) ── */}
+      {/* 외부 Box: 수평 중앙 정렬 담당 (transform 충돌 방지) */}
       <Box
-        aria-hidden="true"
         sx={{
-          position: 'absolute', bottom: 28, left: '50%', transform: 'translateX(-50%)',
-          display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 0.5,
-          animation: `${bounce} 2.5s ease-in-out 2.5s infinite`,
-          opacity: 0.45,
+          position: 'absolute', bottom: 28,
+          left: 0, right: 0,
+          display: 'flex', justifyContent: 'center',
         }}
       >
-        <Typography sx={{ color: '#F2EDE8', fontSize: '0.6rem', letterSpacing: 3, fontWeight: 600 }}>
-          SCROLL
-        </Typography>
-        <KeyboardArrowDownIcon sx={{ color: '#F2EDE8', fontSize: 20 }} />
+        {/* 내부 Box: 바운스 애니메이션 + 클릭 처리 */}
+        <Box
+          role="button"
+          tabIndex={0}
+          onClick={() => scrollToSection('about')}
+          onKeyDown={e => e.key === 'Enter' && scrollToSection('about')}
+          aria-label="다음 섹션으로 스크롤"
+          sx={{
+            display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 0.5,
+            cursor: 'pointer', opacity: 0.42,
+            animation: `${bounce} 2.5s ease-in-out 2.5s infinite`,
+            outline: 'none',
+            transition: 'opacity 0.2s',
+            '&:hover':        { opacity: 0.75 },
+            '&:focus-visible':{ opacity: 0.75 },
+          }}
+        >
+          <Typography sx={{ color: '#F2EDE8', fontSize: '0.6rem', letterSpacing: 3, fontWeight: 600 }}>
+            SCROLL
+          </Typography>
+          <KeyboardArrowDownIcon sx={{ color: '#F2EDE8', fontSize: 22 }} />
+        </Box>
       </Box>
     </Box>
   )
