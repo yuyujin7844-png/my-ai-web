@@ -31,9 +31,28 @@ const SKILLS = [
   { name: 'Illustrator', color: '#FF9A00' },
 ]
 
-// ─── 꽃 패턴 SVG (5-petal, 초저불투명도) ────────────
-const _flower = `<svg xmlns='http://www.w3.org/2000/svg' width='64' height='64'><g transform='translate(32,32)' fill='rgba(242,237,232,0.055)'><ellipse cy='-11' rx='5.5' ry='10'/><ellipse cy='-11' rx='5.5' ry='10' transform='rotate(72)'/><ellipse cy='-11' rx='5.5' ry='10' transform='rotate(144)'/><ellipse cy='-11' rx='5.5' ry='10' transform='rotate(216)'/><ellipse cy='-11' rx='5.5' ry='10' transform='rotate(288)'/><circle r='3.5' fill='rgba(242,237,232,0.09)'/></g></svg>`
-const FLOWER_BG = `url("data:image/svg+xml,${encodeURIComponent(_flower)}")`
+// ─── 도형 패턴 SVG (원·사각형·삼각형, 크기 제각각) ──
+const _geo = `<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'>
+  <circle cx='22'  cy='22'  r='4'   fill='rgba(242,237,232,0.08)'/>
+  <circle cx='120' cy='72'  r='15'  fill='none' stroke='rgba(242,237,232,0.055)' stroke-width='1.2'/>
+  <circle cx='192' cy='158' r='6'   fill='rgba(242,237,232,0.065)'/>
+  <circle cx='54'  cy='182' r='10'  fill='none' stroke='rgba(242,237,232,0.06)'  stroke-width='1'/>
+  <circle cx='208' cy='38'  r='2.5' fill='rgba(242,237,232,0.1)'/>
+  <circle cx='165' cy='225' r='7'   fill='none' stroke='rgba(242,237,232,0.05)'  stroke-width='1'/>
+  <rect x='84'  y='6'   width='18' height='18' fill='none'                     stroke='rgba(242,237,232,0.06)'  stroke-width='1.2' transform='rotate(45,93,15)'/>
+  <rect x='168' y='56'  width='9'  height='9'  fill='rgba(242,237,232,0.07)'                                                      transform='rotate(20,172,61)'/>
+  <rect x='26'  y='106' width='22' height='22' fill='none'                     stroke='rgba(242,237,232,0.05)'  stroke-width='1'   transform='rotate(12,37,117)'/>
+  <rect x='146' y='196' width='11' height='11' fill='none'                     stroke='rgba(242,237,232,0.07)'  stroke-width='1'   transform='rotate(33,151,202)'/>
+  <rect x='70'  y='136' width='7'  height='7'  fill='rgba(242,237,232,0.065)'                                                     transform='rotate(45,73,140)'/>
+  <rect x='218' y='120' width='13' height='13' fill='none'                     stroke='rgba(242,237,232,0.05)'  stroke-width='1'   transform='rotate(25,224,126)'/>
+  <polygon points='144,36  162,66  126,66'  fill='none'                   stroke='rgba(242,237,232,0.06)'  stroke-width='1.2'/>
+  <polygon points='224,96  234,114 214,114' fill='rgba(242,237,232,0.055)'/>
+  <polygon points='38,46   58,78   18,78'   fill='none'                   stroke='rgba(242,237,232,0.05)'  stroke-width='1'/>
+  <polygon points='178,150 194,176 162,176' fill='none'                   stroke='rgba(242,237,232,0.07)'  stroke-width='1'/>
+  <polygon points='82,216  91,234  73,234'  fill='rgba(242,237,232,0.065)'/>
+  <polygon points='232,200 224,218 240,218' fill='none'                   stroke='rgba(242,237,232,0.05)'  stroke-width='1'/>
+</svg>`
+const GEO_BG = `url("data:image/svg+xml,${encodeURIComponent(_geo)}")`
 
 // ─── 서브 컴포넌트 ────────────────────────────────────
 
@@ -193,9 +212,9 @@ export default function HeroSection() {
         '&::before': {
           content: '""',
           position: 'absolute', inset: 0,
-          backgroundImage: FLOWER_BG,
+          backgroundImage: GEO_BG,
           backgroundRepeat: 'repeat',
-          backgroundSize: '64px 64px',
+          backgroundSize: '240px 240px',
           pointerEvents: 'none',
         },
       }}
