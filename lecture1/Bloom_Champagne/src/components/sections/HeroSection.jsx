@@ -58,7 +58,7 @@ export default function HeroSection({ onReserveClick }) {
           position: 'absolute',
           inset: 0,
           background:
-            'linear-gradient(to bottom, rgba(10,22,40,0.3) 0%, rgba(10,22,40,0.5) 50%, rgba(10,22,40,0.85) 100%)',
+            'linear-gradient(to bottom, rgba(5,10,28,0.3) 0%, rgba(5,10,28,0.5) 50%, rgba(5,10,28,0.88) 100%)',
           zIndex: 1,
         }}
       />
@@ -81,20 +81,33 @@ export default function HeroSection({ onReserveClick }) {
             fontSize: { xs: '0.65rem', md: '0.75rem' },
             display: 'block',
             mb: 2,
+            fontFamily: '"Noto Sans KR", sans-serif',
           }}
         >
           Bloom Champagne Presents
         </Typography>
 
+        {/* 움직이는 그라데이션 텍스트 */}
         <Typography
           component="h1"
           sx={{
-            fontFamily: '"Playfair Display", serif',
+            fontFamily: '"Playfair Display", "Noto Sans KR", serif',
             fontSize: { xs: '2rem', sm: '3rem', md: '4.5rem' },
             fontWeight: 700,
-            color: '#F5F0E8',
             lineHeight: 1.2,
             mb: 2,
+            background:
+              'linear-gradient(135deg, #D4AF37 0%, #F5E8C0 25%, #ffffff 40%, #D4AF37 60%, #B8923B 80%, #D4AF37 100%)',
+            backgroundSize: '300% 300%',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            backgroundClip: 'text',
+            animation: 'gradientShift 5s ease infinite',
+            '@keyframes gradientShift': {
+              '0%': { backgroundPosition: '0% 50%' },
+              '50%': { backgroundPosition: '100% 50%' },
+              '100%': { backgroundPosition: '0% 50%' },
+            },
           }}
         >
           가장 완벽한 순간에
@@ -120,13 +133,14 @@ export default function HeroSection({ onReserveClick }) {
             color: '#ffffff88',
             fontSize: { xs: '0.85rem', md: '1rem' },
             letterSpacing: '0.05em',
-            mb: { xs: 4, md: 6 },
+            fontFamily: '"Noto Sans KR", sans-serif',
+            mb: 0,
           }}
         >
           을 공개합니다.
         </Typography>
 
-        {/* CTA 버튼 */}
+        {/* CTA 버튼: 아래로 더 이동 */}
         <Box
           sx={{
             display: 'flex',
@@ -134,6 +148,7 @@ export default function HeroSection({ onReserveClick }) {
             gap: { xs: 2, sm: 3 },
             justifyContent: 'center',
             alignItems: 'center',
+            mt: { xs: 6, md: 10 },
           }}
         >
           <Button
@@ -159,7 +174,7 @@ export default function HeroSection({ onReserveClick }) {
               width: { xs: '100%', sm: 'auto' },
               maxWidth: { xs: 280, sm: 'none' },
               backgroundColor: CHAMPAGNE_GOLD,
-              color: '#0A1628',
+              color: '#050A1C',
               fontSize: '0.75rem',
               letterSpacing: '0.2em',
               fontWeight: 700,
@@ -171,7 +186,7 @@ export default function HeroSection({ onReserveClick }) {
         </Box>
       </Box>
 
-      {/* 음소거 토글 버튼 */}
+      {/* 음소거 버튼: opacity 50% */}
       <IconButton
         onClick={toggleMute}
         aria-label={muted ? '소리 켜기' : '음소거'}
@@ -186,7 +201,13 @@ export default function HeroSection({ onReserveClick }) {
           background: 'rgba(255,255,255,0.08)',
           minWidth: 48,
           minHeight: 48,
-          '&:hover': { border: `1px solid ${CHAMPAGNE_GOLD}`, color: CHAMPAGNE_GOLD },
+          opacity: 0.5,
+          transition: 'opacity 0.3s ease, border-color 0.3s ease, color 0.3s ease',
+          '&:hover': {
+            opacity: 1,
+            border: `1px solid ${CHAMPAGNE_GOLD}`,
+            color: CHAMPAGNE_GOLD,
+          },
         }}
       >
         {muted ? <VolumeOffIcon /> : <VolumeUpIcon />}

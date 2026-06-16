@@ -6,7 +6,7 @@ import {
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
-import { CHAMPAGNE_GOLD } from '../../theme.js';
+import { CHAMPAGNE_GOLD, DEEP_NAVY } from '../../theme.js';
 
 const NAV_ITEMS = [
   { label: '베스트', to: '/best' },
@@ -28,7 +28,7 @@ export default function Header() {
         position="fixed"
         elevation={0}
         sx={{
-          background: 'rgba(10, 22, 40, 0.92)',
+          background: 'rgba(5, 10, 28, 0.94)',
           backdropFilter: 'blur(12px)',
           borderBottom: `1px solid rgba(212, 175, 55, 0.15)`,
           zIndex: 1300,
@@ -168,7 +168,7 @@ export default function Header() {
         PaperProps={{
           sx: {
             width: 240,
-            background: '#0A1628',
+            background: DEEP_NAVY,
             borderLeft: `1px solid ${CHAMPAGNE_GOLD}33`,
           },
         }}

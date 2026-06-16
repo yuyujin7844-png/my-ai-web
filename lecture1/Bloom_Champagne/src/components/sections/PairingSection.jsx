@@ -1,5 +1,6 @@
-import { Box, Typography, Card, CardMedia, CardContent, useMediaQuery, useTheme } from '@mui/material';
-import { CHAMPAGNE_GOLD } from '../../theme.js';
+import { Box, Card, CardMedia, CardContent, Typography, useMediaQuery, useTheme } from '@mui/material';
+import { CHAMPAGNE_GOLD, DEEP_NAVY, CARD_NAVY } from '../../theme.js';
+import AnimatedSectionTitle from '../ui/AnimatedSectionTitle.jsx';
 
 const BASE = import.meta.env.BASE_URL;
 
@@ -46,30 +47,18 @@ export default function PairingSection() {
       sx={{
         py: { xs: 8, md: 12 },
         px: { xs: 3, md: 8 },
-        background: '#0A1628',
+        background: DEEP_NAVY,
       }}
     >
-      <Box sx={{ textAlign: 'center', mb: { xs: 6, md: 8 } }}>
-        <Typography
-          sx={{
-            fontFamily: '"Playfair Display", serif',
-            fontSize: { xs: '1.6rem', md: '2.4rem' },
-            fontWeight: 600,
-            color: '#F5F0E8',
-            letterSpacing: '0.1em',
-            textTransform: 'uppercase',
-            mb: 1,
-          }}
-        >
-          Perfect Pairing
-        </Typography>
-        <Typography
-          variant="body2"
-          sx={{ color: '#A89B7A', letterSpacing: '0.15em' }}
-        >
-          찬란한 순간을 위한 4가지 제안
-        </Typography>
-      </Box>
+      <AnimatedSectionTitle
+        overline="찬란한 순간을 위한 4가지 제안"
+        title="PERFECT PAIRING"
+        titleSx={{
+          fontFamily: '"Playfair Display", serif',
+          letterSpacing: '0.1em',
+          textTransform: 'uppercase',
+        }}
+      />
 
       <Box
         sx={{
@@ -88,15 +77,10 @@ export default function PairingSection() {
               overflow: 'hidden',
               cursor: 'pointer',
               transition: 'border-color 0.3s ease',
-              position: 'relative',
               '&:hover': {
                 borderColor: `${CHAMPAGNE_GOLD}55`,
-                '& .underline-bar': {
-                  width: '100%',
-                },
-                '& .card-image': {
-                  transform: 'scale(1.04)',
-                },
+                '& .underline-bar': { width: '100%' },
+                '& .card-image': { transform: 'scale(1.04)' },
               },
             }}
           >
@@ -114,7 +98,8 @@ export default function PairingSection() {
               />
             </Box>
 
-            <CardContent sx={{ p: { xs: 2.5, md: 3 }, pb: '20px !important' }}>
+            {/* 카드 텍스트: 가운데 정렬 */}
+            <CardContent sx={{ p: { xs: 2.5, md: 3 }, pb: '20px !important', textAlign: 'center' }}>
               <Typography
                 variant="caption"
                 sx={{
@@ -123,6 +108,7 @@ export default function PairingSection() {
                   letterSpacing: '0.15em',
                   display: 'block',
                   mb: 0.5,
+                  fontFamily: '"Noto Sans KR", sans-serif',
                 }}
               >
                 {item.number}. {item.title}
@@ -148,12 +134,18 @@ export default function PairingSection() {
                   backgroundColor: CHAMPAGNE_GOLD,
                   transition: 'width 0.4s ease',
                   mb: 2,
+                  mx: 'auto',
                 }}
               />
 
               <Typography
                 variant="body2"
-                sx={{ color: '#A89B7A', lineHeight: 1.7, fontSize: '0.82rem' }}
+                sx={{
+                  color: '#A89B7A',
+                  lineHeight: 1.7,
+                  fontSize: '0.82rem',
+                  fontFamily: '"Noto Sans KR", sans-serif',
+                }}
               >
                 {item.desc}
               </Typography>

@@ -4,7 +4,7 @@ import {
   Typography, IconButton, CircularProgress, Alert,
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
-import { CHAMPAGNE_GOLD, MIDNIGHT_NAVY } from '../../theme.js';
+import { CHAMPAGNE_GOLD, DEEP_NAVY, CARD_NAVY } from '../../theme.js';
 import { submitReservation } from '../../lib/supabase.js';
 
 const FIELD_SX = {
@@ -62,7 +62,7 @@ export default function ReservationModal({ open, onClose }) {
       fullWidth
       PaperProps={{
         sx: {
-          background: '#0F1E35',
+          background: CARD_NAVY,
           border: `1px solid ${CHAMPAGNE_GOLD}33`,
           borderRadius: 0,
         },
@@ -173,7 +173,7 @@ export default function ReservationModal({ open, onClose }) {
               sx={{
                 mt: 1,
                 backgroundColor: CHAMPAGNE_GOLD,
-                color: MIDNIGHT_NAVY,
+                color: DEEP_NAVY,
                 fontWeight: 700,
                 letterSpacing: '0.2em',
                 py: 1.5,

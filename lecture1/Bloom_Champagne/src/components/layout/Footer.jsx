@@ -1,14 +1,14 @@
 import { Box, Typography, Link, Divider, IconButton, Stack } from '@mui/material';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import YouTubeIcon from '@mui/icons-material/YouTube';
-import { CHAMPAGNE_GOLD, MIDNIGHT_NAVY } from '../../theme.js';
+import { CHAMPAGNE_GOLD, DARKER_NAVY } from '../../theme.js';
 
 export default function Footer() {
   return (
     <Box
       component="footer"
       sx={{
-        background: '#060E1A',
+        background: DARKER_NAVY,
         borderTop: `1px solid ${CHAMPAGNE_GOLD}22`,
         pt: { xs: 6, md: 8 },
         pb: 4,
@@ -78,7 +78,7 @@ export default function Footer() {
       {/* 중간: 법적 경고 */}
       <Box
         sx={{
-          background: '#0D1B2E',
+          background: '#060F20',
           border: `1px solid ${CHAMPAGNE_GOLD}22`,
           borderRadius: 1,
           p: 3,

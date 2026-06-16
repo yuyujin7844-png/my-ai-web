@@ -1,21 +1,21 @@
 import { createTheme } from '@mui/material/styles';
 
-const MIDNIGHT_NAVY = '#0A1628';
-const CHAMPAGNE_GOLD = '#D4AF37';
+export const DEEP_NAVY = '#050A1C';
+export const DARKER_NAVY = '#030710';
+export const CARD_NAVY = '#081525';
+export const CHAMPAGNE_GOLD = '#D4AF37';
 
 const theme = createTheme({
   palette: {
     mode: 'dark',
     primary: {
       main: CHAMPAGNE_GOLD,
-      contrastText: MIDNIGHT_NAVY,
+      contrastText: DEEP_NAVY,
     },
-    secondary: {
-      main: '#ffffff',
-    },
+    secondary: { main: '#ffffff' },
     background: {
-      default: MIDNIGHT_NAVY,
-      paper: '#0F1E35',
+      default: DEEP_NAVY,
+      paper: CARD_NAVY,
     },
     text: {
       primary: '#F5F0E8',
@@ -23,14 +23,35 @@ const theme = createTheme({
     },
   },
   typography: {
-    fontFamily: '"Playfair Display", "Roboto", serif',
-    h1: { fontWeight: 700, letterSpacing: '-0.02em' },
-    h2: { fontWeight: 600, letterSpacing: '-0.01em' },
-    h3: { fontWeight: 600 },
-    h4: { fontWeight: 500 },
-    h5: { fontWeight: 500 },
-    h6: { fontWeight: 500 },
-    button: { letterSpacing: '0.12em', fontWeight: 600 },
+    // 기본 한글 폰트: Noto Sans KR
+    fontFamily: '"Noto Sans KR", "Roboto", sans-serif',
+    h1: {
+      fontFamily: '"Playfair Display", "Noto Sans KR", serif',
+      fontWeight: 700,
+      letterSpacing: '-0.02em',
+    },
+    h2: {
+      fontFamily: '"Playfair Display", "Noto Sans KR", serif',
+      fontWeight: 600,
+      letterSpacing: '-0.01em',
+    },
+    h3: {
+      fontFamily: '"Playfair Display", "Noto Sans KR", serif',
+      fontWeight: 600,
+    },
+    h4: { fontFamily: '"Playfair Display", serif', fontWeight: 500 },
+    h5: { fontFamily: '"Playfair Display", serif', fontWeight: 500 },
+    h6: { fontFamily: '"Playfair Display", serif', fontWeight: 500 },
+    // 버튼: Pretendard
+    button: {
+      fontFamily: '"Pretendard Variable", "Pretendard", "Noto Sans KR", sans-serif',
+      letterSpacing: '0.1em',
+      fontWeight: 600,
+    },
+    body1: { fontFamily: '"Noto Sans KR", sans-serif' },
+    body2: { fontFamily: '"Noto Sans KR", sans-serif' },
+    caption: { fontFamily: '"Noto Sans KR", sans-serif' },
+    overline: { fontFamily: '"Noto Sans KR", sans-serif' },
   },
   components: {
     MuiButton: {
@@ -40,6 +61,7 @@ const theme = createTheme({
           textTransform: 'uppercase',
           padding: '12px 32px',
           minHeight: 48,
+          fontFamily: '"Pretendard Variable", "Pretendard", "Noto Sans KR", sans-serif',
         },
         outlined: {
           borderColor: '#ffffff',
@@ -52,17 +74,15 @@ const theme = createTheme({
         },
         contained: {
           backgroundColor: CHAMPAGNE_GOLD,
-          color: MIDNIGHT_NAVY,
-          '&:hover': {
-            backgroundColor: '#C4A030',
-          },
+          color: DEEP_NAVY,
+          '&:hover': { backgroundColor: '#C4A030' },
         },
       },
     },
     MuiCssBaseline: {
       styleOverrides: {
         body: {
-          backgroundColor: MIDNIGHT_NAVY,
+          backgroundColor: DEEP_NAVY,
           scrollBehavior: 'smooth',
         },
         '*': { boxSizing: 'border-box' },
@@ -73,4 +93,6 @@ const theme = createTheme({
 });
 
 export default theme;
-export { MIDNIGHT_NAVY, CHAMPAGNE_GOLD };
+
+// 하위호환 alias
+export const MIDNIGHT_NAVY = DEEP_NAVY;
