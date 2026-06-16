@@ -1,5 +1,5 @@
-import { useState, useRef } from 'react';
-import { Box, Button, Typography, IconButton, useMediaQuery, useTheme } from '@mui/material';
+import { useState, useRef, useEffect } from 'react';
+import { Box, Button, Typography, IconButton } from '@mui/material';
 import VolumeOffIcon from '@mui/icons-material/VolumeOff';
 import VolumeUpIcon from '@mui/icons-material/VolumeUp';
 import { CHAMPAGNE_GOLD } from '../../theme.js';
@@ -7,11 +7,47 @@ import { CHAMPAGNE_GOLD } from '../../theme.js';
 const BASE = import.meta.env.BASE_URL;
 const VIDEO_SRC = `${BASE}videos/video/sparkling%20video.mp4`;
 
+// 글자별 순차 등장 (아래에서 위로 클립 애니메이션)
+function CharLine({ text, ready, baseDelay = 0 }) {
+  return (
+    <>
+      {text.split('').map((char, i) => (
+        <Box
+          key={i}
+          component="span"
+          sx={{
+            display: 'inline-block',
+            overflow: 'hidden',
+            verticalAlign: 'bottom',
+            whiteSpace: char === ' ' ? 'pre' : 'normal',
+          }}
+        >
+          <Box
+            component="span"
+            sx={{
+              display: 'inline-block',
+              transform: ready ? 'translateY(0)' : 'translateY(110%)',
+              transition: `transform 0.65s cubic-bezier(0.25, 0.46, 0.45, 0.94) ${baseDelay + i * 0.06}s`,
+              whiteSpace: char === ' ' ? 'pre' : 'normal',
+            }}
+          >
+            {char}
+          </Box>
+        </Box>
+      ))}
+    </>
+  );
+}
+
 export default function HeroSection({ onReserveClick }) {
   const [muted, setMuted] = useState(true);
+  const [heroReady, setHeroReady] = useState(false);
   const videoRef = useRef(null);
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+
+  useEffect(() => {
+    const t = setTimeout(() => setHeroReady(true), 500);
+    return () => clearTimeout(t);
+  }, []);
 
   const toggleMute = () => {
     setMuted((prev) => {
@@ -19,6 +55,9 @@ export default function HeroSection({ onReserveClick }) {
       return !prev;
     });
   };
+
+  // "[ FRENCH BLOOM LE BLANC ]" = 26자, 마지막 글자 delay = 25 * 0.06 = 1.5s
+  const LINE2_DELAY = 1.5;
 
   return (
     <Box
@@ -87,13 +126,14 @@ export default function HeroSection({ onReserveClick }) {
           Bloom Champagne Presents
         </Typography>
 
-        {/* 움직이는 그라데이션 텍스트 */}
+        {/* 움직이는 그라데이션 텍스트 — 한글: 얇은 두께, 시크한 자간 */}
         <Typography
           component="h1"
           sx={{
-            fontFamily: '"Playfair Display", "Noto Sans KR", serif',
+            fontFamily: '"Noto Sans KR", "Playfair Display", serif',
             fontSize: { xs: '2rem', sm: '3rem', md: '4.5rem' },
-            fontWeight: 700,
+            fontWeight: 200,
+            letterSpacing: '-0.03em',
             lineHeight: 1.2,
             mb: 2,
             background:
@@ -115,6 +155,7 @@ export default function HeroSection({ onReserveClick }) {
           열리는 빛
         </Typography>
 
+        {/* "[ FRENCH BLOOM LE BLANC ]" — 글자별 순차 등장 */}
         <Typography
           sx={{
             fontFamily: '"Playfair Display", serif',
@@ -122,12 +163,14 @@ export default function HeroSection({ onReserveClick }) {
             fontStyle: 'italic',
             color: CHAMPAGNE_GOLD,
             letterSpacing: '0.05em',
-            mb: 1,
+            mb: 0.5,
+            lineHeight: 1.4,
           }}
         >
-          [ FRENCH BLOOM LE BLANC ]
+          <CharLine text="[ FRENCH BLOOM LE BLANC ]" ready={heroReady} baseDelay={0} />
         </Typography>
 
+        {/* "을 공개합니다." — 1번 라인 끝난 후 순차 등장 */}
         <Typography
           sx={{
             color: '#ffffff88',
@@ -135,12 +178,13 @@ export default function HeroSection({ onReserveClick }) {
             letterSpacing: '0.05em',
             fontFamily: '"Noto Sans KR", sans-serif',
             mb: 0,
+            lineHeight: 1.4,
           }}
         >
-          을 공개합니다.
+          <CharLine text="을 공개합니다." ready={heroReady} baseDelay={LINE2_DELAY} />
         </Typography>
 
-        {/* CTA 버튼: 아래로 더 이동 */}
+        {/* CTA 버튼 */}
         <Box
           sx={{
             display: 'flex',
@@ -186,7 +230,7 @@ export default function HeroSection({ onReserveClick }) {
         </Box>
       </Box>
 
-      {/* 음소거 버튼: opacity 50% */}
+      {/* 음소거 버튼 */}
       <IconButton
         onClick={toggleMute}
         aria-label={muted ? '소리 켜기' : '음소거'}

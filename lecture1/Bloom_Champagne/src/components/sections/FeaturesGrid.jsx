@@ -1,6 +1,7 @@
 import { Box, Card, CardMedia, CardContent, Typography, useMediaQuery, useTheme } from '@mui/material';
 import { CHAMPAGNE_GOLD, DARKER_NAVY, CARD_NAVY } from '../../theme.js';
 import AnimatedSectionTitle from '../ui/AnimatedSectionTitle.jsx';
+import FadeSlide from '../ui/FadeSlide.jsx';
 
 const BASE = import.meta.env.BASE_URL;
 
@@ -65,63 +66,64 @@ export default function FeaturesGrid() {
           gap: { xs: 3, md: 4 },
         }}
       >
-        {CARDS.map((card) => (
-          <Card
-            key={card.title}
-            sx={{
-              background: CARD_NAVY,
-              border: '1px solid rgba(255,255,255,0.05)',
-              borderRadius: 0,
-              overflow: 'hidden',
-              cursor: 'pointer',
-              transition: 'all 0.4s ease',
-              '&:hover': {
-                border: `1px solid ${CHAMPAGNE_GOLD}`,
-                transform: 'translateY(-8px)',
-                boxShadow: `0 20px 60px rgba(212,175,55,0.15)`,
-                '& .card-image': { transform: 'scale(1.08)' },
-              },
-            }}
-          >
-            <Box sx={{ overflow: 'hidden', height: { xs: 220, md: 280 } }}>
-              <CardMedia
-                component="img"
-                image={card.image}
-                alt={card.title}
-                className="card-image"
-                sx={{
-                  height: '100%',
-                  objectFit: 'cover',
-                  transition: 'transform 0.6s ease',
-                }}
-              />
-            </Box>
+        {CARDS.map((card, i) => (
+          <FadeSlide key={card.title} delay={i * 0.12}>
+            <Card
+              sx={{
+                background: CARD_NAVY,
+                border: '1px solid rgba(255,255,255,0.05)',
+                borderRadius: 0,
+                overflow: 'hidden',
+                cursor: 'pointer',
+                height: '100%',
+                transition: 'all 0.4s ease',
+                '&:hover': {
+                  border: `1px solid ${CHAMPAGNE_GOLD}`,
+                  transform: 'translateY(-8px)',
+                  boxShadow: `0 20px 60px rgba(212,175,55,0.15)`,
+                  '& .card-image': { transform: 'scale(1.08)' },
+                },
+              }}
+            >
+              <Box sx={{ overflow: 'hidden', height: { xs: 220, md: 280 } }}>
+                <CardMedia
+                  component="img"
+                  image={card.image}
+                  alt={card.title}
+                  className="card-image"
+                  sx={{
+                    height: '100%',
+                    objectFit: 'cover',
+                    transition: 'transform 0.6s ease',
+                  }}
+                />
+              </Box>
 
-            {/* 카드 텍스트: 가운데 정렬 */}
-            <CardContent sx={{ p: { xs: 2.5, md: 3 }, textAlign: 'center' }}>
-              <Typography
-                sx={{
-                  fontFamily: '"Playfair Display", serif',
-                  color: CHAMPAGNE_GOLD,
-                  fontSize: { xs: '1rem', md: '1.1rem' },
-                  fontWeight: 600,
-                  mb: 1,
-                }}
-              >
-                {card.title}
-              </Typography>
-              <Typography
-                sx={{
-                  color: '#A89B7A',
-                  fontSize: '0.85rem',
-                  lineHeight: 1.7,
-                  fontFamily: '"Noto Sans KR", sans-serif',
-                }}
-              >
-                {card.desc}
-              </Typography>
-            </CardContent>
-          </Card>
+              <CardContent sx={{ p: { xs: 2.5, md: 3 }, textAlign: 'center' }}>
+                <Typography
+                  sx={{
+                    fontFamily: '"Playfair Display", serif',
+                    color: CHAMPAGNE_GOLD,
+                    fontSize: { xs: '1rem', md: '1.1rem' },
+                    fontWeight: 600,
+                    mb: 1,
+                  }}
+                >
+                  {card.title}
+                </Typography>
+                <Typography
+                  sx={{
+                    color: '#A89B7A',
+                    fontSize: '0.85rem',
+                    lineHeight: 1.8,
+                    fontFamily: '"Noto Sans KR", sans-serif',
+                  }}
+                >
+                  {card.desc}
+                </Typography>
+              </CardContent>
+            </Card>
+          </FadeSlide>
         ))}
       </Box>
     </Box>

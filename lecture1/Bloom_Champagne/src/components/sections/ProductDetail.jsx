@@ -4,9 +4,10 @@ import WineBarIcon from '@mui/icons-material/WineBar';
 import GrainIcon from '@mui/icons-material/Grain';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import ThermostatIcon from '@mui/icons-material/Thermostat';
-import { CHAMPAGNE_GOLD, DEEP_NAVY, DARKER_NAVY } from '../../theme.js';
+import { CHAMPAGNE_GOLD } from '../../theme.js';
 import { useInView } from '../../hooks/useInView.js';
 import AnimatedSectionTitle from '../ui/AnimatedSectionTitle.jsx';
+import BubbleAnimation from '../ui/BubbleAnimation.jsx';
 
 const BASE = import.meta.env.BASE_URL;
 const BANNER_IMG = `${BASE}images/image/banner.png`;
@@ -47,7 +48,7 @@ const SPECS = [
   },
 ];
 
-// 숫자 카운터 컴포넌트: setInterval로 리듬 제어
+// 숫자 카운터: 스크롤로 뷰포트 진입 시 시작
 function AnimatedCounter({ target, format, suffix, inView }) {
   const [count, setCount] = useState(0);
 
@@ -75,7 +76,7 @@ function AnimatedCounter({ target, format, suffix, inView }) {
   return <>{format(count)}{suffix}</>;
 }
 
-// 배너 텍스트: 글자별 순차 등장 (transform + opacity)
+// 배너 텍스트: 글자별 순차 등장 (클립 효과 — 아래에서 위로)
 function BannerCharText({ text, inView }) {
   return (
     <>
@@ -85,13 +86,22 @@ function BannerCharText({ text, inView }) {
           component="span"
           sx={{
             display: 'inline-block',
-            opacity: inView ? 1 : 0,
-            transform: inView ? 'translateY(0px)' : 'translateY(18px)',
-            transition: `opacity 0.45s ease ${i * 0.07}s, transform 0.45s ease ${i * 0.07}s`,
+            overflow: 'hidden',
+            verticalAlign: 'bottom',
             whiteSpace: char === ' ' ? 'pre' : 'normal',
           }}
         >
-          {char}
+          <Box
+            component="span"
+            sx={{
+              display: 'inline-block',
+              transform: inView ? 'translateY(0)' : 'translateY(110%)',
+              transition: `transform 0.65s cubic-bezier(0.25, 0.46, 0.45, 0.94) ${i * 0.07}s`,
+              whiteSpace: char === ' ' ? 'pre' : 'normal',
+            }}
+          >
+            {char}
+          </Box>
         </Box>
       ))}
     </>
@@ -99,106 +109,113 @@ function BannerCharText({ text, inView }) {
 }
 
 export default function ProductDetail() {
-  const { ref: specsRef, inView: specsInView } = useInView(0.3);
+  const { ref: specsRef, inView: specsInView } = useInView(0.25);
   const { ref: bannerRef, inView: bannerInView } = useInView(0.5);
 
   return (
     <Box>
-      {/* 상세 소개 섹션 */}
+      {/* 상세 소개 섹션 — 그라데이션 배경 + 버블 */}
       <Box
         sx={{
+          position: 'relative',
+          overflow: 'hidden',
+          background: 'linear-gradient(to bottom, #0b0b0d 0%, #1b160d 100%)',
           py: { xs: 8, md: 14 },
           px: { xs: 3, md: 10 },
-          background: DEEP_NAVY,
           textAlign: 'center',
         }}
       >
-        <AnimatedSectionTitle
-          overline="Craftsmanship"
-          title={
-            <>
-              수석 마스터 블렌더의
-              <br />
-              장인정신
-            </>
-          }
-          titleSx={{ fontSize: { xs: '1.8rem', sm: '2.5rem', md: '4rem' }, fontWeight: 700 }}
-          sx={{ mb: { xs: 6, md: 10 } }}
-        />
+        {/* 샴페인 기포 배경 레이어 */}
+        <BubbleAnimation />
 
-        {/* 스펙 그리드 (뷰포트 진입 시 카운터 시작) */}
-        <Box
-          ref={specsRef}
-          sx={{
-            display: 'grid',
-            gridTemplateColumns: { xs: 'repeat(2, 1fr)', md: 'repeat(4, 1fr)' },
-            gap: { xs: 3, md: 0 },
-            maxWidth: 900,
-            mx: 'auto',
-          }}
-        >
-          {SPECS.map((spec, i) => (
-            <Box key={spec.label}>
-              <Box
-                sx={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                  px: { xs: 2, md: 4 },
-                  py: 3,
-                  borderRight: {
-                    md: i < SPECS.length - 1 ? `1px solid ${CHAMPAGNE_GOLD}22` : 'none',
-                  },
-                }}
-              >
-                <spec.Icon sx={{ color: CHAMPAGNE_GOLD, fontSize: '1.8rem', mb: 2 }} />
+        {/* 콘텐츠 — 기포보다 위 */}
+        <Box sx={{ position: 'relative', zIndex: 3 }}>
+          <AnimatedSectionTitle
+            overline="Craftsmanship"
+            title={
+              <>
+                수석 마스터 블렌더의
+                <br />
+                장인정신
+              </>
+            }
+            titleSx={{ fontSize: { xs: '1.8rem', sm: '2.5rem', md: '4rem' }, fontWeight: 700 }}
+            sx={{ mb: { xs: 6, md: 10 } }}
+          />
 
-                {/* 카운터 숫자 */}
-                <Typography
+          {/* 스펙 그리드 — 뷰포트 진입 시 카운터 시작 */}
+          <Box
+            ref={specsRef}
+            sx={{
+              display: 'grid',
+              gridTemplateColumns: { xs: 'repeat(2, 1fr)', md: 'repeat(4, 1fr)' },
+              gap: { xs: 3, md: 0 },
+              maxWidth: 900,
+              mx: 'auto',
+            }}
+          >
+            {SPECS.map((spec, i) => (
+              <Box key={spec.label}>
+                <Box
                   sx={{
-                    fontSize: { xs: '2.5rem', md: '3rem' },
-                    fontWeight: 800,
-                    color: CHAMPAGNE_GOLD,
-                    lineHeight: 1,
-                    fontFamily: '"Playfair Display", serif',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    px: { xs: 2, md: 4 },
+                    py: 3,
+                    borderRight: {
+                      md: i < SPECS.length - 1 ? `1px solid ${CHAMPAGNE_GOLD}22` : 'none',
+                    },
                   }}
                 >
-                  <AnimatedCounter
-                    target={spec.target}
-                    format={spec.format}
-                    suffix={spec.suffix}
-                    inView={specsInView}
-                  />
-                </Typography>
+                  <spec.Icon sx={{ color: CHAMPAGNE_GOLD, fontSize: '1.8rem', mb: 2 }} />
 
-                <Typography
-                  variant="caption"
-                  sx={{
-                    color: '#ffffff66',
-                    letterSpacing: '0.1em',
-                    mt: 0.5,
-                    mb: 1,
-                    fontFamily: '"Noto Sans KR", sans-serif',
-                  }}
-                >
-                  {spec.unit}
-                </Typography>
-                <Divider sx={{ width: 32, borderColor: `${CHAMPAGNE_GOLD}44`, mb: 1.5 }} />
-                <Typography
-                  variant="caption"
-                  sx={{
-                    color: '#A89B7A',
-                    letterSpacing: '0.12em',
-                    textTransform: 'uppercase',
-                    fontSize: '0.65rem',
-                    fontFamily: '"Noto Sans KR", sans-serif',
-                  }}
-                >
-                  {spec.label}
-                </Typography>
+                  <Typography
+                    sx={{
+                      fontSize: { xs: '2.5rem', md: '3rem' },
+                      fontWeight: 800,
+                      color: CHAMPAGNE_GOLD,
+                      lineHeight: 1,
+                      fontFamily: '"Playfair Display", serif',
+                    }}
+                  >
+                    <AnimatedCounter
+                      target={spec.target}
+                      format={spec.format}
+                      suffix={spec.suffix}
+                      inView={specsInView}
+                    />
+                  </Typography>
+
+                  <Typography
+                    variant="caption"
+                    sx={{
+                      color: '#ffffff66',
+                      letterSpacing: '0.1em',
+                      mt: 0.5,
+                      mb: 1,
+                      fontFamily: '"Noto Sans KR", sans-serif',
+                    }}
+                  >
+                    {spec.unit}
+                  </Typography>
+                  <Divider sx={{ width: 32, borderColor: `${CHAMPAGNE_GOLD}44`, mb: 1.5 }} />
+                  <Typography
+                    variant="caption"
+                    sx={{
+                      color: '#A89B7A',
+                      letterSpacing: '0.12em',
+                      textTransform: 'uppercase',
+                      fontSize: '0.65rem',
+                      fontFamily: '"Noto Sans KR", sans-serif',
+                    }}
+                  >
+                    {spec.label}
+                  </Typography>
+                </Box>
               </Box>
-            </Box>
-          ))}
+            ))}
+          </Box>
         </Box>
       </Box>
 
@@ -228,7 +245,6 @@ export default function ProductDetail() {
             justifyContent: 'center',
           }}
         >
-          {/* 글자 순차 등장 효과 */}
           <Typography
             sx={{
               fontFamily: '"Playfair Display", "Noto Sans KR", serif',

@@ -1,0 +1,65 @@
+/* 데스크톱(hover 지원 기기)에서만 커스텀 커서 활성화 */
+@media (hover: hover) {
+  *, *::before, *::after {
+    cursor: none !important;
+  }
+
+  .cursor-dot {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 8px;
+    height: 8px;
+    margin: -4px 0 0 -4px;
+    background: #D4AF37;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 99999;
+    opacity: 0;
+    transition: opacity 0.25s ease;
+    will-change: left, top;
+  }
+
+  .cursor-ring {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 36px;
+    height: 36px;
+    margin: -18px 0 0 -18px;
+    border: 1px solid rgba(212, 175, 55, 0.45);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 99998;
+    opacity: 0;
+    transition:
+      width  0.35s cubic-bezier(0.215, 0.61, 0.355, 1),
+      height 0.35s cubic-bezier(0.215, 0.61, 0.355, 1),
+      margin 0.35s cubic-bezier(0.215, 0.61, 0.355, 1),
+      border-color     0.3s ease,
+      background-color 0.3s ease,
+      opacity          0.25s ease;
+    will-change: left, top;
+  }
+
+  .cursor-dot.visible,
+  .cursor-ring.visible {
+    opacity: 1;
+  }
+
+  .cursor-ring.hovered {
+    width: 70px;
+    height: 70px;
+    margin: -35px 0 0 -35px;
+    border-color: rgba(212, 175, 55, 0.75);
+    background-color: rgba(212, 175, 55, 0.06);
+  }
+}
+
+/* 모바일/터치 기기: 커서 요소 숨김 */
+@media (hover: none) {
+  .cursor-dot,
+  .cursor-ring {
+    display: none;
+  }
+}

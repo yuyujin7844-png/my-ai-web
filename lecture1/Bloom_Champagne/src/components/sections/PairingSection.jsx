@@ -1,6 +1,7 @@
 import { Box, Card, CardMedia, CardContent, Typography, useMediaQuery, useTheme } from '@mui/material';
-import { CHAMPAGNE_GOLD, DEEP_NAVY, CARD_NAVY } from '../../theme.js';
+import { CHAMPAGNE_GOLD, DEEP_NAVY } from '../../theme.js';
 import AnimatedSectionTitle from '../ui/AnimatedSectionTitle.jsx';
+import FadeSlide from '../ui/FadeSlide.jsx';
 
 const BASE = import.meta.env.BASE_URL;
 
@@ -67,90 +68,90 @@ export default function PairingSection() {
           gap: { xs: 3, md: 3 },
         }}
       >
-        {PAIRINGS.map((item) => (
-          <Card
-            key={item.number}
-            sx={{
-              background: 'transparent',
-              border: '1px solid rgba(255,255,255,0.08)',
-              borderRadius: 0,
-              overflow: 'hidden',
-              cursor: 'pointer',
-              transition: 'border-color 0.3s ease',
-              '&:hover': {
-                borderColor: `${CHAMPAGNE_GOLD}55`,
-                '& .underline-bar': { width: '100%' },
-                '& .card-image': { transform: 'scale(1.04)' },
-              },
-            }}
-          >
-            <Box sx={{ overflow: 'hidden', height: { xs: 240, md: 300 } }}>
-              <CardMedia
-                component="img"
-                image={item.image}
-                alt={item.title}
-                className="card-image"
-                sx={{
-                  height: '100%',
-                  objectFit: 'cover',
-                  transition: 'transform 0.5s ease',
-                }}
-              />
-            </Box>
+        {PAIRINGS.map((item, i) => (
+          <FadeSlide key={item.number} delay={i * 0.15}>
+            <Card
+              sx={{
+                background: 'transparent',
+                border: '1px solid rgba(255,255,255,0.08)',
+                borderRadius: 0,
+                overflow: 'hidden',
+                cursor: 'pointer',
+                height: '100%',
+                transition: 'border-color 0.3s ease',
+                '&:hover': {
+                  borderColor: `${CHAMPAGNE_GOLD}55`,
+                  '& .underline-bar': { width: '100%' },
+                  '& .card-image': { transform: 'scale(1.04)' },
+                },
+              }}
+            >
+              <Box sx={{ overflow: 'hidden', height: { xs: 240, md: 300 } }}>
+                <CardMedia
+                  component="img"
+                  image={item.image}
+                  alt={item.title}
+                  className="card-image"
+                  sx={{
+                    height: '100%',
+                    objectFit: 'cover',
+                    transition: 'transform 0.5s ease',
+                  }}
+                />
+              </Box>
 
-            {/* 카드 텍스트: 가운데 정렬 */}
-            <CardContent sx={{ p: { xs: 2.5, md: 3 }, pb: '20px !important', textAlign: 'center' }}>
-              <Typography
-                variant="caption"
-                sx={{
-                  color: CHAMPAGNE_GOLD,
-                  fontWeight: 700,
-                  letterSpacing: '0.15em',
-                  display: 'block',
-                  mb: 0.5,
-                  fontFamily: '"Noto Sans KR", sans-serif',
-                }}
-              >
-                {item.number}. {item.title}
-              </Typography>
+              <CardContent sx={{ p: { xs: 2.5, md: 3 }, pb: '20px !important', textAlign: 'center' }}>
+                <Typography
+                  variant="caption"
+                  sx={{
+                    color: CHAMPAGNE_GOLD,
+                    fontWeight: 700,
+                    letterSpacing: '0.15em',
+                    display: 'block',
+                    mb: 0.5,
+                    fontFamily: '"Noto Sans KR", sans-serif',
+                  }}
+                >
+                  {item.number}. {item.title}
+                </Typography>
 
-              <Typography
-                sx={{
-                  color: '#F5F0E8',
-                  fontSize: '0.9rem',
-                  fontFamily: '"Playfair Display", serif',
-                  mb: 1.5,
-                }}
-              >
-                {item.subtitle}
-              </Typography>
+                <Typography
+                  sx={{
+                    color: '#F5F0E8',
+                    fontSize: '0.9rem',
+                    fontFamily: '"Playfair Display", serif',
+                    mb: 1.5,
+                  }}
+                >
+                  {item.subtitle}
+                </Typography>
 
-              {/* 샴페인 골드 언더라인 인터랙션 */}
-              <Box
-                className="underline-bar"
-                sx={{
-                  height: '1px',
-                  width: '30px',
-                  backgroundColor: CHAMPAGNE_GOLD,
-                  transition: 'width 0.4s ease',
-                  mb: 2,
-                  mx: 'auto',
-                }}
-              />
+                <Box
+                  className="underline-bar"
+                  sx={{
+                    height: '1px',
+                    width: '30px',
+                    backgroundColor: CHAMPAGNE_GOLD,
+                    transition: 'width 0.4s ease',
+                    mb: 2,
+                    mx: 'auto',
+                  }}
+                />
 
-              <Typography
-                variant="body2"
-                sx={{
-                  color: '#A89B7A',
-                  lineHeight: 1.7,
-                  fontSize: '0.82rem',
-                  fontFamily: '"Noto Sans KR", sans-serif',
-                }}
-              >
-                {item.desc}
-              </Typography>
-            </CardContent>
-          </Card>
+                <Typography
+                  variant="body2"
+                  sx={{
+                    color: '#A89B7A',
+                    lineHeight: 1.8,
+                    fontSize: '0.82rem',
+                    fontFamily: '"Noto Sans KR", sans-serif',
+                  }}
+                >
+                  {item.desc}
+                </Typography>
+              </CardContent>
+            </Card>
+          </FadeSlide>
         ))}
       </Box>
     </Box>

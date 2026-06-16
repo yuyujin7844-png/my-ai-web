@@ -41,7 +41,7 @@ export default function ReservationModal({ open, onClose }) {
       await submitReservation(form);
       setSuccess(true);
       setForm({ name: '', email: '', phone: '', quantity: 1 });
-    } catch (err) {
+    } catch {
       setError('예약 신청 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.');
     } finally {
       setLoading(false);
@@ -181,7 +181,7 @@ export default function ReservationModal({ open, onClose }) {
                 '&:hover': { backgroundColor: '#C4A030' },
               }}
             >
-              {loading ? <CircularProgress size={22} sx={{ color: MIDNIGHT_NAVY }} /> : '사전 예약 신청하기'}
+              {loading ? <CircularProgress size={22} sx={{ color: DEEP_NAVY }} /> : '사전 예약 신청하기'}
             </Button>
 
             <Typography variant="caption" sx={{ color: '#ffffff33', textAlign: 'center' }}>
