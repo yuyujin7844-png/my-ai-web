@@ -4,7 +4,8 @@ import VolumeOffIcon from '@mui/icons-material/VolumeOff';
 import VolumeUpIcon from '@mui/icons-material/VolumeUp';
 import { CHAMPAGNE_GOLD } from '../../theme.js';
 
-const VIDEO_SRC = '/videos/video/sparkling%20video.mp4';
+const BASE = import.meta.env.BASE_URL;
+const VIDEO_SRC = `${BASE}videos/video/sparkling%20video.mp4`;
 
 export default function HeroSection({ onReserveClick }) {
   const [muted, setMuted] = useState(true);

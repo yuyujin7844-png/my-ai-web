@@ -1,34 +1,36 @@
 import { Box, Typography, Card, CardMedia, CardContent, useMediaQuery, useTheme } from '@mui/material';
 import { CHAMPAGNE_GOLD } from '../../theme.js';
 
+const BASE = import.meta.env.BASE_URL;
+
 const CARDS = [
   {
-    image: '/images/image/main%20image_01.png',
+    image: `${BASE}images/image/main%20image_01.png`,
     title: 'The Grand Cru',
     desc: '프랑스 최고급 공인 등급 포도밭에서 엄선한 최상급 원료만을 고집합니다',
   },
   {
-    image: '/images/image/main%20image_02.png',
+    image: `${BASE}images/image/main%20image_02.png`,
     title: 'Time-Honored Aging',
     desc: '지하 동굴에서 수년간 진행된 자연 숙성이 자아내는 깊은 기품의 맛',
   },
   {
-    image: '/images/image/main%20image_03.png',
+    image: `${BASE}images/image/main%20image_03.png`,
     title: 'Aromatic Symphony',
     desc: '완벽한 탄산감을 위해 정밀하게 설계된 끊임없는 황금빛 기포의 향연',
   },
   {
-    image: '/images/image/main%20image_04.jpg',
+    image: `${BASE}images/image/main%20image_04.jpg`,
     title: 'Golden Effervescence',
     desc: '섬세하고 끊임없이 올라오는 황금빛 기포의 청량감',
   },
   {
-    image: '/images/image/main%20image_05.png',
+    image: `${BASE}images/image/main%20image_05.png`,
     title: 'Aesthetic Vessel',
     desc: '소장 가치를 더하는 모던하고 미니멀한 독창적 보틀 실루엣',
   },
   {
-    image: '/images/image/main%20image_06.png',
+    image: `${BASE}images/image/main%20image_06.png`,
     title: 'The Perfect Pour',
     desc: '소중한 이들과의 프라이빗한 저녁, 축제의 순간을 빛낼 최고의 마리아주.',
   },

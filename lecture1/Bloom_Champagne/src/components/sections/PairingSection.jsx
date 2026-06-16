@@ -1,30 +1,32 @@
 import { Box, Typography, Card, CardMedia, CardContent, useMediaQuery, useTheme } from '@mui/material';
 import { CHAMPAGNE_GOLD } from '../../theme.js';
 
+const BASE = import.meta.env.BASE_URL;
+
 const PAIRINGS = [
   {
-    image: '/images/image/recommon_01.png',
+    image: `${BASE}images/image/recommon_01.png`,
     number: '01',
     title: 'OCEAN BREEZE',
     subtitle: 'The Oyster Pairing',
     desc: '붉게 물드는 석양 아래, 도심 속 라운지에서 시작되는 세련된 이브닝 파티.',
   },
   {
-    image: '/images/image/recommon_02.png',
+    image: `${BASE}images/image/recommon_02.png`,
     number: '02',
     title: 'SUNSET CELEBRATION',
     subtitle: 'Rooftop Hour',
     desc: '신선한 석화, 캐비어 플래터와 함께할 때 극대화되는 청량하고 맑은 스파클링.',
   },
   {
-    image: '/images/image/recommon_03.png',
+    image: `${BASE}images/image/recommon_03.png`,
     number: '03',
     title: 'INTIMATE MOMENT',
     subtitle: 'Private Dinner',
     desc: '깊어지는 대화 속, 소중한 이와의 밀도 높은 시간을 채우는 우아한 동반자.',
   },
   {
-    image: '/images/image/recommon_04.png',
+    image: `${BASE}images/image/recommon_04.png`,
     number: '04',
     title: 'THE GRAND GIFT',
     subtitle: 'Curated Gifting',

@@ -5,7 +5,8 @@ import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import ThermostatIcon from '@mui/icons-material/Thermostat';
 import { CHAMPAGNE_GOLD } from '../../theme.js';
 
-const BANNER_IMG = '/images/image/banner.png';
+const BASE = import.meta.env.BASE_URL;
+const BANNER_IMG = `${BASE}images/image/banner.png`;
 
 const SPECS = [
   {
