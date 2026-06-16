@@ -7,6 +7,7 @@ on:
       - 'lecture1/my-portfolio/**'
       - 'lecture1/mini_sns/**'
       - 'lecture1/my-community/**'
+      - 'lecture1/Bloom_Champagne/**'
   workflow_dispatch:
 
 permissions:
@@ -67,14 +68,28 @@ jobs:
         working-directory: lecture1/my-community
         run: npm run build
 
-      # ── 세 빌드 결과를 합치기 ──
+      # ── Bloom_Champagne 빌드 ──
+      - name: Install Bloom_Champagne
+        working-directory: lecture1/Bloom_Champagne
+        run: npm ci
+
+      - name: Build Bloom_Champagne
+        working-directory: lecture1/Bloom_Champagne
+        run: npm run build
+        env:
+          VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
+          VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
+
+      # ── 네 빌드 결과를 합치기 ──
       - name: Combine build artifacts
         run: |
           mkdir -p combined_dist/mini_sns
           mkdir -p combined_dist/my-community
+          mkdir -p combined_dist/Bloom_Champagne
           cp -r lecture1/my-portfolio/dist/. combined_dist/
           cp -r lecture1/mini_sns/dist/. combined_dist/mini_sns/
           cp -r lecture1/my-community/dist/. combined_dist/my-community/
+          cp -r lecture1/Bloom_Champagne/dist/. combined_dist/Bloom_Champagne/
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
