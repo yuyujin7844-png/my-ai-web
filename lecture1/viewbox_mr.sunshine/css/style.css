@@ -406,11 +406,70 @@ ul { list-style: none; }
   padding-left: 16px;
 }
 
+/* ─── HAMBURGER BUTTON ────────────────────────────── */
+.btn-hamburger {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  width: 44px; height: 44px;
+  border-radius: var(--radius);
+  color: var(--text-secondary);
+  transition: color 0.2s;
+  flex-shrink: 0;
+}
+.btn-hamburger:hover { color: var(--text-primary); }
+.btn-hamburger span {
+  display: block;
+  width: 22px; height: 2px;
+  background: currentColor;
+  border-radius: 2px;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+.btn-hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+.btn-hamburger.active span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+.btn-hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+
+/* ─── MOBILE NAV DRAWER ───────────────────────────── */
+.mobile-nav {
+  display: none;
+  position: fixed;
+  top: var(--header-h);
+  left: 0; right: 0;
+  background: rgba(8, 8, 8, 0.97);
+  backdrop-filter: blur(16px);
+  z-index: 999;
+  border-bottom: 1px solid var(--border);
+  transform: translateY(-8px);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 0.28s ease, opacity 0.28s ease;
+}
+.mobile-nav.active {
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: all;
+}
+.mobile-nav-links { display: flex; flex-direction: column; }
+.mobile-nav-links a {
+  padding: 18px 24px;
+  font-size: 1rem; font-weight: 500;
+  color: var(--text-secondary);
+  border-bottom: 1px solid var(--border);
+  transition: color 0.2s, background 0.2s;
+}
+.mobile-nav-links a:last-child { border-bottom: none; }
+.mobile-nav-links a:hover, .mobile-nav-links a:active {
+  color: var(--text-primary);
+  background: rgba(255,255,255,0.04);
+}
+
 /* ─── RECOMMENDATION ──────────────────────────────── */
 .recommend-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 14px;
 }
 .rec-card {
   position: relative; border-radius: var(--radius);
@@ -574,6 +633,7 @@ footer {
   .characters-grid::-webkit-scrollbar { display: none; }
   .char-card { flex: 0 0 200px; scroll-snap-align: start; aspect-ratio: 2/3; }
   .recommend-grid { grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .recommend-grid .rec-card { aspect-ratio: 2/3; }
   .detail-banner { height: 320px; }
   .banner-content { max-width: 320px; right: 5%; }
   footer { padding: 56px 32px 36px; }
@@ -586,6 +646,8 @@ footer {
   .logo { font-size: 1.25rem; }
   .logo-v { font-size: 1.6rem; }
   .nav { display: none; }
+  .btn-hamburger { display: flex; }
+  .mobile-nav { display: block; }
 
   .hero { min-height: 100svh; }
   .hero-gradient-right {

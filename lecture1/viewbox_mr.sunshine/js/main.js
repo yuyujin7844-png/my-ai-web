@@ -191,6 +191,35 @@ function bindEvents() {
   );
 }
 
+/* ─── HAMBURGER MENU ──────────────────────────────── */
+function initHamburger() {
+  const btn = document.getElementById('btn-hamburger');
+  const nav = document.getElementById('mobile-nav');
+  if (!btn || !nav) return;
+
+  function closeMenu() {
+    nav.classList.remove('active');
+    btn.classList.remove('active');
+    btn.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = '';
+  }
+
+  btn.addEventListener('click', () => {
+    const isOpen = nav.classList.toggle('active');
+    btn.classList.toggle('active', isOpen);
+    btn.setAttribute('aria-expanded', String(isOpen));
+    document.body.style.overflow = isOpen ? 'hidden' : '';
+  });
+
+  /* 링크 클릭 시 닫기 */
+  nav.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu));
+
+  /* 데스크톱 너비로 복귀하면 자동 닫기 */
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 767) closeMenu();
+  }, { passive: true });
+}
+
 /* ─── DEV PAGE LINKS ──────────────────────────────── */
 function initDevLinks() {
   const DEV = 'dev.html';
@@ -224,5 +253,6 @@ document.addEventListener('DOMContentLoaded', () => {
   initFadeUp();
   bindEvents();
   loadWatchlist();
+  initHamburger();
   initDevLinks();
 });

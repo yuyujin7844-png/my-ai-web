@@ -25,6 +25,9 @@
         <a href="dev.html">영화</a>
         <a href="dev.html">신작</a>
       </nav>
+      <button class="btn-hamburger" id="btn-hamburger" aria-label="전체 메뉴" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
       <div class="header-actions">
         <button id="btn-alarm" class="btn-icon" aria-label="알림">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
@@ -506,6 +509,16 @@
       </div>
     </div>
   </div>
+
+  <!-- 모바일 네비게이션 드로어 -->
+  <nav class="mobile-nav" id="mobile-nav" aria-label="모바일 전체 메뉴">
+    <div class="mobile-nav-links">
+      <a href="#">홈</a>
+      <a href="dev.html">시리즈</a>
+      <a href="dev.html">영화</a>
+      <a href="dev.html">신작</a>
+    </div>
+  </nav>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
   <script src="js/main.js"></script>
