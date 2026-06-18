@@ -1,0 +1,206 @@
+/* ─── CHERRY BLOSSOM ANIMATION ─────────────────────── */
+.blossom-container {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.petal {
+  position: absolute;
+  top: -70px;
+  opacity: 0;
+  will-change: top, transform, opacity;
+}
+
+/* 4 sway pattern keyframes */
+@keyframes fall-a {
+  0%   { top: -70px; transform: translateX(0px)   rotate(0deg);   opacity: 0; }
+  6%   { opacity: 0.75; }
+  28%  { top: 26%;   transform: translateX(22px)  rotate(130deg); }
+  52%  { top: 51%;   transform: translateX(-14px) rotate(278deg); }
+  78%  { top: 77%;   transform: translateX(28px)  rotate(420deg); opacity: 0.5; }
+  96%  { opacity: 0.2; }
+  100% { top: 108%;  transform: translateX(12px)  rotate(580deg); opacity: 0; }
+}
+
+@keyframes fall-b {
+  0%   { top: -70px; transform: translateX(0px)    rotate(20deg);  opacity: 0; }
+  6%   { opacity: 0.8; }
+  24%  { top: 22%;   transform: translateX(-30px)  rotate(-95deg); }
+  50%  { top: 48%;   transform: translateX(18px)   rotate(-220deg); }
+  76%  { top: 74%;   transform: translateX(-38px)  rotate(-375deg); opacity: 0.55; }
+  95%  { opacity: 0.2; }
+  100% { top: 108%;  transform: translateX(-22px)  rotate(-530deg); opacity: 0; }
+}
+
+@keyframes fall-c {
+  0%   { top: -70px; transform: translateX(0px)   rotate(-10deg); opacity: 0; }
+  8%   { opacity: 0.7; }
+  32%  { top: 30%;   transform: translateX(14px)  rotate(105deg); }
+  58%  { top: 56%;   transform: translateX(-9px)  rotate(248deg); }
+  80%  { top: 78%;   transform: translateX(19px)  rotate(395deg); opacity: 0.48; }
+  96%  { opacity: 0.18; }
+  100% { top: 108%;  transform: translateX(6px)   rotate(560deg); opacity: 0; }
+}
+
+@keyframes fall-d {
+  0%   { top: -70px; transform: translateX(0px)    rotate(15deg);  opacity: 0; }
+  5%   { opacity: 0.85; }
+  22%  { top: 20%;   transform: translateX(-42px)  rotate(-75deg); }
+  47%  { top: 45%;   transform: translateX(26px)   rotate(-195deg); }
+  73%  { top: 71%;   transform: translateX(-28px)  rotate(-340deg); opacity: 0.6; }
+  95%  { opacity: 0.22; }
+  100% { top: 108%;  transform: translateX(8px)    rotate(-490deg); opacity: 0; }
+}
+
+/* ─── 18 INDIVIDUAL PETALS ─────────────────────────── */
+/* Each petal: left position, size, border-radius shape, animation */
+
+.petal-1 {
+  left: 3%;
+  width: 10px; height: 16px;
+  border-radius: 90% 10% 90% 10% / 10% 90% 10% 90%;
+  background: linear-gradient(135deg, #ffb7c5, #ffe4ec, #ffffff);
+  animation: fall-a 9s 0s infinite linear;
+}
+.petal-2 {
+  left: 8%;
+  width: 8px; height: 12px;
+  border-radius: 80% 20% 80% 20% / 20% 80% 20% 80%;
+  background: linear-gradient(135deg, #ffcdd5, #fff0f5, #ffffff);
+  animation: fall-b 11s 2.2s infinite linear;
+}
+.petal-3 {
+  left: 15%;
+  width: 13px; height: 19px;
+  border-radius: 95% 5% 90% 10% / 5% 95% 15% 85%;
+  background: linear-gradient(135deg, #ffb0c0, #ffd6e0, #ffffff);
+  animation: fall-c 8.5s 1s infinite linear;
+}
+.petal-4 {
+  left: 21%;
+  width: 9px; height: 14px;
+  border-radius: 85% 15% 85% 15% / 15% 85% 10% 90%;
+  background: linear-gradient(135deg, #ffc4cf, #ffe8ee, #ffffff);
+  animation: fall-d 13s 3.7s infinite linear;
+}
+.petal-5 {
+  left: 28%;
+  width: 11px; height: 17px;
+  border-radius: 90% 10% 95% 5% / 10% 90% 5% 95%;
+  background: linear-gradient(135deg, #ffb7c5, #fff2f5, #ffffff);
+  animation: fall-a 10.5s 0.6s infinite linear;
+}
+.petal-6 {
+  left: 34%;
+  width: 8px; height: 13px;
+  border-radius: 80% 20% 75% 25% / 20% 80% 25% 75%;
+  background: linear-gradient(135deg, #ffcdd8, #ffebf0, #ffffff);
+  animation: fall-b 12.5s 4.3s infinite linear;
+}
+.petal-7 {
+  left: 41%;
+  width: 14px; height: 21px;
+  border-radius: 92% 8% 88% 12% / 8% 92% 12% 88%;
+  background: linear-gradient(135deg, #ffaac0, #ffd0e0, #ffffff);
+  animation: fall-c 9.5s 1.7s infinite linear;
+}
+.petal-8 {
+  left: 49%;
+  width: 9px; height: 14px;
+  border-radius: 85% 15% 90% 10% / 15% 85% 10% 90%;
+  background: linear-gradient(135deg, #ffb7c5, #ffe8f0, #ffffff);
+  animation: fall-d 11.5s 2.9s infinite linear;
+}
+.petal-9 {
+  left: 56%;
+  width: 12px; height: 18px;
+  border-radius: 90% 10% 85% 15% / 10% 90% 15% 85%;
+  background: linear-gradient(135deg, #ffccd5, #fff5f8, #ffffff);
+  animation: fall-a 8.8s 3.3s infinite linear;
+}
+.petal-10 {
+  left: 62%;
+  width: 8px; height: 12px;
+  border-radius: 78% 22% 82% 18% / 22% 78% 18% 82%;
+  background: linear-gradient(135deg, #ffd0db, #ffecf0, #ffffff);
+  animation: fall-b 14s 0.9s infinite linear;
+}
+.petal-11 {
+  left: 69%;
+  width: 13px; height: 20px;
+  border-radius: 93% 7% 90% 10% / 7% 93% 10% 90%;
+  background: linear-gradient(135deg, #ffb0c5, #ffd8e5, #ffffff);
+  animation: fall-c 10s 5.1s infinite linear;
+}
+.petal-12 {
+  left: 75%;
+  width: 10px; height: 15px;
+  border-radius: 88% 12% 88% 12% / 12% 88% 12% 88%;
+  background: linear-gradient(135deg, #ffbcc8, #ffe0e8, #ffffff);
+  animation: fall-d 9.8s 2s infinite linear;
+}
+.petal-13 {
+  left: 81%;
+  width: 9px; height: 14px;
+  border-radius: 82% 18% 86% 14% / 18% 82% 14% 86%;
+  background: linear-gradient(135deg, #ffc8d3, #fff0f4, #ffffff);
+  animation: fall-a 11.8s 3s infinite linear;
+}
+.petal-14 {
+  left: 87%;
+  width: 12px; height: 18px;
+  border-radius: 90% 10% 92% 8% / 10% 90% 8% 92%;
+  background: linear-gradient(135deg, #ffadc0, #ffcede, #ffffff);
+  animation: fall-b 8.2s 5.6s infinite linear;
+}
+.petal-15 {
+  left: 93%;
+  width: 8px; height: 12px;
+  border-radius: 80% 20% 80% 20% / 20% 80% 20% 80%;
+  background: linear-gradient(135deg, #ffccd8, #ffecf2, #ffffff);
+  animation: fall-c 13s 3.5s infinite linear;
+}
+.petal-16 {
+  left: 12%;
+  width: 10px; height: 16px;
+  border-radius: 86% 14% 90% 10% / 14% 86% 10% 90%;
+  background: linear-gradient(135deg, #ffb5c5, #ffe5ef, #ffffff);
+  animation: fall-d 10.8s 6.2s infinite linear;
+}
+.petal-17 {
+  left: 46%;
+  width: 9px; height: 14px;
+  border-radius: 88% 12% 84% 16% / 12% 88% 16% 84%;
+  background: linear-gradient(135deg, #ffc0cc, #ffeaf0, #ffffff);
+  animation: fall-a 13.8s 0.3s infinite linear;
+}
+.petal-18 {
+  left: 65%;
+  width: 11px; height: 17px;
+  border-radius: 91% 9% 87% 13% / 9% 91% 13% 87%;
+  background: linear-gradient(135deg, #ffb8c6, #ffe2ea, #ffffff);
+  animation: fall-b 9.2s 5.8s infinite linear;
+}
+
+/* ─── SCROLL-BASED FADE-IN ─────────────────────────── */
+.fade-up {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.65s ease, transform 0.65s ease;
+}
+.fade-up.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ─── HOVER TRANSITIONS ────────────────────────────── */
+.ep-card {
+  transition: transform 0.32s cubic-bezier(0.34, 1.56, 0.64, 1),
+              box-shadow 0.32s ease;
+}
+.rec-card, .char-card {
+  transition: none;
+}
