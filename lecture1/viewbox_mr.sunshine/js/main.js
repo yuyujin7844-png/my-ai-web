@@ -191,6 +191,32 @@ function bindEvents() {
   );
 }
 
+/* ─── DEV PAGE LINKS ──────────────────────────────── */
+function initDevLinks() {
+  const DEV = 'dev.html';
+
+  /* 1화 무료 시청하기 */
+  document.getElementById('btn-watch-free')?.addEventListener('click', () => {
+    window.location.href = DEV;
+  });
+
+  /* 에피소드 카드 — 푸터(공유·찜) 버튼 제외한 영역 클릭 */
+  document.querySelectorAll('.ep-card').forEach(card => {
+    card.addEventListener('click', e => {
+      if (!e.target.closest('.ep-card-footer')) {
+        window.location.href = DEV;
+      }
+    });
+  });
+
+  /* 추천 카드 전체 영역 클릭 */
+  document.querySelectorAll('.rec-card').forEach(card => {
+    card.addEventListener('click', () => {
+      window.location.href = DEV;
+    });
+  });
+}
+
 /* ─── INIT ────────────────────────────────────────── */
 document.addEventListener('DOMContentLoaded', () => {
   initHeader();
@@ -198,4 +224,5 @@ document.addEventListener('DOMContentLoaded', () => {
   initFadeUp();
   bindEvents();
   loadWatchlist();
+  initDevLinks();
 });

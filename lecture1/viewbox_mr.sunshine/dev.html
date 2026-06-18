@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VIEWBOX | 개발 중</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .dev-icon {
+      font-size: 3.5rem;
+      margin-bottom: 8px;
+      animation: bounce 2s ease-in-out infinite;
+    }
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+    .dev-divider {
+      width: 40px; height: 2px;
+      background: var(--accent);
+      border-radius: 2px;
+    }
+  </style>
+</head>
+<body>
+  <div class="subpage-body">
+    <div class="footer-logo subpage-logo">
+      <span class="logo-v">V</span>IEWBOX
+    </div>
+    <div class="dev-icon">🚧</div>
+    <div class="dev-divider"></div>
+    <h1 class="subpage-title">개발 중입니다</h1>
+    <p class="subpage-desc">
+      해당 페이지는 현재 개발 중입니다.<br>
+      더 나은 서비스로 곧 찾아오겠습니다.
+    </p>
+    <button class="btn-back" onclick="history.back()">← 이전 페이지로</button>
+  </div>
+</body>
+</html>
