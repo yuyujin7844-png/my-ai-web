@@ -178,6 +178,17 @@ function bindEvents() {
   document.querySelectorAll('[data-wishlist]').forEach(btn =>
     btn.addEventListener('click', () => toggleWishlist(btn))
   );
+
+  /* Share buttons */
+  document.querySelectorAll('.btn-share').forEach(btn =>
+    btn.addEventListener('click', () => {
+      if (navigator.share) {
+        navigator.share({ title: 'VIEWBOX | 미스터 선샤인', url: window.location.href }).catch(() => {});
+      } else {
+        navigator.clipboard.writeText(window.location.href).then(() => showToast('링크가 복사되었습니다 📋')).catch(() => showToast('링크: ' + window.location.href));
+      }
+    })
+  );
 }
 
 /* ─── INIT ────────────────────────────────────────── */

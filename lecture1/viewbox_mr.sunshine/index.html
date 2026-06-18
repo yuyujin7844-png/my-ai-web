@@ -41,22 +41,14 @@
   <!-- ══════════════ HERO ══════════════ -->
   <section class="hero" id="home" aria-label="히어로 섹션">
     <div class="hero-bg" aria-hidden="true">
-      <img src="main.jpg" alt="미스터 선샤인 배경 이미지" class="hero-image">
+      <img src="image/main.jpg" alt="미스터 선샤인 배경 이미지" class="hero-image">
       <div class="hero-gradient-bottom"></div>
       <div class="hero-gradient-right"></div>
     </div>
 
-    <div class="hero-controls">
-      <button class="btn-play-bg" aria-label="재생 (미리보기)">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-          <polygon points="5 3 19 12 5 21 5 3"/>
-        </svg>
-      </button>
-      <button class="btn-mute" id="btn-mute" aria-label="음소거"></button>
-    </div>
-
+    <!-- 콘텐츠 정보: 좌측 -->
     <div class="hero-content">
-      <img src="logo_mr.sunshine.webp" alt="미스터 선샤인 로고" class="hero-title-logo">
+      <img src="image/logo_mr.sunshine.webp" alt="미스터 선샤인 로고" class="hero-title-logo">
       <p class="hero-copy">저물어 가는 조선, 불꽃처럼 뜨거웠던 이들의 이야기</p>
       <div class="hero-tags">
         <span class="tag">15+</span>
@@ -80,18 +72,28 @@
         </button>
       </div>
     </div>
+
+    <!-- 재생·음소거 버튼: 우측 -->
+    <div class="hero-controls">
+      <button class="btn-play-bg" aria-label="재생 (미리보기)">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+          <polygon points="5 3 19 12 5 21 5 3"/>
+        </svg>
+      </button>
+      <button class="btn-mute" id="btn-mute" aria-label="음소거"></button>
+    </div>
   </section>
 
-  <!-- ══════════════ EPISODES ══════════════ -->
+  <!-- ══════════════ EPISODES (와이드) ══════════════ -->
   <section class="section" id="episodes" aria-labelledby="episodes-title">
-    <div class="section-inner">
+    <div class="section-inner section-wide">
       <h2 class="section-title fade-up" id="episodes-title">지금 바로 시청하기</h2>
-      <div class="cards-grid episodes-grid">
+      <div class="episodes-grid">
 
         <!-- EP 01 -->
         <article class="ep-card fade-up">
           <div class="ep-card-thumb">
-            <img src="ep1.jpg" alt="EP.01 썸네일" loading="lazy">
+            <img src="image/ep1.jpg" alt="EP.01 썸네일" loading="lazy">
             <div class="ep-play-overlay" aria-hidden="true">
               <svg viewBox="0 0 24 24" fill="white"><polygon points="5 3 19 12 5 21 5 3"/></svg>
             </div>
@@ -102,7 +104,14 @@
             <p class="ep-card-desc">고종 8년, 미국이 수교를 요구하며 강화도를 습격해 온다. 그 무렵, 처참한 사건을 겪고 주인 양반집에서 도망친 9살 유진. 우연히 미 군함에 올라 조선을 떠나게 된다.</p>
           </div>
           <div class="ep-card-footer">
-            <button class="btn-wishlist" data-wishlist="1" aria-label="찜하기">
+            <button class="btn-card-action btn-share" aria-label="공유하기">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/>
+                <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/>
+                <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
+              </svg>
+            </button>
+            <button class="btn-card-action btn-wishlist" data-wishlist="1" aria-label="찜하기">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
               </svg>
@@ -113,7 +122,7 @@
         <!-- EP 02 -->
         <article class="ep-card fade-up">
           <div class="ep-card-thumb">
-            <img src="ep2.jpg" alt="EP.02 썸네일" loading="lazy">
+            <img src="image/ep2.jpg" alt="EP.02 썸네일" loading="lazy">
             <div class="ep-play-overlay" aria-hidden="true">
               <svg viewBox="0 0 24 24" fill="white"><polygon points="5 3 19 12 5 21 5 3"/></svg>
             </div>
@@ -124,7 +133,14 @@
             <p class="ep-card-desc">조선의 운명이 걱정되는 애신. 할아버지가 원하는 대로 얌전히, 꽃처럼 살 수가 없다. 한편, 조선으로 돌아온 유진. 종로 거리가 가로등으로 환해지던 날 애신과 마주친다.</p>
           </div>
           <div class="ep-card-footer">
-            <button class="btn-wishlist" data-wishlist="2" aria-label="찜하기">
+            <button class="btn-card-action btn-share" aria-label="공유하기">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/>
+                <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/>
+                <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
+              </svg>
+            </button>
+            <button class="btn-card-action btn-wishlist" data-wishlist="2" aria-label="찜하기">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
               </svg>
@@ -135,7 +151,7 @@
         <!-- EP 03 -->
         <article class="ep-card fade-up">
           <div class="ep-card-thumb">
-            <img src="ep3.jpg" alt="EP.03 썸네일" loading="lazy">
+            <img src="image/ep3.jpg" alt="EP.03 썸네일" loading="lazy">
             <div class="ep-play-overlay" aria-hidden="true">
               <svg viewBox="0 0 24 24" fill="white"><polygon points="5 3 19 12 5 21 5 3"/></svg>
             </div>
@@ -146,7 +162,14 @@
             <p class="ep-card-desc">아홉 살 소년의 기억이 부르는 곳, 그곳에서 유진은 애신과 우연히 만난다. 진고개 거리에서 애신과 재회한 동매. 그는 한순간도 잊을 수 없던 그날의 기억을 떠올린다.</p>
           </div>
           <div class="ep-card-footer">
-            <button class="btn-wishlist" data-wishlist="3" aria-label="찜하기">
+            <button class="btn-card-action btn-share" aria-label="공유하기">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/>
+                <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/>
+                <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
+              </svg>
+            </button>
+            <button class="btn-card-action btn-wishlist" data-wishlist="3" aria-label="찜하기">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
               </svg>
@@ -154,10 +177,10 @@
           </div>
         </article>
 
-        <!-- EP 04 (ep3 이미지 대체) -->
+        <!-- EP 04 -->
         <article class="ep-card fade-up">
           <div class="ep-card-thumb">
-            <img src="ep3.jpg" alt="EP.04 썸네일" loading="lazy">
+            <img src="image/ep3.jpg" alt="EP.04 썸네일" loading="lazy">
             <div class="ep-play-overlay" aria-hidden="true">
               <svg viewBox="0 0 24 24" fill="white"><polygon points="5 3 19 12 5 21 5 3"/></svg>
             </div>
@@ -168,7 +191,14 @@
             <p class="ep-card-desc">열차에서 미군의 총이 사라진다. 이 일로 유진과 부딪치는 애신. 그토록 궁금했던 이방인의 정체에 놀란다. 희성은 조선으로 돌아오고, 유진은 부모의 원수를 찾아간다.</p>
           </div>
           <div class="ep-card-footer">
-            <button class="btn-wishlist" data-wishlist="4" aria-label="찜하기">
+            <button class="btn-card-action btn-share" aria-label="공유하기">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/>
+                <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/>
+                <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
+              </svg>
+            </button>
+            <button class="btn-card-action btn-wishlist" data-wishlist="4" aria-label="찜하기">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
               </svg>
@@ -179,7 +209,7 @@
         <!-- EP 05 -->
         <article class="ep-card fade-up">
           <div class="ep-card-thumb">
-            <img src="ep5.jpg" alt="EP.05 썸네일" loading="lazy">
+            <img src="image/ep5.jpg" alt="EP.05 썸네일" loading="lazy">
             <div class="ep-play-overlay" aria-hidden="true">
               <svg viewBox="0 0 24 24" fill="white"><polygon points="5 3 19 12 5 21 5 3"/></svg>
             </div>
@@ -190,7 +220,14 @@
             <p class="ep-card-desc">조선이 위태로운 이때. 꽃타령이나 하는 정혼자라니 애신은 마음이 심란하다. 한편, 조선으로 돌아오는 친일파 이완익. 유진은 소녀를 구한 일로 일본군과 대치하게 된다.</p>
           </div>
           <div class="ep-card-footer">
-            <button class="btn-wishlist" data-wishlist="5" aria-label="찜하기">
+            <button class="btn-card-action btn-share" aria-label="공유하기">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/>
+                <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/>
+                <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
+              </svg>
+            </button>
+            <button class="btn-card-action btn-wishlist" data-wishlist="5" aria-label="찜하기">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
               </svg>
@@ -201,7 +238,7 @@
         <!-- EP 06 -->
         <article class="ep-card fade-up">
           <div class="ep-card-thumb">
-            <img src="ep6.jpg" alt="EP.06 썸네일" loading="lazy">
+            <img src="image/ep6.jpg" alt="EP.06 썸네일" loading="lazy">
             <div class="ep-play-overlay" aria-hidden="true">
               <svg viewBox="0 0 24 24" fill="white"><polygon points="5 3 19 12 5 21 5 3"/></svg>
             </div>
@@ -212,7 +249,14 @@
             <p class="ep-card-desc">새로운 임무를 받고 미 공사관으로 향하는 애신. 눈치 없는 희성은 유진과 동매의 심기를 계속 건드린다. 과거의 진실과 마주한 유진은 마침내 애신의 제안을 받아들인다.</p>
           </div>
           <div class="ep-card-footer">
-            <button class="btn-wishlist" data-wishlist="6" aria-label="찜하기">
+            <button class="btn-card-action btn-share" aria-label="공유하기">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/>
+                <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/>
+                <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
+              </svg>
+            </button>
+            <button class="btn-card-action btn-wishlist" data-wishlist="6" aria-label="찜하기">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
               </svg>
@@ -225,33 +269,15 @@
   </section>
 
   <!-- ══════════════ DETAIL ══════════════ -->
-  <section class="section detail-section" id="detail" aria-label="작품 상세 정보">
+  <section class="section detail-section" id="detail" aria-label="드라마 상세 소개">
     <div class="detail-inner">
 
-      <!-- 메타 정보 + 매화꽃잎 애니메이션 -->
-      <div class="meta-section fade-up">
-        <!-- Cherry Blossom Petals (pure CSS) -->
-        <div class="blossom-container" aria-hidden="true">
-          <div class="petal petal-1"></div>
-          <div class="petal petal-2"></div>
-          <div class="petal petal-3"></div>
-          <div class="petal petal-4"></div>
-          <div class="petal petal-5"></div>
-          <div class="petal petal-6"></div>
-          <div class="petal petal-7"></div>
-          <div class="petal petal-8"></div>
-          <div class="petal petal-9"></div>
-          <div class="petal petal-10"></div>
-          <div class="petal petal-11"></div>
-          <div class="petal petal-12"></div>
-          <div class="petal petal-13"></div>
-          <div class="petal petal-14"></div>
-          <div class="petal petal-15"></div>
-          <div class="petal petal-16"></div>
-          <div class="petal petal-17"></div>
-          <div class="petal petal-18"></div>
-        </div>
+      <!-- 대제목 -->
+      <h2 class="detail-main-title fade-up">드라마 상세 소개</h2>
 
+      <!-- 부제목: 영화정보 -->
+      <h3 class="detail-sub-title fade-up">영화정보</h3>
+      <div class="meta-section fade-up">
         <div class="meta-grid">
           <div class="meta-item">
             <span class="meta-icon" aria-hidden="true">🎬</span>
@@ -276,12 +302,12 @@
         </div>
       </div>
 
-      <!-- 인물 소개 -->
-      <h2 class="section-title fade-up">인물 소개</h2>
+      <!-- 부제목: 인물소개 -->
+      <h3 class="detail-sub-title fade-up">인물소개</h3>
       <div class="characters-grid">
 
         <div class="char-card fade-up">
-          <img src="character_1.jpg" alt="최유진 역 이병헌" loading="lazy">
+          <img src="image/character_1.jpg" alt="최유진 역 이병헌" loading="lazy">
           <div class="char-overlay">
             <p class="char-name">최유진</p>
             <p class="char-actor">이병헌</p>
@@ -292,7 +318,7 @@
         </div>
 
         <div class="char-card fade-up">
-          <img src="character_2.webp" alt="고애신 역 김태리" loading="lazy">
+          <img src="image/character_2.webp" alt="고애신 역 김태리" loading="lazy">
           <div class="char-overlay">
             <p class="char-name">고애신</p>
             <p class="char-actor">김태리</p>
@@ -303,7 +329,7 @@
         </div>
 
         <div class="char-card fade-up">
-          <img src="character_3.jpg" alt="구동매 역 유연석" loading="lazy">
+          <img src="image/character_3.jpg" alt="구동매 역 유연석" loading="lazy">
           <div class="char-overlay">
             <p class="char-name">구동매</p>
             <p class="char-actor">유연석</p>
@@ -314,7 +340,7 @@
         </div>
 
         <div class="char-card fade-up">
-          <img src="character_4.jpg" alt="쿠도 히나 역 김민정" loading="lazy">
+          <img src="image/character_4.jpg" alt="쿠도 히나 역 김민정" loading="lazy">
           <div class="char-overlay">
             <p class="char-name">쿠도 히나</p>
             <p class="char-actor">김민정</p>
@@ -325,7 +351,7 @@
         </div>
 
         <div class="char-card fade-up">
-          <img src="character_5.jpg" alt="김희성 역 변요한" loading="lazy">
+          <img src="image/character_5.jpg" alt="김희성 역 변요한" loading="lazy">
           <div class="char-overlay">
             <p class="char-name">김희성</p>
             <p class="char-actor">변요한</p>
@@ -336,6 +362,17 @@
         </div>
 
       </div>
+
+      <!-- 와이드 배너 -->
+      <div class="detail-banner fade-up">
+        <img src="image/banner.jpg" alt="미스터 선샤인 배너" class="banner-img" loading="lazy">
+        <div class="banner-gradient"></div>
+        <div class="banner-content">
+          <img src="image/logo_mr.sunshine.webp" alt="미스터 선샤인" class="banner-logo">
+          <p class="banner-copy">"울지 마시오. 이건 나의 히스토리이자,<br>나의 러브스토리요."</p>
+        </div>
+      </div>
+
     </div>
   </section>
 
@@ -346,7 +383,7 @@
       <div class="recommend-grid">
 
         <div class="rec-card fade-up" role="article">
-          <div class="rec-card-bg rec-goblin"></div>
+          <img src="image/recommend_1.jpg" alt="도깨비" class="rec-card-img" loading="lazy">
           <div class="rec-card-gradient"></div>
           <div class="rec-card-info">
             <p class="rec-card-title">도깨비</p>
@@ -355,7 +392,7 @@
         </div>
 
         <div class="rec-card fade-up" role="article">
-          <div class="rec-card-bg rec-moon"></div>
+          <img src="image/recommend_2.jpg" alt="해를 품은 달" class="rec-card-img" loading="lazy">
           <div class="rec-card-gradient"></div>
           <div class="rec-card-info">
             <p class="rec-card-title">해를 품은 달</p>
@@ -364,19 +401,37 @@
         </div>
 
         <div class="rec-card fade-up" role="article">
-          <div class="rec-card-bg rec-pokssak"></div>
+          <img src="image/recommend_3.jpg" alt="폭싹 속았수다" class="rec-card-img" loading="lazy">
           <div class="rec-card-gradient"></div>
           <div class="rec-card-info">
-            <p class="rec-card-title">폭삭 삭았수다</p>
+            <p class="rec-card-title">폭싹 속았수다</p>
             <p class="rec-card-genre">로맨스</p>
           </div>
         </div>
 
         <div class="rec-card fade-up" role="article">
-          <div class="rec-card-bg rec-tonight"></div>
+          <img src="image/recommend_4.jpg" alt="오늘밤, 세계에서 이 사랑이 사라진다해도" class="rec-card-img" loading="lazy">
           <div class="rec-card-gradient"></div>
           <div class="rec-card-info">
             <p class="rec-card-title">오늘밤, 세계에서 이 사랑이 사라진다해도</p>
+            <p class="rec-card-genre">로맨스</p>
+          </div>
+        </div>
+
+        <div class="rec-card fade-up" role="article">
+          <img src="image/recommend_5.jpg" alt="사랑후에 오는 것들" class="rec-card-img" loading="lazy">
+          <div class="rec-card-gradient"></div>
+          <div class="rec-card-info">
+            <p class="rec-card-title">사랑후에 오는 것들</p>
+            <p class="rec-card-genre">로맨스</p>
+          </div>
+        </div>
+
+        <div class="rec-card fade-up" role="article">
+          <img src="image/recommend_6.jpg" alt="선재업고 튀어" class="rec-card-img" loading="lazy">
+          <div class="rec-card-gradient"></div>
+          <div class="rec-card-info">
+            <p class="rec-card-title">선재업고 튀어</p>
             <p class="rec-card-genre">로맨스</p>
           </div>
         </div>
@@ -392,7 +447,6 @@
         <span class="logo-v">V</span>IEWBOX
       </div>
       <div class="footer-social">
-        <!-- Instagram -->
         <a href="#" aria-label="인스타그램">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                stroke-linecap="round" stroke-linejoin="round">
@@ -401,14 +455,12 @@
             <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
           </svg>
         </a>
-        <!-- Facebook -->
         <a href="#" aria-label="페이스북">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                stroke-linecap="round" stroke-linejoin="round">
             <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
           </svg>
         </a>
-        <!-- YouTube -->
         <a href="#" aria-label="유튜브">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                stroke-linecap="round" stroke-linejoin="round">
@@ -432,8 +484,6 @@
   </footer>
 
   <!-- ══════════════ MODALS ══════════════ -->
-
-  <!-- 개발 중 모달 -->
   <div class="modal-overlay" id="modal-devonly"
        role="dialog" aria-modal="true" aria-labelledby="devonly-title">
     <div class="modal-box">
@@ -443,7 +493,6 @@
     </div>
   </div>
 
-  <!-- 공개 알림 신청 모달 -->
   <div class="modal-overlay" id="modal-notify"
        role="dialog" aria-modal="true" aria-labelledby="notify-title">
     <div class="modal-box">
@@ -458,7 +507,6 @@
     </div>
   </div>
 
-  <!-- Supabase CDN -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
   <script src="js/main.js"></script>
 </body>
